@@ -14,7 +14,7 @@ public class RecommandationsListView {
     
     public RecommandationsListView(Point location, int range, int maxPhotoWidth, int maxPhotoHeight){
         try {
-            places = (new GooglePlacesApi("AIzaSyC_yhwF5jSFOya5n3jx1fFLO6vrTv466uE")).getNearByPlaces(
+            places = (new GooglePlacesApi("AIzaSyDiFoJPMY8zxTiT8XTEjunsnI5gqKfZAJo")).getNearByPlaces(
                     location,
                     GooglePlacesApi.PLACE_TYPE.CAFE,
                     range,
