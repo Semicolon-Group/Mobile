@@ -5,8 +5,7 @@
  */
 package com.semicolon.entity;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import com.semicolon.entity.Enumerations.Importance;
 
@@ -17,7 +16,7 @@ import com.semicolon.entity.Enumerations.Importance;
 public class Answer {
     private int id;
     private int questionId;
-    private Timestamp date;
+    private Date date;
     private Importance importance;
     private int memberId;
     private HashSet<Choice> selectedChoices;
@@ -34,7 +33,7 @@ public class Answer {
         acceptedChoices = new HashSet<>();
     }
 
-    public Answer(int questionId, Timestamp date, Importance importance, int memberId) {
+    public Answer(int questionId, Date date, Importance importance, int memberId) {
 	this.questionId = questionId;
 	this.date = date;
 	this.importance = importance;
@@ -43,7 +42,7 @@ public class Answer {
         acceptedChoices = new HashSet<>();
     }
 
-    public Answer(int id, int questionId, Timestamp date, Importance importance, int memberId) {
+    public Answer(int id, int questionId, Date date, Importance importance, int memberId) {
 	this.id = id;
 	this.questionId = questionId;
 	this.date = date;
@@ -69,11 +68,11 @@ public class Answer {
 	this.questionId = questionId;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
 	return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
 	this.date = date;
     }
 

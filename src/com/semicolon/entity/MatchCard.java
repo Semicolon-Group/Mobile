@@ -5,7 +5,6 @@
  */
 package com.semicolon.entity;
 
-import java.sql.Timestamp;
 
 /**
  *

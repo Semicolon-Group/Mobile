@@ -5,7 +5,7 @@
  */
 package com.semicolon.entity;
 
-import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -18,12 +18,12 @@ public class Comment {
     private int postId;
     private int photoId;
     private String content;
-    private Timestamp date;
+    private Date date;
 
     public Comment() {
     }
 
-    public Comment(int id, int senderId, int receiverId, int postId, int photoId, String content, Timestamp date) {
+    public Comment(int id, int senderId, int receiverId, int postId, int photoId, String content, Date date) {
         this.id = id;
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -33,7 +33,7 @@ public class Comment {
         this.date = date;
     }
 
-    public Comment(int senderId, int receiverId, int postId, int photoId, String content, Timestamp date) {
+    public Comment(int senderId, int receiverId, int postId, int photoId, String content, Date date) {
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.postId = postId;
@@ -97,11 +97,11 @@ public class Comment {
         this.content = content;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

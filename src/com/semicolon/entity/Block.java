@@ -5,8 +5,7 @@
  */
 package com.semicolon.entity;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
 
 
 /**
@@ -16,12 +15,12 @@ import java.sql.Timestamp;
 public class Block {
     private int senderId;
     private int receiverId;
-    private Timestamp date;
+    private Date date;
     
     public Block() {
     }
 
-    public Block(int senderId, int receiverId, Timestamp date) {
+    public Block(int senderId, int receiverId, Date date) {
 	this.senderId = senderId;
 	this.receiverId = receiverId;
 	this.date = date;
@@ -43,11 +42,11 @@ public class Block {
 	this.receiverId = receiverId;
     }
 
-    public Timestamp getDate() {
+    public Date getDate() {
 	return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(Date date) {
 	this.date = date;
     }
 }

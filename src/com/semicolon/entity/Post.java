@@ -5,41 +5,29 @@
  */
 package com.semicolon.entity;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 /**
  *
  * @author Elyes
  */
-public abstract class Post {
+public class Post {
     private int id;
-    private int ownerId;
-    private Timestamp date;
+    private int userId;
+    private String userName;
+    private String content;
+    private int type;
+    private String time;
+    private int nbrReaction;
+    private int nbrComment;
+    private int currReaction;
     private List<Reaction> reactions;
-
-    public Post() {
-        reactions = new ArrayList<>();
-    }
+    private List<Comment> comments;
     
-    public Post(int id){
-        this.id = id;
-        reactions = new ArrayList<>();
-    }
-
-    public Post(int ownerId, Timestamp date) {
-	this.ownerId = ownerId;
-	this.date = date;
-        reactions = new ArrayList<>();
-    }
-
-    public Post(int id, int ownerId, Timestamp date) {
-	this.id = id;
-	this.ownerId = ownerId;
-	this.date = date;
-        reactions = new ArrayList<>();
+    public Post(){
+        reactions = new ArrayList();
+        comments = new ArrayList();
     }
 
     public int getId() {
@@ -50,59 +38,90 @@ public abstract class Post {
         this.id = id;
     }
 
-    public int getOwnerId() {
-        return ownerId;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public Timestamp getDate() {
-        return date;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setDate(Timestamp date) {
-        this.date = date;
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public int getNbrReaction() {
+        return nbrReaction;
+    }
+
+    public void setNbrReaction(int nbrReaction) {
+        this.nbrReaction = nbrReaction;
+    }
+
+    public int getNbrComment() {
+        return nbrComment;
+    }
+
+    public void setNbrComment(int nbrComment) {
+        this.nbrComment = nbrComment;
+    }
+
+    public int getCurrReaction() {
+        return currReaction;
+    }
+
+    public void setCurrReaction(int currReaction) {
+        this.currReaction = currReaction;
     }
 
     public List<Reaction> getReactions() {
         return reactions;
     }
 
+    public void setReactions(List<Reaction> reactions) {
+        this.reactions = reactions;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
     @Override
     public String toString() {
-        return "Post{" + "id=" + id + ", ownerId=" + ownerId + ", date=" + date + ", reactions=" + reactions + '}';
+        return "Post{" + "id=" + id + ", userId=" + userId + ", userName=" + userName + ", content=" + content + ", type=" + type + ", time=" + time + ", nbrReaction=" + nbrReaction + ", nbrComment=" + nbrComment + ", currReaction=" + currReaction + ", reactions=" + reactions + ", comments=" + comments + "}\n";
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 97 * hash + this.id;
-        hash = 97 * hash + this.ownerId;
-        hash = 97 * hash + Objects.hashCode(this.date);
-        hash = 97 * hash + Objects.hashCode(this.reactions);
-        return hash;
-    }
-
     
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Post other = (Post) obj;
-        if (this.id != other.id) {
-            return false;
-        }
-        return true;
-    }
     
 }

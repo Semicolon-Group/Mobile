@@ -5,18 +5,13 @@
  */
 package com.semicolon.entity;
 
-import java.sql.Date;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.Period;
+import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import com.semicolon.entity.Enumerations.BodyType;
 import com.semicolon.entity.Enumerations.Importance;
 import com.semicolon.entity.Enumerations.MaritalStatus;
 import com.semicolon.entity.Enumerations.RelationType;
-import com.semicolon.util.TimeDiff;
 
 /**
  *
@@ -35,7 +30,7 @@ public class Member extends User{
     private int minAge;
     private int maxAge;
     private int phone;
-    private Timestamp lastLogin;
+    private Date lastLogin;
     private short locked;
     private Address address;
     private List<RelationType> preferedRelations;
@@ -43,7 +38,7 @@ public class Member extends User{
     private String about;
     private MaritalStatus maritalStatus;
     private boolean connected;
-    private Timestamp createdAt;
+    private Date createdAt;
 
     public Member() {
         preferedRelations = new ArrayList<>();
@@ -121,9 +116,9 @@ public class Member extends User{
   
     public Member(int id, Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion, 
             Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge, 
-            int phone, Timestamp lastLogin, short locked, Address address, String pseudo, 
+            int phone, Date lastLogin, short locked, Address address, String pseudo, 
             String firstname, String lastname, String email, String password, String ip, int port, String about, 
-            MaritalStatus maritalStatus, boolean connected, Timestamp createdAt) {
+            MaritalStatus maritalStatus, boolean connected, Date createdAt) {
 	super(id, pseudo, firstname, lastname, email, password, ip, port);
 	this.birthDate = birthDate;
 	this.gender = gender;
@@ -150,9 +145,9 @@ public class Member extends User{
   
     public Member(Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion, 
             Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge, int phone, 
-            Timestamp lastLogin, short locked, Address address, String pseudo, String firstname, String lastname, String email, 
+            Date lastLogin, short locked, Address address, String pseudo, String firstname, String lastname, String email, 
             String password, String ip, int port, String about, MaritalStatus maritalStatus, boolean connected,
-            Timestamp createdAt) {
+            Date createdAt) {
 	super(pseudo, firstname, lastname, email, password, ip, port);
 	this.birthDate = birthDate;
 	this.gender = gender;
@@ -177,11 +172,11 @@ public class Member extends User{
 	this.preferedStatuses = new ArrayList<MaritalStatus>();
     }
       
-    public Timestamp getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
+    public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
     
@@ -305,11 +300,11 @@ public class Member extends User{
 	this.phone = phone;
     }
 
-    public Timestamp getLastLogin() {
+    public Date getLastLogin() {
 	return lastLogin;
     }
 
-    public void setLastLogin(Timestamp lastLogin) {
+    public void setLastLogin(Date lastLogin) {
 	this.lastLogin = lastLogin;
     }
 
@@ -350,22 +345,6 @@ public class Member extends User{
 	return super.toString() + "Member{" + "birthDate=" + birthDate + ", gender=" + gender + ", height=" + height + ", bodyType=" + bodyType + ", childrenNumber=" + childrenNumber + ", religion=" + religion + ", religionImportance=" + religionImportance + ", smoker=" + smoker + ", drinker=" + drinker + ", minAge=" + minAge + ", maxAge=" + maxAge + ", phone=" + phone + ", lastLogin=" + lastLogin + ", locked=" + locked + ", address=" + address + ", preferedRelations=" + preferedRelations + ", preferedStatuses=" + preferedStatuses + "}\n";
     }
 
-    public int getAge() {
-        return TimeDiff.getInstance(new Timestamp(birthDate.getTime()), new Timestamp(new java.util.Date().getTime())).getYears();
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 97 * hash + (this.gender ? 1 : 0);
-        hash = 97 * hash + Float.floatToIntBits(this.height);
-        hash = 97 * hash + Objects.hashCode(this.bodyType);
-        hash = 97 * hash + this.childrenNumber;
-        hash = 97 * hash + Objects.hashCode(this.religion);
-        hash = 97 * hash + Objects.hashCode(this.createdAt);
-        return hash;
-    }
-
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -388,9 +367,6 @@ public class Member extends User{
             return false;
         }
         if (this.bodyType != other.bodyType) {
-            return false;
-        }
-        if (!Objects.equals(this.createdAt, other.createdAt)) {
             return false;
         }
         return true;
