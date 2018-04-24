@@ -56,7 +56,9 @@ public class PostService {
             for (Map<String, Object> obj : postList) {
                 Post p = new Post();
                 p.setId((int)Float.parseFloat(obj.get("id").toString()));
+                p.setType((int)Float.parseFloat(obj.get("type").toString()));
                 p.setUserId((int)Float.parseFloat(obj.get("userId").toString()));
+                p.setUserPhoto(obj.get("userPhoto").toString());
                 p.setContent(obj.get("content").toString());
                 p.setTime(obj.get("time").toString());
                 p.setUserName(obj.get("userName").toString());

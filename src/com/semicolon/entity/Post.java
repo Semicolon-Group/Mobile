@@ -15,6 +15,7 @@ import java.util.List;
 public class Post {
     private int id;
     private int userId;
+    private String userPhoto;
     private String userName;
     private String content;
     private int type;
@@ -117,6 +118,15 @@ public class Post {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
+
+    public String getUserPhoto() {
+        return userPhoto;
+    }
+
+    public void setUserPhoto(String userPhoto) {
+        this.userPhoto = userPhoto;
+    }
+    
 
     @Override
     public String toString() {

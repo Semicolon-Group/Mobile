@@ -19,7 +19,7 @@ import com.semicolon.gui.NewsfeedView;
 public class MyApplication {
 
     private Form current;
-    private Resources theme;
+    public static Resources theme;
 
     public void init(Object context) {
         theme = UIManager.initFirstTheme("/theme");
