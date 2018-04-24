@@ -156,7 +156,7 @@ public class PlaceDetailsView {
         firstRow.add(BorderLayout.EAST, ratingContainer);
         firstRow.setWidth(50);
         
-        SpanLabel content = new SpanLabel(review.getText()+" - "+review.getTime());
+        SpanLabel content = new SpanLabel(review.getText()+" - "+review.getRelativeTimeDescription());
         content.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
         
         rightContainer.getAllStyles().setMarginTop(0);
