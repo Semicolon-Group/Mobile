@@ -16,7 +16,7 @@ public class RecommandationsListView {
         try {
             places = (new GooglePlacesApi("AIzaSyDiFoJPMY8zxTiT8XTEjunsnI5gqKfZAJo")).getNearByPlaces(
                     location,
-                    GooglePlacesApi.PLACE_TYPE.CAFE,
+                    GooglePlacesApi.PLACE_TYPE.REST,
                     range,
                     maxPhotoWidth,
                     maxPhotoHeight);

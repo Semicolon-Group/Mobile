@@ -35,7 +35,7 @@ public class RecommandationView {
         Container rightContainer = new Container(new BorderLayout());
         
         Label imgv;
-        if(place.getPhotoUrl().indexOf("http")>=0){
+        if(place.getPhotoUrl() != null && !place.getPhotoUrl().isEmpty()){
             EncodedImage enc = EncodedImage.createFromImage(MyApplication.theme.getImage("loading.png"), false);
             URLImage urlImage = URLImage.createToStorage(enc, (new Random()).nextInt()+"", place.getPhotoUrl());
             imgv = new Label(urlImage);
@@ -45,13 +45,13 @@ public class RecommandationView {
         leftContainer.add(imgv);
         
         Container firstRow = new Container(new BorderLayout());
-        SpanLabel name = new SpanLabel(place.getPlaceName());
-        name.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM));
+        SpanLabel name = new SpanLabel(place.getPlaceName()+" - " + (place.isOpen()?"Open":"Closed"));
+        name.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL));
         Container nameContainer = new Container();
         nameContainer.add(name);
         
         Label rating = new Label(place.getRating()+"");
-        rating.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM));
+        rating.getUnselectedStyle().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_SMALL));
         rating.getAllStyles().setMarginRight(0);
         rating.getAllStyles().setPaddingRight(0);
         
@@ -62,10 +62,14 @@ public class RecommandationView {
         
         firstRow.add(BorderLayout.CENTER, nameContainer);
         firstRow.add(BorderLayout.EAST, ratingContainer);
+        firstRow.getAllStyles().setMarginBottom(0);
+        firstRow.getAllStyles().setPaddingBottom(0);
         firstRow.setWidth(50);
         
         SpanLabel address = new SpanLabel(place.getAddress().getCity()+", "+place.getAddress().getCountry());
-        address.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM));
+        address.getTextAllStyles().setFont(Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_SMALL));
+        address.getAllStyles().setMarginTop(0);
+        address.getAllStyles().setPaddingTop(0);
         
         
         rightContainer.add(BorderLayout.NORTH, firstRow);
