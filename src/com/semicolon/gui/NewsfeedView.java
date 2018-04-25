@@ -44,22 +44,8 @@ public class NewsfeedView {
         form.add(newPost).add(postBtn);
         List<Post> posts = PostService.getInstance().getAll(6);
         for(Post p : posts){
-            Container postContainer = new Container(BoxLayout.y());
-            Container postHeader = new Container(BoxLayout.x());
-            postHeader.add(PhotoService.getInstance().EmakeImageViewer(p.getUserPhoto()));
-            Container nameTime = new Container(BoxLayout.y());
-            nameTime.add(new Label(p.getUserName()));
-            nameTime.add(new Label(p.getTime()));
-            postHeader.add(nameTime);
-            postContainer.add(postHeader);
-            if(p.getType() == Enumerations.PostType.STATUS.ordinal()){
-                postContainer.add(new SpanLabel(p.getContent()));
-            }
-            else{
-                ImageViewer img = PhotoService.getInstance().EmakeImageViewer(p.getContent());
-                postContainer.add(img);
-            }
-            form.add(postContainer);
+            PostView postView = new PostView(p);
+            form.add(postView.getPostContainer());
         }
         form.show();
     }
