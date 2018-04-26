@@ -1,7 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package com.semicolon.entity;
 
+/**
+ *
+ * @author Elyes
+ */
 public class Address {
-    private int id;
     private double longitude;
     private double latitude;
     private String country;
@@ -9,10 +17,6 @@ public class Address {
     private String placeId;
 
     public Address() {
-    }
-    
-    public Address(int id){
-        this.id = id;
     }
 
     public Address(double longitude, double latitude, String country, String city) {
@@ -28,14 +32,6 @@ public class Address {
 
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
-    }
-
-    public int getId() {
-	return id;
-    }
-
-    public void setId(int id) {
-	this.id = id;
     }
 
     public double getLongitude() {
@@ -73,4 +69,5 @@ public class Address {
     public String toString(){
         return city+", "+country;
     }
+    
 }
