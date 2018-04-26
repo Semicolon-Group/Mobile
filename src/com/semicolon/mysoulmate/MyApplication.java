@@ -42,24 +42,24 @@ public class MyApplication {
             return;
         }
         Form hi = new Form("Hi World", BoxLayout.y());
-        
+
         Toolbar tb = hi.getToolbar();
-        Image icon = theme.getImage("icon.png"); 
+        Image icon = theme.getImage("icon.png");
         Container topBar = BorderLayout.east(new Label(icon));
-        topBar.add(BorderLayout.SOUTH, new Label("Cool App Tagline...", "SidemenuTagline")); 
+        topBar.add(BorderLayout.SOUTH, new Label("Cool App Tagline...", "SidemenuTagline"));
         topBar.setUIID("SideCommand");
         tb.addComponentToSideMenu(topBar);
 
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_HOME, e -> {
-        
-        }); 
+
+        });
         tb.addMaterialCommandToSideMenu("Recommandation", FontImage.MATERIAL_WEB, e -> {
             Form recommandationListForm = (new RecommandationsListView(new Point(36.872530, 10.316018), 3000, 200, 200, hi)).getContainer();
             recommandationListForm.show();
         });
         tb.addMaterialCommandToSideMenu("Settings", FontImage.MATERIAL_SETTINGS, e -> {});
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_INFO, e -> {});
-        
+
         hi.show();
     }
 
