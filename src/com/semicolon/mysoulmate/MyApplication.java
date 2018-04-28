@@ -15,8 +15,11 @@ import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.pofper.maps.entity.Point;
+import com.semicolon.gui.BlockListView;
+import com.semicolon.gui.OtherProfileView;
 import com.semicolon.gui.ProfileView;
 import com.semicolon.gui.RecommandationsListView;
+import com.semicolon.service.BlockService;
 import com.semicolon.service.MemberService;
 
 /**
@@ -62,7 +65,9 @@ public class MyApplication {
             Form recommandationListForm = (new RecommandationsListView(new Point(36.872530, 10.316018), 3000, 200, 200, firstForm)).getContainer();
             recommandationListForm.show();
         });
-        tb.addMaterialCommandToSideMenu("Settings", FontImage.MATERIAL_SETTINGS, e -> {});
+        tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_SETTINGS, e -> {
+            (new BlockListView(firstForm, MemberId)).getForm().show();
+        });
         tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_INFO, e -> {});
 
         firstForm.show();

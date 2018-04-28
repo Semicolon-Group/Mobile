@@ -49,4 +49,9 @@ public class Block {
     public void setDate(Date date) {
 	this.date = date;
     }
+
+    @Override
+    public String toString() {
+        return "Block{" + "senderId=" + senderId + ", receiverId=" + receiverId + ", date=" + date + '}';
+    }
 }

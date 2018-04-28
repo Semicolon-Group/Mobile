@@ -72,11 +72,27 @@ public class LikeService {
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     
-    public void blockUser(int senderId, int receiverId){
+    private Like like;
+    public Like getLike(int senderId, int receiverId){
+        like = null;
         ConnectionRequest con = new ConnectionRequest();
-        String url = "http://localhost/mysoulmate/web/app_dev.php/service/seif/blockUser/"+senderId+"/"+receiverId;
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/seif/getUserLike/"+senderId+"/"+receiverId;
         con.setUrl(url);
+        con.addResponseListener((e) -> {
+            try {
+                String str = new String(con.getResponseData());
+                JSONParser j = new JSONParser();
+                
+                Map<String, Object> likeMap = j.parseJSON(new CharArrayReader(str.toCharArray()));
+                if(likeMap != null && !likeMap.isEmpty()){
+                    like = parseLike(likeMap);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
         NetworkManager.getInstance().addToQueueAndWait(con);
+        return like;
     }
     
 }

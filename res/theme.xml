@@ -3,6 +3,7 @@
 <resource majorVersion="1" minorVersion="9" useXmlUI="false">
     <image name="add_photo.png"  />
     <image name="back-command.png" type="multi"  />
+    <image name="block.png"  />
     <image name="border.png"  />
     <image name="Button.dis#borderBottom_1.png" type="multi"  />
     <image name="Button.dis#borderBottomL_1.png" type="multi"  />
@@ -15,6 +16,7 @@
     <image name="Button.dis#borderTopR_1.png" type="multi"  />
     <image name="cal_left_arrow.png" type="multi"  />
     <image name="cal_right_arrow.png" type="multi"  />
+    <image name="chat.png"  />
     <image name="chbox1.png" type="multi"  />
     <image name="chboxv1.png" type="multi"  />
     <image name="ComboBox.borderBottom_1.png" type="multi"  />
@@ -48,7 +50,9 @@
     <image name="Dialog.borderTop_1.png" type="multi"  />
     <image name="Dialog.borderTopL_1.png" type="multi"  />
     <image name="Dialog.borderTopR_1.png" type="multi"  />
+    <image name="dislike.png"  />
     <image name="edit_black.png"  />
+    <image name="like.png"  />
     <image name="loading.png"  />
     <image name="loading_cover.png"  />
     <image name="loading_img.png"  />
@@ -74,6 +78,7 @@
     <image name="photos.png"  />
     <image name="profile_photo.png"  />
     <image name="rating-star.png"  />
+    <image name="remove.png"  />
     <image name="round.png" type="multi"  />
     <image name="sliderBlueCenter.png" type="multi"  />
     <image name="sliderBlueLeft.png" type="multi"  />
