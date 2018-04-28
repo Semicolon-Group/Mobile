@@ -15,6 +15,7 @@ import com.codename1.ui.URLImage;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.Photo;
 import com.semicolon.javavichuploaderapi.Uploader;
+import com.semicolon.mysoulmate.MyApplication;
 import static com.semicolon.mysoulmate.MyApplication.theme;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -132,11 +133,12 @@ public class PhotoService {
         return photo;
     }
     
-    public Photo addPhoto(Photo photo){
+    public Photo addPhoto(String filePath){
         try {
-            Uploader.upload(photo);
-            photo.setType(Enumerations.PhotoType.REGULAR);
-            return photo;
+            Photo p = new Photo("BaseBundle", "imageFile", "http://localhost/mysoulmate/web/app_dev.php/service/seif/uploadPhoto", filePath, MyApplication.MemberId);
+            Uploader.upload(p);
+            p.setType(Enumerations.PhotoType.REGULAR);
+            return p;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -162,14 +164,14 @@ public class PhotoService {
     
     public void setAsProfilePhoto(int photoId){
         ConnectionRequest con = new ConnectionRequest();
-        String url = "http://localhost/mysoulmate/web/app_dev.php/service/seif/setAsCoverPhoto/"+photoId;
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/seif/setAsProfilePhoto/"+photoId;
         con.setUrl(url);
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
     
     public void setAsCoverPhoto(int photoId){
         ConnectionRequest con = new ConnectionRequest();
-        String url = "http://localhost/mysoulmate/web/app_dev.php/service/seif/deletePhoto/"+photoId;
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/seif/setAsCoverPhoto/"+photoId;
         con.setUrl(url);
         NetworkManager.getInstance().addToQueueAndWait(con);
     }

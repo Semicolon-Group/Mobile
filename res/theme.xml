@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <resource majorVersion="1" minorVersion="9" useXmlUI="false">
+    <image name="add_photo.png"  />
     <image name="back-command.png" type="multi"  />
     <image name="border.png"  />
     <image name="Button.dis#borderBottom_1.png" type="multi"  />
@@ -34,7 +35,10 @@
     <image name="ComboBox.sel#borderTop_1.png" type="multi"  />
     <image name="ComboBox.sel#borderTopL_1.png" type="multi"  />
     <image name="ComboBox.sel#borderTopR_1.png" type="multi"  />
+    <image name="cover_photo.png"  />
+    <image name="default.png"  />
     <image name="default_place.jpg"  />
+    <image name="delete_photo.png"  />
     <image name="Dialog.borderBottom_1.png" type="multi"  />
     <image name="Dialog.borderBottomL_1.png" type="multi"  />
     <image name="Dialog.borderBottomR_1.png" type="multi"  />
@@ -44,7 +48,10 @@
     <image name="Dialog.borderTop_1.png" type="multi"  />
     <image name="Dialog.borderTopL_1.png" type="multi"  />
     <image name="Dialog.borderTopR_1.png" type="multi"  />
+    <image name="edit_black.png"  />
     <image name="loading.png"  />
+    <image name="loading_cover.png"  />
+    <image name="loading_img.png"  />
     <image name="map-marker.png"  />
     <image name="Menu.borderBottom_2.png" type="multi"  />
     <image name="Menu.borderBottomL_2.png" type="multi"  />
@@ -64,6 +71,8 @@
     <image name="OKGR.borderTop_1.png" type="multi"  />
     <image name="OKGR.borderTopL_1.png" type="multi"  />
     <image name="OKGR.borderTopR_1.png" type="multi"  />
+    <image name="photos.png"  />
+    <image name="profile_photo.png"  />
     <image name="rating-star.png"  />
     <image name="round.png" type="multi"  />
     <image name="sliderBlueCenter.png" type="multi"  />

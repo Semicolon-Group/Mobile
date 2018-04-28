@@ -11,6 +11,10 @@ public class Photo extends BasePhoto{
     }
     
     public Photo(){}
+    
+    public Photo(int userId){
+        this.userId = userId;
+    }
 
     public Enumerations.PhotoType getType() {
         return type;
