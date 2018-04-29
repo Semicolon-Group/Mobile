@@ -17,6 +17,10 @@ import com.semicolon.gui.Login1;
  * of building native mobile applications using Java.
  */
 public class MyApplication {
+     public static int MEMBER_ID = 0;
+     public static int RECEiVER_ID = 0;
+     public static int THREAD_ID = 0;
+     
 
     private Form current;
     private Resources theme;

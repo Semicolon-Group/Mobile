@@ -34,6 +34,9 @@ import java.io.IOException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import com.codename1.messaging.Message;
+import com.codename1.ui.Display;
+
 
 /**
  * GUI builder created Form
@@ -125,6 +128,7 @@ public class UserForm extends com.codename1.ui.Form {
             System.out.println(user.getEmail()+" , "+user.getFirstName()+" , "+user.getLastName()+" ,"+user.getName()
             +" , "+user.getAgeRange());
             try {
+
                 FaceBookAccess.getInstance().getUser("me",me,  new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent evt) {
