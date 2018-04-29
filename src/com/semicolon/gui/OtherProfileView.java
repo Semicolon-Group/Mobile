@@ -74,6 +74,10 @@ public class OtherProfileView {
     private void buildContainer(){
         Container c = new Container(BoxLayout.y());
         c.getAllStyles().setMarginBottom(20);
+        c.getAllStyles().setPaddingTop(0);
+        c.getAllStyles().setMarginTop(0);
+        form.getAllStyles().setMarginTop(0);
+        form.getAllStyles().setPaddingTop(0);
         
         //Cover Picture
         Label coverImg;
@@ -85,7 +89,7 @@ public class OtherProfileView {
             //TO_DO
             coverImg.addPointerPressedListener((e) -> (new PhotoDetailsView(form, coverPhoto)).getForm().show());
         }else{
-            Image i = MyApplication.theme.getImage("default.png");
+            Image i = MyApplication.theme.getImage("default_banner.png");
             i = i.scaledHeight(200);
             coverImg = new Label(i);
         }

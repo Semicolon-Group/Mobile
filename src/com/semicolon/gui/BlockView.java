@@ -47,8 +47,7 @@ public class BlockView {
             URLImage urlImage = URLImage.createToStorage(enc, (new Random()).nextInt()+"", profilePhoto.getPhotoUri());
             imgv = new Label(urlImage);
         }else{
-            Image i = MyApplication.theme.getImage("default.png");
-            i = i.scaledHeight(70);
+            Image i = MyApplication.theme.getImage("default-like.jpg");
             imgv = new Label(i);
         }
         leftContainer.add(imgv);

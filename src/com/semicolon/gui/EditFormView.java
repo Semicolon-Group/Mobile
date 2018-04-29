@@ -1,6 +1,7 @@
 package com.semicolon.gui;
 
 import com.codename1.components.InfiniteProgress;
+import com.codename1.l10n.ParseException;
 import com.codename1.ui.AutoCompleteTextField;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
@@ -16,8 +17,9 @@ import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.list.DefaultListModel;
-import com.codename1.ui.plaf.Border;
 import com.codename1.ui.spinner.Picker;
+import com.codename1.ui.validation.RegexConstraint;
+import com.codename1.ui.validation.Validator;
 import com.pofper.maps.api.GooglePlacesApi;
 import com.pofper.maps.entity.Address;
 import com.semicolon.entity.Enumerations;
@@ -54,7 +56,7 @@ public class EditFormView {
     private com.semicolon.entity.Address selectedAddress;
     private TextField aboutField;
     
-    
+    private boolean selected = true;
     public EditFormView(Form parentForm, Member member){
         Dialog i = new InfiniteProgress().showInifiniteBlocking();
         this.member = member;
@@ -116,8 +118,17 @@ public class EditFormView {
             }
         };
         addressField.setText(member.getAddress().getCity()+", "+member.getAddress().getCountry());
+        addressField.addDataChangedListener((oldVal, newVal) -> {
+            if(!selected){
+                selectedAddress = null;
+            }else{
+                selected = false;
+            }
+        });
         addressField.addListListener((e) -> {
+            selected = true;
             Address a = addressesAuto.get(options.getSelectedIndex());
+            selectedAddress = new com.semicolon.entity.Address();
             selectedAddress.setCity(a.getCity());
             selectedAddress.setCountry(a.getCountry());
             selectedAddress.setLatitude(a.getLocation().getLatitude());
@@ -142,7 +153,7 @@ public class EditFormView {
         c.add(new Label("Firstname: ")).add(firstnameField);
         c.add(new Label("Lastname: ")).add(lastnameField);
         c.add(new Label("Birthdate: ")).add(birthdateField);
-        c.add(new Label("Phono Number: ")).add(phoneField);
+        c.add(new Label("Phone Number: ")).add(phoneField);
         Container genderContainer = new Container(BoxLayout.x());
         c.add(new Label("Gender: "));
         genderContainer.add(maleField).add(femaleField);
@@ -163,32 +174,38 @@ public class EditFormView {
         Button submitButton = new Button("Confirm");
         submitButton.getUnselectedStyle().setMarginTop(5);
         submitButton.addActionListener((e) -> {
-            Dialog i = new InfiniteProgress().showInifiniteBlocking();
-            member.setBirthDate(birthdateField.getDate());
-            member.setPseudo(usernameField.getText());
-            member.setFirstname(firstnameField.getText());
-            member.setLastname(lastnameField.getText());
-            member.setGender(maleField.isSelected());
-            member.setHeight(Float.parseFloat(heightField.getText()));
-            member.setBodyType(bodyField.getSelectedItem());
-            member.setChildrenNumber(Integer.parseInt(childrenField.getText()));
-            member.setReligion(religionField.getSelectedItem());
-            member.setReligionImportance(importanceField.getSelectedItem());
-            member.setSmoker(smokerField.isSelected());
-            member.setDrinker(drinkerField.isSelected());
-            member.setMinAge(Integer.parseInt(minAgeField.getText()));
-            member.setMaxAge(Integer.parseInt(maxAgeField.getText()));
-            member.setPhone(Integer.parseInt(phoneField.getText()));
-            member.setAbout(aboutField.getText());
-            member.setMaritalStatus(maritalField.getSelectedItem());
-            member.setEmail(emailField.getText());
-            member.setAddress(selectedAddress);
-            
-            MemberService.getInstance().editMemeber(member);
-            ProfileView.update();
-            i.dispose();
-            parentForm.showBack();
+            if(checkFormValidity()){
+                Dialog i = new InfiniteProgress().showInifiniteBlocking();
+                member.setBirthDate(birthdateField.getDate());
+                member.setPseudo(usernameField.getText());
+                member.setFirstname(firstnameField.getText());
+                member.setLastname(lastnameField.getText());
+                member.setGender(maleField.isSelected());
+                member.setHeight(Float.parseFloat(heightField.getText()));
+                member.setBodyType(bodyField.getSelectedItem());
+                member.setChildrenNumber(Integer.parseInt(childrenField.getText()));
+                member.setReligion(religionField.getSelectedItem());
+                member.setReligionImportance(importanceField.getSelectedItem());
+                member.setSmoker(smokerField.isSelected());
+                member.setDrinker(drinkerField.isSelected());
+                member.setMinAge(Integer.parseInt(minAgeField.getText()));
+                member.setMaxAge(Integer.parseInt(maxAgeField.getText()));
+                member.setPhone(Integer.parseInt(phoneField.getText()));
+                member.setAbout(aboutField.getText());
+                member.setMaritalStatus(maritalField.getSelectedItem());
+                member.setEmail(emailField.getText());
+                member.setAddress(selectedAddress);
+
+                MemberService.getInstance().editMemeber(member);
+                ProfileView.update();
+                i.dispose();
+                parentForm.showBack();
+            }
         });
+        
+        Validator v = new Validator();
+        v.addConstraint(emailField, RegexConstraint.validEmail("Unvalid email!"));
+        v.addSubmitButtons(submitButton);
         
         c.add(submitButton);
         
@@ -196,10 +213,91 @@ public class EditFormView {
         form.add(BorderLayout.CENTER, c);
     }
     
-    private boolean chackFormValidity(){
-        boolean valid = true;
-        
-        return valid;
+    private boolean checkFormValidity(){
+        Member m = new Member();
+        m.setBirthDate(birthdateField.getDate());
+        if(m.getAge()<18){
+            Dialog.show("Error", "You must be at least 18 years old!", "Ok", null);
+            return false;
+        }else if(usernameField.getText().isEmpty()){
+            Dialog.show("Error", "Username is mandatory!", "Ok", null);
+            return false;
+        }else if(firstnameField.getText().isEmpty()){
+            Dialog.show("Error", "Firstname is mandatory!", "Ok", null);
+            return false;
+        }else if(lastnameField.getText().isEmpty()){
+            Dialog.show("Error", "Lastname is mandatory!", "Ok", null);
+            return false;
+        }else if(heightField.getText().isEmpty()){
+            Dialog.show("Error", "Height is mandatory!", "Ok", null);
+            return false;
+        }else if(childrenField.getText().isEmpty()){
+            Dialog.show("Error", "Children number is mandatory!", "Ok", null);
+            return false;
+        }else if(minAgeField.getText().isEmpty()){
+            Dialog.show("Error", "Min. age is mandatory!", "Ok", null);
+            return false;
+        }else if(maxAgeField.getText().isEmpty()){
+            Dialog.show("Error", "Max. age is mandatory!", "Ok", null);
+            return false;
+        }else if(phoneField.getText().isEmpty()){
+            Dialog.show("Error", "Phone number is mandatory!", "Ok", null);
+            return false;
+        }else if(phoneField.getText().length() != 8){
+            Dialog.show("Error", "Phone number must contain exactly 8 digits!", "Ok", null);
+            return false;
+        }else if(selectedAddress == null){
+            Dialog.show("Error", "Please select a valid address!", "Ok", null);
+            return false;
+        }else{
+            try{
+                float height = Float.parseFloat(heightField.getText());
+                if(height<1 || height>3){
+                    Dialog.show("Error", "Height must be between 1 and 3!", "Ok", null);
+                    return false;
+                }
+            }catch(NumberFormatException ex){
+                Dialog.show("Error", "Height must contain only degits!", "Ok", null);
+                return false;
+            }
+            try{
+                int child = Integer.parseInt(childrenField.getText());
+                if(child<0){
+                    Dialog.show("Error", "Children number can't be negatif!", "Ok", null);
+                    return false;
+                }
+            }catch(NumberFormatException ex){
+                Dialog.show("Error", "Children number must be an integer!", "Ok", null);
+                return false;
+            }
+            try{
+                int minage = Integer.parseInt(minAgeField.getText());
+                if(minage<18){
+                    Dialog.show("Error", "Min. age can't be less than 18!", "Ok", null);
+                    return false;
+                }
+                try{
+                    int maxage = Integer.parseInt(maxAgeField.getText());
+                    if(minage >= maxage){
+                        Dialog.show("Error", "Min. age can't be less or equal max. age!", "Ok", null);
+                        return false;
+                    }
+                }catch(NumberFormatException ex){
+                    Dialog.show("Error", "Max. age must be an integer!", "Ok", null);
+                    return false;
+                }
+            }catch(NumberFormatException ex){
+                Dialog.show("Error", "Min. age must be an integer!", "Ok", null);
+                return false;
+            }
+            try{
+                Integer.parseInt(phoneField.getText());
+            }catch(NumberFormatException ex){
+                Dialog.show("Error", "Phone number must contain only degits!", "Ok", null);
+                return false;
+            }
+        }
+        return true;
     }
     
     public Form getForm(){

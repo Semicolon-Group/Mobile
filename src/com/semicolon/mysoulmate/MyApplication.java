@@ -53,22 +53,22 @@ public class MyApplication {
         Toolbar tb = firstForm.getToolbar();
         Image icon = theme.getImage("icon.png");
         Container topBar = BorderLayout.east(new Label(icon));
-        topBar.add(BorderLayout.SOUTH, new Label("Cool App Tagline...", "SidemenuTagline"));
+        topBar.add(BorderLayout.SOUTH, new Label("MySoulmate", "SidemenuTagline"));
         topBar.setUIID("SideCommand");
         tb.addComponentToSideMenu(topBar);
 
-        tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_HOME, e -> {
+        tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
             Form profileForm = (new ProfileView(firstForm, MemberId)).getContainer();
             profileForm.show();
         });
-        tb.addMaterialCommandToSideMenu("Recommandation", FontImage.MATERIAL_WEB, e -> {
+        tb.addMaterialCommandToSideMenu("Suggestions", FontImage.MATERIAL_LIST, e -> {
             Form recommandationListForm = (new RecommandationsListView(3000, 200, 200, firstForm)).getContainer();
             recommandationListForm.show();
         });
-        tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_SETTINGS, e -> {
+        tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_BLOCK, e -> {
             (new BlockListView(firstForm, MemberId)).getForm().show();
         });
-        tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_INFO, e -> {});
+        tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {});
 
         firstForm.show();
     }

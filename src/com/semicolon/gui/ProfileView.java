@@ -151,7 +151,7 @@ public class ProfileView {
             //TO_DO
             coverImg.addPointerPressedListener((e) -> (new PhotoDetailsView(form, coverPhoto)).getForm().show());
         }else{
-            Image i = MyApplication.theme.getImage("default.png");
+            Image i = MyApplication.theme.getImage("default_banner.png");
             i = i.scaledHeight(200);
             coverImg = new Label(i);
         }

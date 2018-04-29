@@ -38,7 +38,9 @@
     <image name="ComboBox.sel#borderTopL_1.png" type="multi"  />
     <image name="ComboBox.sel#borderTopR_1.png" type="multi"  />
     <image name="cover_photo.png"  />
+    <image name="default-like.jpg"  />
     <image name="default.png"  />
+    <image name="default_banner.png"  />
     <image name="default_place.jpg"  />
     <image name="delete_photo.png"  />
     <image name="Dialog.borderBottom_1.png" type="multi"  />
@@ -173,7 +175,7 @@
         <val key="Button.sel#padding" value="1.0,1.0,1.0,1.0" />
         <val key="Button.sel#transparency" value="0" />
         <val key="Button.transparency" value="0" />
-        <val key="CalendarDate.bgColor" value="3399ff" />
+        <val key="CalendarDate.bgColor" value="e74c3c" />
         <val key="CalendarDate.fgColor" value="0" />
         <val key="CalendarDate.margin" value="0.0,0.0,0.0,0.0" />
         <val key="CalendarDate.padUnit" value="0,2,0,2" />
@@ -362,6 +364,8 @@
         <val key="ContentContainer.margin" value="0.0,0.0,0.0,0.0" />
         <val key="ContentContainer.padding" value="0.0,0.0,0.0,0.0" />
         <val key="ContentContainer.transparency" value="255" />
+        <val key="ContentPane.margin" value="0.0,0.0,0.0,0.0" />
+        <val key="ContentPane.padding" value="0.0,0.0,0.0,0.0" />
         <gradient key="Dialog.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
         <val key="Dialog.bgType" value="0" />
         <border key="Dialog.border" type="image" i1="Dialog.borderTop_1.png" i2="Dialog.borderBottom_1.png" i3="Dialog.borderLeft_1.png" i4="Dialog.borderRight_1.png" i5="Dialog.borderTopL_1.png" i6="Dialog.borderTopR_1.png" i7="Dialog.borderBottomL_1.png" i8="Dialog.borderBottomR_1.png" i9="Dialog.borderCenter_1.png" />
@@ -430,10 +434,8 @@
         <val key="DialogTitle.fgColor" value="ffffff" />
         <font key="DialogTitle.font" type="ttf" face="0" style="0" size="0" name="native:MainBold" family="native:MainBold" sizeSettings="3" actualSize="4.0" />
         <val key="DialogTitle.transparency" value="0" />
-        <val key="Form.bgColor" value="ffffff" />
-        <gradient key="Form.bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
-        <val key="Form.bgType" value="0" />
-        <val key="Form.transparency" value="255" />
+        <val key="Form.margin" value="0.0,0.0,0.0,0.0" />
+        <val key="Form.padding" value="0.0,0.0,0.0,0.0" />
         <val key="ImageViewer.margin" value="0.0,0.0,0.0,0.0" />
         <val key="ImageViewer.padding" value="0.0,0.0,0.0,0.0" />
         <val key="Label.fgColor" value="0" />
@@ -636,7 +638,8 @@
         <val key="SideCommand.sel#transparency" value="0" />
         <val key="SideCommand.textDecoration" value="0" />
         <val key="SideCommand.transparency" value="0" />
-        <val key="SideNavigationPanel.bgColor" value="2f97c7" />
+        <val key="SideNavigationPanel.bgColor" value="e74c3c" />
+        <val key="SideNavigationPanel.fgColor" value="ffffff" />
         <val key="SideNavigationPanel.margin" value="0.0,0.0,0.0,0.0" />
         <val key="SideNavigationPanel.padding" value="0.0,0.0,0.0,0.0" />
         <val key="SideNavigationPanel.transparency" value="255" />
@@ -678,7 +681,7 @@
         <val key="SliderFull.sel#padUnit" value="2,2,2,2" />
         <val key="SliderFull.sel#padding" value="0.0,0.0,4.0,4.0" />
         <val key="SliderFull.transparency" value="0" />
-        <val key="Tab.bgColor" value="5bc8fb" />
+        <val key="Tab.bgColor" value="e74c3c" />
         <border key="Tab.border" type="line" millimeters="false" thickness="1.0" color="16777215" />
         <val key="Tab.fgColor" value="ffffff" />
         <font key="Tab.font" type="ttf" face="0" style="0" size="0" name="native:MainRegular" family="native:MainRegular" sizeSettings="3" actualSize="3.0" />
@@ -760,10 +763,8 @@
         <val key="TitleArea.margin" value="0.0,0.0,0.0,0.0" />
         <val key="TitleArea.padUnit" value="2,0,2,0" />
         <val key="TitleArea.padding" value="1.0,1.0,0.0,0.0" />
-        <val key="TitleArea.sel#bgColor" value="5bc8fb" />
-        <gradient key="TitleArea.sel#bgGradient" color1="0" color2="0" posX="0.5" posY="0.5" radius="1.0" />
-        <val key="TitleArea.sel#bgType" value="0" />
-        <border key="TitleArea.sel#border" type="image" i1="TitleArea.borderTop_2.png" i2="TitleArea.borderBottom_2.png" i3="TitleArea.borderLeft_2.png" i4="TitleArea.borderRight_2.png" i5="TitleArea.borderTopL_2.png" i6="TitleArea.borderTopR_2.png" i7="TitleArea.borderBottomL_2.png" i8="TitleArea.borderBottomR_2.png" i9="TitleArea.borderCenter_2.png" />
+        <val key="TitleArea.sel#bgColor" value="ccff00" />
+        <val key="TitleArea.sel#fgColor" value="6666ff" />
         <val key="TitleArea.sel#margin" value="0.0,0.0,0.0,0.0" />
         <val key="TitleArea.sel#padUnit" value="2,0,2,0" />
         <val key="TitleArea.sel#padding" value="1.0,1.0,0.0,0.0" />
