@@ -1,5 +1,6 @@
 package com.semicolon.gui;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.components.SpanLabel;
 import com.codename1.io.FileSystemStorage;
 import com.codename1.javascript.JSObject;
@@ -7,6 +8,7 @@ import com.codename1.javascript.JavascriptContext;
 import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
@@ -34,6 +36,7 @@ public class PlaceDetailsView {
     private final Form parentForm;
     
     public PlaceDetailsView(Place place, Form parentForm){
+        Dialog i = new InfiniteProgress().showInifiniteBlocking();
         this.place = place;
         this.form = new Form();
         this.parentForm = parentForm;
@@ -42,6 +45,7 @@ public class PlaceDetailsView {
                 MyApplication.theme.getImage("back-command.png"), 
                 (ev) -> parentForm.showBack());
         buildForm();
+        i.dispose();
     }
     
     public void buildForm(){

@@ -58,7 +58,7 @@ public class MyApplication {
         tb.addComponentToSideMenu(topBar);
 
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_HOME, e -> {
-            Form profileForm = (new ProfileView(firstForm, MemberService.getInstance().getMember(MemberId))).getContainer();
+            Form profileForm = (new ProfileView(firstForm, MemberId)).getContainer();
             profileForm.show();
         });
         tb.addMaterialCommandToSideMenu("Recommandation", FontImage.MATERIAL_WEB, e -> {

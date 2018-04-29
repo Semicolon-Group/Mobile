@@ -1,5 +1,8 @@
 package com.semicolon.service;
 
+import com.codename1.db.Cursor;
+import com.codename1.db.Database;
+import com.codename1.db.Row;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
@@ -14,32 +17,6 @@ import java.util.Date;
 import java.util.Map;
 
 public class MemberService {
-    /*
-        Member m = MemberService.getInstance().getMember(12);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        m.setBirthDate(sdf.parse("05/07/1995"));
-        m.setPseudo("SS");
-        m.setFirstname("SOO");
-        m.setLastname("Abd");
-        m.setGender(true);
-        m.setHeight(1.60f);
-        m.setBodyType(Enumerations.BodyType.THIN);
-        m.setChildrenNumber(10);
-        m.setReligion(Enumerations.Religion.ATHEISM);
-        m.setReligionImportance(Enumerations.Importance.SOMEWHAT_IMPORTANT);
-        m.setSmoker(true);
-        m.setDrinker(false);
-        m.setMinAge(18);
-        m.setMaxAge(25);
-        m.setPhone(53057885);
-        m.setAbout("About test");
-        m.setMaritalStatus(Enumerations.MaritalStatus.DIVORCED);
-        m.setEmail("m.abdennadher.seif@gmail.com");
-        m.getAddress().setCity("TTTT");
-        m.getAddress().setCountry("jjjjj");
-    */
-    
     private Member member;
     
     private static MemberService instance;
@@ -59,6 +36,9 @@ public class MemberService {
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());
             member = parseMember(str);
+        });
+        con.addExceptionListener((ev) -> {
+            member = null;
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return member;

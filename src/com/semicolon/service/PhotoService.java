@@ -106,6 +106,9 @@ public class PhotoService {
                 ex.printStackTrace();
             }
         });
+        con.addExceptionListener((e) -> {
+            photo = null;
+        });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return photo;
     }
@@ -128,6 +131,9 @@ public class PhotoService {
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
+        });
+        con.addExceptionListener((e) -> {
+            photo = null;
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return photo;

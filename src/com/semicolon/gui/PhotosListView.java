@@ -1,7 +1,9 @@
 package com.semicolon.gui;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.ext.filechooser.FileChooser;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Form;
@@ -19,20 +21,25 @@ import java.util.Random;
 public class PhotosListView {
     private Form parentForm;
     private Form form;
-    private static PhotosListView instance;
-    
-    public static void updateView(){
-        if(instance != null){
-            instance.updateContainer();
-        }
-    }
+    private Container mainContainer;
     
     private List<Photo> photos;
     
+    private static PhotosListView instance;
+    
+    public static void update(){
+        if(instance != null)
+            instance.updateView();
+    }
+    
     public PhotosListView(Form parentForm){
-        this.instance = this;
+        Dialog i = new InfiniteProgress().showInifiniteBlocking();
         this.parentForm = parentForm;
+        this.instance = this;
         form = new Form("Photos", new BorderLayout());
+        mainContainer = new Container(new FlowLayout());
+        mainContainer.setScrollableY(true);
+        form.add(BorderLayout.CENTER, mainContainer);
         photos = PhotoService.getInstance().getRegularPhotos(MyApplication.MemberId);
         buildContainer();
         form.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
@@ -41,9 +48,11 @@ public class PhotosListView {
         form.getToolbar().addCommandToOverflowMenu("Add", MyApplication.theme.getImage("add_photo.png"), (ev) -> {
             ActionListener callback = e->{
                 if (e != null && e.getSource() != null) {
+                    Dialog ip = new InfiniteProgress().showInifiniteBlocking();
                     String filePath = ((String)e.getSource()).substring(7);
                     PhotoService.getInstance().addPhoto(filePath);
-                    updateContainer();
+                    updateView();
+                    ip.dispose();
                 }
              };
              if (FileChooser.isAvailable()) {
@@ -52,18 +61,16 @@ public class PhotosListView {
                  Display.getInstance().openGallery(callback, Display.GALLERY_IMAGE);
              }
         });
+        i.dispose();
     }
     
-    private void updateContainer(){
+    private void updateView(){
         photos = PhotoService.getInstance().getRegularPhotos(MyApplication.MemberId);
         buildContainer();
-        form.repaint();
     }
     
     private void buildContainer(){
-        Container c = new Container(new FlowLayout());
-        c.setScrollableY(true);
-        
+        mainContainer.removeAll();
         for(Photo photo : photos){
             EncodedImage enc = EncodedImage.createFromImage(MyApplication.theme.getImage("loading_img.png"), false);
             URLImage urlImage = URLImage.createToStorage(enc, (new Random()).nextInt()+"", photo.getPhotoUri());
@@ -72,11 +79,9 @@ public class PhotosListView {
                 (new PhotoDetailsView(form, photo)).getForm().show();
             });
             
-            c.add(FlowLayout.encloseIn(imageLabel));
+            mainContainer.add(FlowLayout.encloseIn(imageLabel));
         }
-        
-        form.removeAll();
-        form.add(BorderLayout.CENTER, c);
+        mainContainer.revalidate();
     }
     
     public Form getForm(){

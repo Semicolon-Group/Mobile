@@ -1,7 +1,10 @@
 package com.semicolon.gui;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
+import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Block;
@@ -26,12 +29,15 @@ public class BlockListView {
     }
     
     private void updateView(){
+        Dialog i = new InfiniteProgress().showInifiniteBlocking();
         blocks = BlockService.getInstance().getMemberBlocks(memberId);
         buildContainer();
-        form.repaint();
+        form.revalidate();
+        i.dispose();
     }
     
     public BlockListView(Form parentForm, int memberId){
+        Dialog i = new InfiniteProgress().showInifiniteBlocking();
         instance = this;
         this.parentForm = parentForm;
         this.memberId = memberId;
@@ -41,6 +47,7 @@ public class BlockListView {
         form.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
            parentForm.showBack();
         });
+        i.dispose();
     }
     
     private void buildContainer(){
@@ -49,6 +56,11 @@ public class BlockListView {
         
         for(Block block : blocks){
             c.add((new BlockView(block)).getContainer());
+        }
+        if(blocks.isEmpty()){
+            c.setLayout(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+            Label l = new Label("You have no blocks");
+            c.add(BorderLayout.CENTER, l);
         }
         
         form.removeAll();

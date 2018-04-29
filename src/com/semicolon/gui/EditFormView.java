@@ -1,11 +1,13 @@
 package com.semicolon.gui;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.AutoCompleteTextField;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.CheckBox;
 import com.codename1.ui.ComboBox;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.RadioButton;
@@ -29,29 +31,6 @@ public class EditFormView {
     private Form parentForm;
     private Form form;
     private Member member;
-    
-    /*
-        m.setBirthDate(sdf.parse("05/07/1995"));
-        m.setPseudo("SS");
-        m.setFirstname("SOO");
-        m.setLastname("Abd");
-        m.setGender(true);
-        m.setHeight(1.60f);
-        m.setBodyType(Enumerations.BodyType.THIN);
-        m.setChildrenNumber(10);
-        m.setReligion(Enumerations.Religion.ATHEISM);
-        m.setReligionImportance(Enumerations.Importance.SOMEWHAT_IMPORTANT);
-        m.setSmoker(true);
-        m.setDrinker(false);
-        m.setMinAge(18);
-        m.setMaxAge(25);
-        m.setPhone(53057885);
-        m.setAbout("About test");
-        m.setMaritalStatus(Enumerations.MaritalStatus.DIVORCED);
-        m.setEmail("m.abdennadher.seif@gmail.com");
-        m.getAddress().setCity("TTTT");
-        m.getAddress().setCountry("jjjjj");
-    */
     
     private Picker birthdateField;
     private TextField usernameField;
@@ -77,9 +56,10 @@ public class EditFormView {
     
     
     public EditFormView(Form parentForm, Member member){
+        Dialog i = new InfiniteProgress().showInifiniteBlocking();
         this.member = member;
         this.parentForm = parentForm;
-        form = new Form(new BorderLayout());
+        form = new Form("Edit", new BorderLayout());
         
         selectedAddress = member.getAddress();
         birthdateField = new Picker();
@@ -149,6 +129,7 @@ public class EditFormView {
         form.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
             parentForm.showBack();
         });
+        i.dispose();
     }
     
     private void buildContainer(){
@@ -156,30 +137,33 @@ public class EditFormView {
         c.setScrollableY(true);
         c.getAllStyles().setMarginBottom(20);
         
-        c.add(emailField);
-        c.add(usernameField);
-        c.add(firstnameField);
-        c.add(lastnameField);
-        c.add(birthdateField);
-        c.add(phoneField);
-        c.add(maleField);
-        c.add(femaleField);
-        c.add(heightField);
-        c.add(bodyField);
-        c.add(childrenField);
-        c.add(religionField);
-        c.add(importanceField);
+        c.add(new Label("Email: ")).add(emailField);
+        c.add(new Label("Username: ")).add(usernameField);
+        c.add(new Label("Firstname: ")).add(firstnameField);
+        c.add(new Label("Lastname: ")).add(lastnameField);
+        c.add(new Label("Birthdate: ")).add(birthdateField);
+        c.add(new Label("Phono Number: ")).add(phoneField);
+        Container genderContainer = new Container(BoxLayout.x());
+        c.add(new Label("Gender: "));
+        genderContainer.add(maleField).add(femaleField);
+        c.add(genderContainer);
+        c.add(new Label("Height: ")).add(heightField);
+        c.add(new Label("Body Type: ")).add(bodyField);
+        c.add(new Label("Children Number: ")).add(childrenField);
+        c.add(new Label("Religion: ")).add(religionField);
+        c.add(new Label("Religion Importance: ")).add(importanceField);
         c.add(smokerField);
         c.add(drinkerField);
-        c.add(minAgeField);
-        c.add(maxAgeField);
-        c.add(maritalField);
-        c.add(addressField);
-        c.add(aboutField);
+        c.add(new Label("Min. Age: ")).add(minAgeField);
+        c.add(new Label("Max. Age: ")).add(maxAgeField);
+        c.add(new Label("Marital Status: ")).add(maritalField);
+        c.add(new Label("Address: ")).add(addressField);
+        c.add(new Label("About: ")).add(aboutField);
         
         Button submitButton = new Button("Confirm");
         submitButton.getUnselectedStyle().setMarginTop(5);
         submitButton.addActionListener((e) -> {
+            Dialog i = new InfiniteProgress().showInifiniteBlocking();
             member.setBirthDate(birthdateField.getDate());
             member.setPseudo(usernameField.getText());
             member.setFirstname(firstnameField.getText());
@@ -202,6 +186,7 @@ public class EditFormView {
             
             MemberService.getInstance().editMemeber(member);
             ProfileView.update();
+            i.dispose();
             parentForm.showBack();
         });
         
@@ -209,6 +194,12 @@ public class EditFormView {
         
         form.removeAll();
         form.add(BorderLayout.CENTER, c);
+    }
+    
+    private boolean chackFormValidity(){
+        boolean valid = true;
+        
+        return valid;
     }
     
     public Form getForm(){

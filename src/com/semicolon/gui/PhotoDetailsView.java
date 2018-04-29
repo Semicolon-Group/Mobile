@@ -1,7 +1,9 @@
 package com.semicolon.gui;
 
+import com.codename1.components.InfiniteProgress;
 import com.codename1.l10n.SimpleDateFormat;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
 import com.codename1.ui.Form;
@@ -22,6 +24,7 @@ public class PhotoDetailsView {
     private Photo photo;
     
     public PhotoDetailsView(Form parentForm, Photo photo){
+        Dialog ip = new InfiniteProgress().showInifiniteBlocking();
         this.parentForm = parentForm;
         this.photo = photo;
         this.form = new Form("Photo details", new BorderLayout());
@@ -34,19 +37,26 @@ public class PhotoDetailsView {
         
         if(photo.getType() == Enumerations.PhotoType.REGULAR){
             form.getToolbar().addCommandToOverflowMenu("Set as profile", MyApplication.theme.getImage("profile_photo.png"), (e) -> {
+                Dialog i = new InfiniteProgress().showInifiniteBlocking();
                 PhotoService.getInstance().setAsProfilePhoto(photo.getId());
-                (new ProfileView(MyApplication.firstForm, MemberService.getInstance().getMember(MyApplication.MemberId))).getContainer().show();
+                (new ProfileView(MyApplication.firstForm, MyApplication.MemberId)).getContainer().show();
+                i.dispose();
             });
             form.getToolbar().addCommandToOverflowMenu("Set as cover", MyApplication.theme.getImage("cover_photo.png"), (e) -> {
+                Dialog i = new InfiniteProgress().showInifiniteBlocking();
                 PhotoService.getInstance().setAsCoverPhoto(photo.getId());
-                (new ProfileView(MyApplication.firstForm, MemberService.getInstance().getMember(MyApplication.MemberId))).getContainer().show();
+                (new ProfileView(MyApplication.firstForm, MyApplication.MemberId)).getContainer().show();
+                i.dispose();
             });
             form.getToolbar().addCommandToOverflowMenu("Delete", MyApplication.theme.getImage("delete_photo.png"), (e) -> {
+                Dialog i = new InfiniteProgress().showInifiniteBlocking();
                 PhotoService.getInstance().deletePhoto(photo.getId());
-                PhotosListView.updateView();
-                parentForm.showBack();
+                PhotosListView.update();
+                i.dispose();
+                parentForm.show();
             });
         }
+        ip.dispose();
     }
     
     private void buildContainer(){

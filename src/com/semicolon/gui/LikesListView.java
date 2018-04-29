@@ -1,7 +1,12 @@
 package com.semicolon.gui;
 
+import com.codename1.charts.compat.Paint;
+import com.codename1.components.InfiniteProgress;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
+import com.codename1.ui.Label;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Like;
@@ -26,10 +31,11 @@ public class LikesListView {
     private void updateView(){
         likes = LikeService.getInstance().getMemberLikes(memberId);
         buildContainer();
-        form.repaint();
+        form.revalidate();
     }
     
     public LikesListView(Form parentForm, int memberId){
+        Dialog ip = new InfiniteProgress().showInifiniteBlocking();
         instance = this;
         this.parentForm = parentForm;
         this.memberId = memberId;
@@ -39,6 +45,7 @@ public class LikesListView {
         form.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
            parentForm.showBack();
         });
+        ip.dispose();
     }
     
     private void buildContainer(){
@@ -47,6 +54,11 @@ public class LikesListView {
         
         for(Like like : likes){
             c.add((new LikeView(form, like)).getContainer());
+        }
+        if(likes.isEmpty()){
+            c.setLayout(new BorderLayout(BorderLayout.CENTER_BEHAVIOR_CENTER_ABSOLUTE));
+            Label l = new Label("You have no likes");
+            c.add(BorderLayout.CENTER, l);
         }
         
         form.removeAll();
