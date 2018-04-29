@@ -20,6 +20,7 @@ public class MyApplication {
 
     private Form current;
     public static Resources theme;
+    public static int onlineId = 6;
 
     public void init(Object context) {
         theme = UIManager.initFirstTheme("/theme");

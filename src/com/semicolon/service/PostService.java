@@ -22,6 +22,7 @@ import java.util.Map;
 public class PostService {
     private List<Post> list;
     private static PostService instance;
+    private Post singlePost;
     
     public static PostService getInstance(){
         if(instance == null)
@@ -71,5 +72,47 @@ public class PostService {
             System.out.println(ex.getMessage());
         }
         return list;
+    }
+    
+    public Post create(String text, int userId){
+        ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/create_post?text=" + text + "&userId=" + userId;
+        con.setUrl(url);
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            singlePost = parseSinglePost(str);
+	    System.out.println(singlePost);
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+	return singlePost;
+    }
+    
+    private Post parseSinglePost(String str){
+	list = new ArrayList<>();
+        try {
+            JSONParser j = new JSONParser();
+            
+            Map<String, Object> postMap = j.parseJSON(new CharArrayReader(str.toCharArray()));
+            
+            List<Map<String, Object>> postList = (List<Map<String, Object>>) postMap.get("root");
+            
+            for (Map<String, Object> obj : postList) {
+                Post p = new Post();
+                p.setId((int)Float.parseFloat(obj.get("id").toString()));
+                p.setType((int)Float.parseFloat(obj.get("type").toString()));
+                p.setUserId((int)Float.parseFloat(obj.get("userId").toString()));
+                p.setUserPhoto(obj.get("userPhoto").toString());
+                p.setContent(obj.get("content").toString());
+                p.setTime(obj.get("time").toString());
+                p.setUserName(obj.get("userName").toString());
+                p.setNbrReaction((int)Float.parseFloat(obj.get("nbrReaction").toString()));
+                p.setNbrComment((int)Float.parseFloat(obj.get("nbrComment").toString()));
+                p.setCurrReaction(0);
+                list.add(p);
+            }
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+        return list.get(0);
     }
 }
