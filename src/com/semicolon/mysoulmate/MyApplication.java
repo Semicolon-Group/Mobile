@@ -62,7 +62,7 @@ public class MyApplication {
             profileForm.show();
         });
         tb.addMaterialCommandToSideMenu("Recommandation", FontImage.MATERIAL_WEB, e -> {
-            Form recommandationListForm = (new RecommandationsListView(new Point(36.872530, 10.316018), 3000, 200, 200, firstForm)).getContainer();
+            Form recommandationListForm = (new RecommandationsListView(3000, 200, 200, firstForm)).getContainer();
             recommandationListForm.show();
         });
         tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_SETTINGS, e -> {

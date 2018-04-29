@@ -89,6 +89,8 @@ public class MemberService {
         con.addArgument("civil_status", String.valueOf(m.getMaritalStatus().ordinal()));
         con.addArgument("city", m.getAddress().getCity());
         con.addArgument("country", m.getAddress().getCountry());
+        con.addArgument("lng", String.valueOf(m.getAddress().getLongitude()));
+        con.addArgument("lat", String.valueOf(m.getAddress().getLatitude()));
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());
             member = getMember(m.getId());

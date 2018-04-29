@@ -8,7 +8,9 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.pofper.maps.api.GooglePlacesApi;
 import com.pofper.maps.entity.Place;
 import com.pofper.maps.entity.Point;
+import com.semicolon.entity.Member;
 import com.semicolon.mysoulmate.MyApplication;
+import com.semicolon.service.MemberService;
 import java.util.List;
 
 public class RecommandationsListView {
@@ -24,9 +26,11 @@ public class RecommandationsListView {
     
     private final String KEY = "AIzaSyCiVB-qwVIdq-xykpRt-H2Xf27SVIYO0iY";
     
-    public RecommandationsListView(Point location, int range, int maxPhotoWidth, int maxPhotoHeight, Form parentForm){
+    public RecommandationsListView(int range, int maxPhotoWidth, int maxPhotoHeight, Form parentForm){
         this.parentForm = parentForm;
         form = new Form(new BorderLayout());
+        Member member = MemberService.getInstance().getMember(MyApplication.MemberId);
+        Point location = new Point(member.getAddress().getLatitude(), member.getAddress().getLongitude());
         
         Tabs tab = new Tabs();
         tab.getAllStyles().setBgColor(0xffffff);

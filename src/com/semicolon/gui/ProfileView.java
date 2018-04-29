@@ -14,6 +14,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Member;
 import com.semicolon.entity.Photo;
 import com.semicolon.mysoulmate.MyApplication;
+import com.semicolon.service.MemberService;
 import com.semicolon.service.PhotoService;
 import java.util.Random;
 
@@ -22,14 +23,28 @@ public class ProfileView {
     private Form parentForm;
     private Member member;
     
+    private static ProfileView instance;
+    
+    public static void update(){
+        if(instance != null)
+            instance.updateView();
+    }
+    
+    private void updateView(){
+        member = MemberService.getInstance().getMember(member.getId());
+        buildContainer();
+        form.repaint();
+    }
+    
     public ProfileView(Form parentForm, Member member){
+        instance = this;
         this.parentForm = parentForm;
         this.member = member;
         form = new Form("Profile", new BorderLayout());
         buildContainer();
         
         form.getToolbar().addCommandToOverflowMenu("Edit", MyApplication.theme.getImage("edit_black.png"), (e) -> {
-            System.out.println("Edit");
+            (new EditFormView(form, member)).getForm().show();
         });
         form.getToolbar().addCommandToOverflowMenu("Likes", MyApplication.theme.getImage("like.png"), (e) -> {
             (new LikesListView(form, member.getId())).getForm().show();
