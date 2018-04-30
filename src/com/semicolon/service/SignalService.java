@@ -20,9 +20,6 @@ public class SignalService {
     
        public void ajoutSignal(Signal s) {
         ConnectionRequest con = new ConnectionRequest();
-        s.setSenderId(2);
-        s.setReceiverId(1);
-     
         
         String Url =  "http://localhost/mysoulmate/web/app_dev.php/service/signal/new/" +s.getSenderId()+"/"+s.getReceiverId()+"/"+s.getContent()+"/"+s.getReason().ordinal();
         System.out.println(Url);

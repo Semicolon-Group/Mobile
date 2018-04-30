@@ -15,6 +15,7 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Feedback;
+import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.FeedbackService;
 
 /**
@@ -26,8 +27,10 @@ public class FeedbackView {
     Form f;
     TextField tcontent;
     Button btnajout;
+    private Form parentForm;
 
-    public FeedbackView() {
+    public FeedbackView(Form parentForm) {
+        this.parentForm = parentForm;
         f = new Form("Add your Feedback",BoxLayout.y());
         tcontent = new TextField();
         tcontent.setHint("Feedback Content");
@@ -39,6 +42,9 @@ public class FeedbackView {
         f.add(Vcontent);
         f.add(btnajout);
         f.add(btn);
+        f.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
+            parentForm.showBack();
+        });
         
         
         
@@ -56,6 +62,7 @@ public class FeedbackView {
     
             FeedbackService ser = new FeedbackService();
             Feedback feed = new Feedback(tcontent.getText());
+            feed.setSenderId(MyApplication.MemberId);
             ser.ajoutFeedback(feed);
             
               });

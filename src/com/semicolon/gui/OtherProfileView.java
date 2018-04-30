@@ -8,6 +8,7 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Font;
+import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -65,6 +66,9 @@ public class OtherProfileView {
             LikesListView.update();
             parentForm.showBack();
             i.dispose();
+        });
+        form.getToolbar().addCommandToOverflowMenu("Report", MyApplication.theme.getImage("report.png"), (e) -> {
+            new SignalView(form, memberId).getF().show();
         });
         form.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
             parentForm.showBack();

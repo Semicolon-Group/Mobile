@@ -17,6 +17,9 @@ import com.codename1.ui.RadioButton;
 import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.spinner.Picker;
+import com.codename1.ui.validation.Constraint;
+import com.codename1.ui.validation.RegexConstraint;
+import com.codename1.ui.validation.Validator;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.UserR;
 import com.semicolon.service.InscriptionService;
@@ -280,6 +283,10 @@ public class InscriptionView {
         f.add(tabout);
         f.add(labelAbout);
         f.add(btnajout);
+        
+        Validator v = new Validator();
+        v.addConstraint(email, RegexConstraint.validEmail("Unvalid email!"));
+        v.addSubmitButtons(btnajout);
        
         btnajout.addActionListener((l) -> {
             boolean valid = true;
@@ -450,24 +457,24 @@ public class InscriptionView {
             u1 = new UserR(); 
             
               if(body.getSelectedStringIndex()==0){
-            u1.setBodyType(Enumerations.BodyType.Rather_not_say);}
+            u1.setBodyType(Enumerations.BodyType.RATHER_NOT_SAY);}
              else if (body.getSelectedStringIndex()==1){
-            u1.setBodyType(Enumerations.BodyType.Thin);
+            u1.setBodyType(Enumerations.BodyType.THIN);
                     }
                else if (body.getSelectedStringIndex()==2){
-            u1.setBodyType(Enumerations.BodyType.Overweight);
+            u1.setBodyType(Enumerations.BodyType.OVERWEIGHT);
                     }
              else if (body.getSelectedStringIndex()==3){
-            u1.setBodyType(Enumerations.BodyType.Average);
+            u1.setBodyType(Enumerations.BodyType.AVERAGE);
                     }
              else if (body.getSelectedStringIndex()==4){
-            u1.setBodyType(Enumerations.BodyType.Fit);
+            u1.setBodyType(Enumerations.BodyType.FIT);
                     }
                    else if (body.getSelectedStringIndex()==5){
-            u1.setBodyType(Enumerations.BodyType.Herculean);
+            u1.setBodyType(Enumerations.BodyType.HERCULEAN);
                     }
             else  {
-            u1.setBodyType(Enumerations.BodyType.Curvy);
+            u1.setBodyType(Enumerations.BodyType.CURVY);
                     }
               
             

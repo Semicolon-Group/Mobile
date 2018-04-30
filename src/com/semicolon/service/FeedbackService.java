@@ -9,6 +9,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.Dialog;
 import com.semicolon.entity.Feedback;
+import com.semicolon.mysoulmate.MyApplication;
 
 /**
  *
@@ -18,8 +19,8 @@ public class FeedbackService {
     
     public void ajoutFeedback(Feedback fa) {
         ConnectionRequest con = new ConnectionRequest();
-          fa.setSenderId(2);
         String Url = "http://localhost/mysoulmate/web/app_dev.php/service/feed/new/"+fa.getSenderId()+"/"+fa.getContent();
+        System.out.println(Url);
         con.setUrl(Url);
             
 //        System.out.println("tt");

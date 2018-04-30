@@ -16,6 +16,8 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.pofper.maps.entity.Point;
 import com.semicolon.gui.BlockListView;
+import com.semicolon.gui.FeedbackView;
+import com.semicolon.gui.InscriptionView;
 import com.semicolon.gui.NewsfeedView;
 import com.semicolon.gui.OtherProfileView;
 import com.semicolon.gui.ProfileView;
@@ -63,9 +65,15 @@ public class MyApplication {
             Form profileForm = (new ProfileView(firstForm, MemberId)).getContainer();
             profileForm.show();
         });
+        tb.addMaterialCommandToSideMenu("Inscription", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
+            new InscriptionView().getF().show();
+        });
         tb.addMaterialCommandToSideMenu("Suggestions", FontImage.MATERIAL_LIST, e -> {
             Form recommandationListForm = (new RecommandationsListView(3000, 200, 200, firstForm)).getContainer();
             recommandationListForm.show();
+        });
+        tb.addMaterialCommandToSideMenu("Add Feedback", FontImage.MATERIAL_FEEDBACK, e -> {
+            new FeedbackView(firstForm).getF().show();
         });
         tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_BLOCK, e -> {
             (new BlockListView(firstForm, MemberId)).getForm().show();

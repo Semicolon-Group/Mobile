@@ -16,6 +16,7 @@ import com.codename1.ui.TextField;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.Signal;
+import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.SignalService;
 
 /**
@@ -35,10 +36,19 @@ public class SignalView {
         Container typeCompteContainer;
         Button btnajout;
         public static Signal s;
+        
+        private Form parentForm;
+        private int receiverId;
 
 
-    public SignalView() {
+    public SignalView(Form parentForm, int receiverId) {
+        this.parentForm = parentForm;
+        this.receiverId = receiverId;
         f = new Form("Add your signal ");
+        
+        f.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
+            parentForm.showBack();
+        });
            
         tcontent = new TextField();
         tcontent.setHint("Add a description");
@@ -106,15 +116,15 @@ public class SignalView {
                      if(inappropriateRadio.isSelected()){
             s.setReason(Enumerations.SignalReason.INAPPROPRIATE_CONTENT);
         }else if(racismRadio.isSelected()){
-            s.setReason(Enumerations.SignalReason.Racism);
+            s.setReason(Enumerations.SignalReason.RACISM);
         }else if(violenceRadio.isSelected()){
-            s.setReason(Enumerations.SignalReason.Violence);
+            s.setReason(Enumerations.SignalReason.VIOLENCE);
         }else if(HarrasmenentRadio.isSelected()){
-            s.setReason(Enumerations.SignalReason.Harrasment);
+            s.setReason(Enumerations.SignalReason.HARRASSMENT);
         }else if(profileRadio.isSelected()){
             s.setReason(Enumerations.SignalReason.FALSE_PROFILE);
         }else {
-            s.setReason(Enumerations.SignalReason.Other);
+            s.setReason(Enumerations.SignalReason.OTHER);
         }
                boolean valid = true;
                
@@ -137,6 +147,8 @@ public class SignalView {
 
             SignalService ser = new SignalService();
             Signal si = new Signal( s.getReason() ,tcontent.getText());
+            si.setSenderId(MyApplication.MemberId);
+            si.setReceiverId(receiverId);
             ser.ajoutSignal(si);
            });
     }
