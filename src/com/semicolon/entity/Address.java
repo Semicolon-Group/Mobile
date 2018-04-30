@@ -10,7 +10,6 @@ package com.semicolon.entity;
  * @author Elyes
  */
 public class Address {
-    private int userId;
     private double longitude;
     private double latitude;
     private String country;
@@ -18,18 +17,6 @@ public class Address {
     private String placeId;
 
     public Address() {
-    }
-    
-    public Address(int userId){
-        this.userId = userId;
-    }
-
-    public Address(int userId, double longitude, double latitude, String country, String city) {
-	this.userId = userId;
-	this.longitude = longitude;
-	this.latitude = latitude;
-	this.country = country;
-	this.city = city;
     }
 
     public Address(double longitude, double latitude, String country, String city) {
@@ -45,14 +32,6 @@ public class Address {
 
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
-    }
-
-    public int getUserId() {
-	return userId;
-    }
-
-    public void setUserId(int userId) {
-	this.userId = userId;
     }
 
     public double getLongitude() {

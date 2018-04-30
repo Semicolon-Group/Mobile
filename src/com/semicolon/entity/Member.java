@@ -5,6 +5,8 @@
  */
 package com.semicolon.entity;
 
+import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +19,8 @@ import com.semicolon.entity.Enumerations.RelationType;
  *
  * @author Elyes
  */
-public class Member extends User{
+public class Member extends User {
+
     private Date birthDate;
     private boolean gender;
     private float height;
@@ -48,8 +51,8 @@ public class Member extends User{
     public Member(String pseudo, String email) {
         super(pseudo, email);
     }
-  
-    public Member(int id){
+
+    public Member(int id) {
         super(id);
         preferedRelations = new ArrayList<>();
         preferedStatuses = new ArrayList<>();
@@ -91,7 +94,6 @@ public class Member extends User{
         this.address = address;
         this.preferedRelations = preferedRelations;
     }
-    
 
     public Member(Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion, Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge, int phone, Address address, List<RelationType> preferedRelations, List<MaritalStatus> preferedStatuses, String about, String pseudo, String firstname, String lastname, String email, String password) {
         super(pseudo, firstname, lastname, email, password);
@@ -112,66 +114,65 @@ public class Member extends User{
         this.preferedStatuses = preferedStatuses;
         this.about = about;
     }
-    
-  
-    public Member(int id, Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion, 
-            Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge, 
-            int phone, Date lastLogin, short locked, Address address, String pseudo, 
-            String firstname, String lastname, String email, String password, String ip, int port, String about, 
+
+    public Member(int id, Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion,
+            Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge,
+            int phone, Date lastLogin, short locked, Address address, String pseudo,
+            String firstname, String lastname, String email, String password, String ip, int port, String about,
             MaritalStatus maritalStatus, boolean connected, Date createdAt) {
-	super(id, pseudo, firstname, lastname, email, password, ip, port);
-	this.birthDate = birthDate;
-	this.gender = gender;
-	this.height = height;
-	this.bodyType = bodyType;
-	this.childrenNumber = childrenNumber;
-	this.religion = religion;
-	this.religionImportance = religionImportance;
-	this.smoker = smoker;
-	this.drinker = drinker;
-	this.minAge = minAge;
-	this.maxAge = maxAge;
-	this.phone = phone;
-	this.lastLogin = lastLogin;
-	this.locked = locked;
-	this.address = address;
+        super(id, pseudo, firstname, lastname, email, password, ip, port);
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.height = height;
+        this.bodyType = bodyType;
+        this.childrenNumber = childrenNumber;
+        this.religion = religion;
+        this.religionImportance = religionImportance;
+        this.smoker = smoker;
+        this.drinker = drinker;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
+        this.phone = phone;
+        this.lastLogin = lastLogin;
+        this.locked = locked;
+        this.address = address;
         this.about = about;
         this.maritalStatus = maritalStatus;
         this.connected = connected;
         this.createdAt = createdAt;
-	this.preferedRelations = new ArrayList<RelationType>();
-	this.preferedStatuses = new ArrayList<MaritalStatus>();
+        this.preferedRelations = new ArrayList<RelationType>();
+        this.preferedStatuses = new ArrayList<MaritalStatus>();
     }
-  
-    public Member(Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion, 
-            Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge, int phone, 
-            Date lastLogin, short locked, Address address, String pseudo, String firstname, String lastname, String email, 
+
+    public Member(Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion,
+            Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge, int phone,
+            Date lastLogin, short locked, Address address, String pseudo, String firstname, String lastname, String email,
             String password, String ip, int port, String about, MaritalStatus maritalStatus, boolean connected,
             Date createdAt) {
-	super(pseudo, firstname, lastname, email, password, ip, port);
-	this.birthDate = birthDate;
-	this.gender = gender;
-	this.height = height;
-	this.bodyType = bodyType;
-	this.childrenNumber = childrenNumber;
-	this.religion = religion;
-	this.religionImportance = religionImportance;
-	this.smoker = smoker;
-	this.drinker = drinker;
-	this.minAge = minAge;
-	this.maxAge = maxAge;
-	this.phone = phone;
-	this.lastLogin = lastLogin;
-	this.locked = locked;
-	this.address = address;
+        super(pseudo, firstname, lastname, email, password, ip, port);
+        this.birthDate = birthDate;
+        this.gender = gender;
+        this.height = height;
+        this.bodyType = bodyType;
+        this.childrenNumber = childrenNumber;
+        this.religion = religion;
+        this.religionImportance = religionImportance;
+        this.smoker = smoker;
+        this.drinker = drinker;
+        this.minAge = minAge;
+        this.maxAge = maxAge;
+        this.phone = phone;
+        this.lastLogin = lastLogin;
+        this.locked = locked;
+        this.address = address;
         this.about = about;
         this.maritalStatus = maritalStatus;
         this.connected = connected;
         this.createdAt = createdAt;
-	this.preferedRelations = new ArrayList<RelationType>();
-	this.preferedStatuses = new ArrayList<MaritalStatus>();
+        this.preferedRelations = new ArrayList<RelationType>();
+        this.preferedStatuses = new ArrayList<MaritalStatus>();
     }
-      
+
     public Date getCreatedAt() {
         return createdAt;
     }
@@ -179,7 +180,7 @@ public class Member extends User{
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
-    
+
     public MaritalStatus getMaritalStatus() {
         return maritalStatus;
     }
@@ -196,116 +197,116 @@ public class Member extends User{
         this.connected = connected;
     }
 
-    public String getAbout(){
+    public String getAbout() {
         return about;
     }
-    
-    public void setAbout(String about){
+
+    public void setAbout(String about) {
         this.about = about;
     }
 
     public Date getBirthDate() {
-	return birthDate;
+        return birthDate;
     }
 
     public void setBirthDate(Date birthDate) {
-	this.birthDate = birthDate;
+        this.birthDate = birthDate;
     }
 
     public boolean isGender() {
-	return gender;
+        return gender;
     }
 
     public void setGender(boolean gender) {
-	this.gender = gender;
+        this.gender = gender;
     }
 
     public float getHeight() {
-	return height;
+        return height;
     }
 
     public void setHeight(float height) {
-	this.height = height;
+        this.height = height;
     }
 
     public BodyType getBodyType() {
-	return bodyType;
+        return bodyType;
     }
 
     public void setBodyType(BodyType bodyType) {
-	this.bodyType = bodyType;
+        this.bodyType = bodyType;
     }
 
     public int getChildrenNumber() {
-	return childrenNumber;
+        return childrenNumber;
     }
 
     public void setChildrenNumber(int childrenNumber) {
-	this.childrenNumber = childrenNumber;
+        this.childrenNumber = childrenNumber;
     }
 
     public Enumerations.Religion getReligion() {
-	return religion;
+        return religion;
     }
 
     public void setReligion(Enumerations.Religion religion) {
-	this.religion = religion;
+        this.religion = religion;
     }
 
     public Importance getReligionImportance() {
-	return religionImportance;
+        return religionImportance;
     }
 
     public void setReligionImportance(Importance religionImportance) {
-	this.religionImportance = religionImportance;
+        this.religionImportance = religionImportance;
     }
 
     public boolean isSmoker() {
-	return smoker;
+        return smoker;
     }
 
     public void setSmoker(boolean smoker) {
-	this.smoker = smoker;
+        this.smoker = smoker;
     }
 
     public boolean isDrinker() {
-	return drinker;
+        return drinker;
     }
 
     public void setDrinker(boolean drinker) {
-	this.drinker = drinker;
+        this.drinker = drinker;
     }
 
     public int getMinAge() {
-	return minAge;
+        return minAge;
     }
 
     public void setMinAge(int minAge) {
-	this.minAge = minAge;
+        this.minAge = minAge;
     }
 
     public int getMaxAge() {
-	return maxAge;
+        return maxAge;
     }
 
     public void setMaxAge(int maxAge) {
-	this.maxAge = maxAge;
+        this.maxAge = maxAge;
     }
 
     public int getPhone() {
-	return phone;
+        return phone;
     }
 
     public void setPhone(int phone) {
-	this.phone = phone;
+        this.phone = phone;
     }
 
     public Date getLastLogin() {
-	return lastLogin;
+        return lastLogin;
     }
 
     public void setLastLogin(Date lastLogin) {
-	this.lastLogin = lastLogin;
+        this.lastLogin = lastLogin;
     }
 
     public short getLocked() {
@@ -339,10 +340,10 @@ public class Member extends User{
     public void setPreferedStatuses(List<MaritalStatus> preferedStatuses) {
         this.preferedStatuses = preferedStatuses;
     }
-        
+
     @Override
     public String toString() {
-	return super.toString() + "Member{" + "birthDate=" + birthDate + ", gender=" + gender + ", height=" + height + ", bodyType=" + bodyType + ", childrenNumber=" + childrenNumber + ", religion=" + religion + ", religionImportance=" + religionImportance + ", smoker=" + smoker + ", drinker=" + drinker + ", minAge=" + minAge + ", maxAge=" + maxAge + ", phone=" + phone + ", lastLogin=" + lastLogin + ", locked=" + locked + ", address=" + address + ", preferedRelations=" + preferedRelations + ", preferedStatuses=" + preferedStatuses + "}\n";
+        return super.toString() + "Member{" + "birthDate=" + birthDate + ", gender=" + gender + ", height=" + height + ", bodyType=" + bodyType + ", childrenNumber=" + childrenNumber + ", religion=" + religion + ", religionImportance=" + religionImportance + ", smoker=" + smoker + ", drinker=" + drinker + ", minAge=" + minAge + ", maxAge=" + maxAge + ", phone=" + phone + ", lastLogin=" + lastLogin + ", locked=" + locked + ", address=" + address + ", preferedRelations=" + preferedRelations + ", preferedStatuses=" + preferedStatuses + "}\n";
     }
 
     @Override
@@ -371,5 +372,25 @@ public class Member extends User{
         }
         return true;
     }
-    
+
+    public int getAge() {
+        Date now = new Date();
+        int birthday_year = Integer.parseInt((new SimpleDateFormat("yyyy")).format(birthDate));
+        int birthday_month = Integer.parseInt((new SimpleDateFormat("MM")).format(birthDate));
+        int birthday_day = Integer.parseInt((new SimpleDateFormat("dd")).format(birthDate));
+        
+        int nowMonth = Integer.parseInt((new SimpleDateFormat("MM")).format(now));
+        int nowYear = Integer.parseInt((new SimpleDateFormat("yyyy")).format(now));
+        int nowDay = Integer.parseInt((new SimpleDateFormat("dd")).format(now));
+        int result = nowYear - birthday_year;
+
+        if (birthday_month > nowMonth) {
+            result--;
+        } else if (birthday_month == nowMonth) {
+            if (birthday_day > nowDay) {
+                result--;
+            }
+        }
+        return result;
+    }
 }
