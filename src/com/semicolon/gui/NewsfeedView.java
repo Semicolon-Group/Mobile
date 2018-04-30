@@ -45,13 +45,14 @@ public class NewsfeedView {
         postBtn.addActionListener(e -> {
             if(newPost.getText().equals(""))
 		return;
-	    form.addComponent(2, new PostView(PostService.getInstance().create(newPost.getText(), onlineId)).getPostContainer());
+	    form.addComponent(2, new PostView(PostService.getInstance().create(newPost.getText(), onlineId), form).getPostContainer());
 	    newPost.setText("");
+	    form.repaint();
         });
         form.add(newPost).add(postBtn);
         List<Post> posts = PostService.getInstance().getAll(onlineId);
         for(Post p : posts){
-            PostView postView = new PostView(p);
+            PostView postView = new PostView(p, form);
             form.add(postView.getPostContainer());
         }
         form.show();

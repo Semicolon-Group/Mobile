@@ -5,8 +5,11 @@
  */
 package com.semicolon.service;
 
+import com.codename1.io.ConnectionRequest;
+import com.codename1.io.NetworkManager;
 import com.semicolon.entity.Enumerations.ReactionType;
 import com.semicolon.entity.Post;
+import static com.semicolon.mysoulmate.MyApplication.onlineId;
 
 /**
  *
@@ -25,6 +28,9 @@ public class ReactionService {
     }
     
     public void react(Post p, ReactionType type){
-	
+	ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/react?id=" + p.getId() + "&reaction=" + type.ordinal() + "&userId=" + onlineId + "&type=" + p.getType();
+        con.setUrl(url);
+        NetworkManager.getInstance().addToQueueAndWait(con);
     }
 }

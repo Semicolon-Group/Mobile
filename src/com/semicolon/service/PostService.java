@@ -81,7 +81,6 @@ public class PostService {
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());
             singlePost = parseSinglePost(str);
-	    System.out.println(singlePost);
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
 	return singlePost;
@@ -114,5 +113,12 @@ public class PostService {
             System.out.println(ex.getMessage());
         }
         return list.get(0);
+    }
+
+    public void delete(int id) {
+	ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/delete_post?id=" + id;
+        con.setUrl(url);
+        NetworkManager.getInstance().addToQueueAndWait(con);
     }
 }

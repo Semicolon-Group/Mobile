@@ -103,4 +103,11 @@ public class CommentService {
         }
         return list.get(0);
     }
+
+    public void delete(int id) {
+	ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/delete_comment?id=" + id;
+        con.setUrl(url);
+        NetworkManager.getInstance().addToQueueAndWait(con);
+    }
 }
