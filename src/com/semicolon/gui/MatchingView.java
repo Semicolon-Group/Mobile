@@ -7,21 +7,13 @@ package com.semicolon.gui;
 
 import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Button;
-import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
-import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.Toolbar;
-import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.MatchCard;
-import static com.semicolon.mysoulmate.MyApplication.MemberId;
-import static com.semicolon.mysoulmate.MyApplication.firstForm;
 import static com.semicolon.mysoulmate.MyApplication.onlineId;
 import static com.semicolon.mysoulmate.MyApplication.sideBar;
-import static com.semicolon.mysoulmate.MyApplication.theme;
 import com.semicolon.service.BlockService;
 import com.semicolon.service.LikeService;
 import com.semicolon.service.MatchingService;
@@ -38,7 +30,7 @@ public class MatchingView {
     
     public MatchingView(){
         Dialog ip = new InfiniteProgress().showInifiniteBlocking();
-	form = new Form(BoxLayout.y());
+	form = new Form("Matching", BoxLayout.y());
 	sideBar(form);
 	list = MatchingService.getInstance().getAll(onlineId);
 	fillNext();
@@ -54,13 +46,17 @@ public class MatchingView {
 	    Button profileBtn = new Button("Profile");
 	    Button likeBtn = new Button("Like");
 	    blockBtn.addActionListener(e -> {
+		Dialog ip = new InfiniteProgress().showInifiniteBlocking();
 		BlockService.getInstance().blockUser(onlineId, card.getMemberId());
 		list.remove(0);
+		ip.dispose();
 		fillNext();
 	    });
 	    likeBtn.addActionListener(e -> {
+		Dialog ip = new InfiniteProgress().showInifiniteBlocking();
 		LikeService.getInstance().doLike(onlineId, card.getMemberId());
 		list.remove(0);
+		ip.dispose();
 		fillNext();
 	    });
 	    profileBtn.addActionListener(e -> {
@@ -71,8 +67,8 @@ public class MatchingView {
 	}catch(Exception ex){
 	    form.removeAll();
 	    form.add(new Label("No more users to match with."));
-	    form.repaint();
 	}
+	form.revalidate();
     }
     
     public Form getForm(){

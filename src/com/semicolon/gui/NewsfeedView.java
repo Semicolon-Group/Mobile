@@ -30,6 +30,9 @@ public class NewsfeedView {
     public NewsfeedView(){
         Dialog ip = new InfiniteProgress().showInifiniteBlocking();
         form = new Form("NewsFeed", BoxLayout.y());
+	form.getContentPane().addPullToRefresh(() -> {
+	    new NewsfeedView().getForm().show();
+	});
 	sideBar(form);
         newPost = new TextArea(3, 5);
 	newPost.getAllStyles().setFgColor(0, true);
