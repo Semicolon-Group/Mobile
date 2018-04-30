@@ -115,7 +115,7 @@ public class Login1 {
         msg = new Button("msg");
         Button convs = new Button("convs");
         msg.addActionListener(ff->{
-         Recovery rc = new Recovery();
+         InstantMessaging rc = new InstantMessaging();
                         rc.show();
         
         });
@@ -160,7 +160,7 @@ public class Login1 {
 //                        page2.add(back);
 //                        page2.show();
                         MyApplication.MEMBER_ID= MEMBER_ID;
-                        Recovery rc = new Recovery();
+                        InstantMessaging rc = new InstantMessaging();
                         rc.show();
 
                     } else {

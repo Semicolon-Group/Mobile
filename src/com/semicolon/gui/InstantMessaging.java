@@ -28,8 +28,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.codename1.io.JSONParser;
 import com.codename1.ui.Command;
+import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
+import com.codename1.ui.Image;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 import com.codename1.ui.util.SwipeBackSupport;
 import java.util.Map;
 import com.semicolon.entity.Message;
@@ -43,13 +49,13 @@ import static java.lang.Thread.sleep;
  *
  * @author badis
  */
-public class Recovery {
+public class InstantMessaging {
 
     protected com.codename1.ui.util.UITimer refresherTimer = null;
     public static int thrd = 1;
     public static int receiver;
     static Form mySoulMate;
-    public static int MEMBER_ID ;
+    public static int MEMBER_ID;
     Container conty;
     Container contx;
     Container cntt;
@@ -62,11 +68,13 @@ public class Recovery {
     Button ok;
     public static List<Message> old;
     public static List<Message> nnn;
+    private Image roundedMeImage;
+    private Resources theme;
 
     public void setReceiverId(int id, int thrd) {
         this.receiver = 3;
         this.thrd = thrd;
-        this.MEMBER_ID = 2 ;
+        this.MEMBER_ID = 2;
         Go();
 
         initiatefield(thrd, id, MEMBER_ID);
@@ -122,10 +130,19 @@ public class Recovery {
         return t;
     }
 
-    public Recovery() {
+    public InstantMessaging() {
     }
+    private Image mask;
+    private EncodedImage roundPlaceholder;
+    private static EncodedImage userPlaceholder;
 
     public void Go() {
+        theme = UIManager.initFirstTheme("/theme");
+        Style iconFontStyle = UIManager.getInstance().getComponentStyle("LargeIconFont");
+        FontImage fnt = FontImage.create(" \ue80f ", iconFontStyle);
+        userPlaceholder = fnt.toEncodedImage();
+        mask = theme.getImage("r.png");
+        roundPlaceholder = EncodedImage.createFromImage(userPlaceholder.scaled(mask.getWidth(), mask.getHeight()).applyMask(mask.createMask()), false);
         chatForm = new Form();
         chatForm.setLayout(new BorderLayout());
         Toolbar tb = new Toolbar();
@@ -198,12 +215,8 @@ public class Recovery {
 
     public void Update(List<Message> msges, int thrd, int senderId, int receiverId) {
 
-        System.out.println("=======================================================================");
-
         for (Message c : msges) {
             String text = c.getContent();
-            System.out.println(text);
-
             SpanLabel t = new SpanLabel(text);
             if (c.getSenderId() == MEMBER_ID) {
                 return;
@@ -215,17 +228,11 @@ public class Recovery {
                 t.setHeight(40);
 
             }
-
             chatForm.scrollComponentToVisible(t);
+
             MyThread2 thr = new MyThread2();
             refresherTimer.timer(3000, true, thr);
 
-        }
-        chatForm.scrollComponentToVisible(chatArea);
-
-        try {
-            sleep(1000);
-        } catch (InterruptedException ex) {
         }
 
     }
@@ -253,18 +260,16 @@ public class Recovery {
         @Override
         public void run() {
 
-            Recovery rc = new Recovery();
+            InstantMessaging rc = new InstantMessaging();
             MyThread2 thr = new MyThread2();
             System.out.println("jdid size" + rc.nnn.size());
             System.out.println("9dim size" + rc.old.size());
             if (rc.nnn.size() > rc.old.size()) {
-                
 
                 rc.nnn.removeAll(rc.old);
-                
+
                 rc.Update(rc.nnn, rc.thrd, rc.MEMBER_ID, rc.receiver);
                 rc.old = rc.refresh(rc.thrd);
-                
 
             } else {
 
@@ -282,7 +287,7 @@ public class Recovery {
         @Override
         public void run() {
 
-            Recovery rc = new Recovery();
+            InstantMessaging rc = new InstantMessaging();
             List<Message> msgs = rc.refresh(rc.thrd);
             rc.nnn = msgs;
             MyThread thr = new MyThread();
