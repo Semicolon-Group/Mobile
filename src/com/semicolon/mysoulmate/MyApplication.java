@@ -30,6 +30,7 @@ public class MyApplication {
 
     private Form current;
     public static Resources theme;
+    public static int onlineId = 6;
     public static Form firstForm;
     public static int MemberId = 6;
 

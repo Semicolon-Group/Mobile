@@ -37,6 +37,7 @@
     <image name="ComboBox.sel#borderTop_1.png" type="multi"  />
     <image name="ComboBox.sel#borderTopL_1.png" type="multi"  />
     <image name="ComboBox.sel#borderTopR_1.png" type="multi"  />
+    <image name="comment.png"  />
     <image name="cover_photo.png"  />
     <image name="default-like.jpg"  />
     <image name="default.png"  />
@@ -51,6 +52,8 @@
     <image name="Dialog.borderRight_1.png" type="multi"  />
     <image name="Dialog.borderTop_1.png" type="multi"  />
     <image name="Dialog.borderTopL_1.png" type="multi"  />
+    <image name="Laugh.png"  />
+    <image name="Love.png"  />
     <image name="Dialog.borderTopR_1.png" type="multi"  />
     <image name="dislike.png"  />
     <image name="edit_black.png"  />
@@ -77,6 +80,8 @@
     <image name="OKGR.borderTop_1.png" type="multi"  />
     <image name="OKGR.borderTopL_1.png" type="multi"  />
     <image name="OKGR.borderTopR_1.png" type="multi"  />
+    <image name="round.png" type="multi"  />
+    <image name="Scowl.png"  />
     <image name="photos.png"  />
     <image name="profile_photo.png"  />
     <image name="rating-star.png"  />
@@ -88,6 +93,9 @@
     <image name="sliderEmpty.png" type="multi"  />
     <image name="sliderEmptyLeft.png" type="multi"  />
     <image name="sliderEmptyRight.png" type="multi"  />
+    <image name="Smile.png"  />
+    <image name="switch_mask.png" type="multi"  />
+    <image name="switch_on.png" type="multi"  />
     <image name="switch_mask.png" type="multi"  />
     <image name="switch_off.png" type="multi"  />
     <image name="switch_on.png" type="multi"  />

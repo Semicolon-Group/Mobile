@@ -185,8 +185,9 @@ public class PhotoService {
     public ImageViewer EmakeImageViewer(String url){
         ImageViewer img = new ImageViewer();
         EncodedImage encodedImage = EncodedImage.createFromImage(theme.getImage("round.png"),false);
-        URLImage uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
-        uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
+	URLImage uRLImage;
+	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
+	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
         img.setImage(uRLImage);
         return img;
     }

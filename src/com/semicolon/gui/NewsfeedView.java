@@ -8,7 +8,9 @@ package com.semicolon.gui;
 import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
+import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Font;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
@@ -20,6 +22,7 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Style;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.Post;
+import static com.semicolon.mysoulmate.MyApplication.onlineId;
 import com.semicolon.service.PhotoService;
 import com.semicolon.service.PostService;
 import java.io.IOException;
@@ -36,15 +39,20 @@ public class NewsfeedView {
     
     public NewsfeedView(){
         form = new Form("NewsFeed", BoxLayout.y());
-        newPost = new TextArea("Share your thoughts...", 5, 5);
+        newPost = new TextArea("Share your thoughts...", 3, 5);
+	newPost.getAllStyles().setFgColor(0, true);
         postBtn = new Button("Post");
         postBtn.addActionListener(e -> {
-            
+            if(newPost.getText().equals(""))
+		return;
+	    form.addComponent(2, new PostView(PostService.getInstance().create(newPost.getText(), onlineId), form).getPostContainer());
+	    newPost.setText("");
+	    form.repaint();
         });
         form.add(newPost).add(postBtn);
-        List<Post> posts = PostService.getInstance().getAll(6);
+        List<Post> posts = PostService.getInstance().getAll(onlineId);
         for(Post p : posts){
-            PostView postView = new PostView(p);
+            PostView postView = new PostView(p, form);
             form.add(postView.getPostContainer());
         }
         form.show();
