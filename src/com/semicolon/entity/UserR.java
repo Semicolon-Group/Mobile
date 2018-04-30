@@ -41,10 +41,6 @@ public class UserR {
     private float height;
 
 
-    
-  
-
-
     public UserR() {
     }
 
