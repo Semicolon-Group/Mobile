@@ -7,49 +7,100 @@ package com.semicolon.entity;
 
 /**
  *
- * @author asus
+ * @author Elyes
  */
 public class Enumerations {
-        public enum SignalReason{
-        INAPPROPRIATE_CONTENT ,
-	Racism,
-        Violence,
-        Harrasment,
-        FALSE_PROFILE,
-        Other
+    public enum Role{
+	ADMIN,
+	MEMBER
     }
-        public enum BodyType{
-	Rather_not_say,
-	Thin,
-	Overweight,
-	Average,
-	Fit,
-	Herculean,
-	Curvy;
-
+    public enum BodyType{
+	RATHER_NOT_SAY,
+	THIN,
+	OVERWEIGHT,
+	AVERAGE,
+	FIT,
+	HERCULEAN,
+	CURVY
     }
-        public enum Religion{
+    public enum MaritalStatus{
+	SINGLE,
+	WIDOW,
+	DIVORCED
+    }
+    public enum Religion{
 	ISLAM,
 	JUDAISM,
 	CHRISTIANITY,
 	ATHEISM,
 	AGNOSTICISM
     }
-        
-        public enum Importance{
-	INDIFFERENT,
-	SOMEWHAT_IMPORTANT,
-	IMPORTANT
-    }
-        public enum MaritalStatus{
-	SINGLE,
-	WIDOW,
-	DIVORCED
-    }
-        public enum RelationType{
+    public enum RelationType{
 	SERIOUS,
 	FRIENDSHIP,
 	CASUAL
     }
+    public enum Importance{
+	INDIFFERENT,
+	SOMEWHAT_IMPORTANT,
+	IMPORTANT
+    }
+    public enum ReactionType{
+	LIKE,
+	LAUGH,
+        SMILE,
+        LOVE,
+        SCOWL
+    }
+    public enum SignalReason{
+	INAPPROPRIATE_CONTENT,
+	RACISM,
+        VIOLENCE,
+        HARRASSMENT,
+        FALSE_PROFILE,
+        OTHER
+    }
+    public enum Proximity{
+	CLOSE,
+	DISTANT,
+	ANYWHERE
+    }
+    public enum LockedType{
+	ENABLED,
+	DISABLED, //l'utilisateur a désactivé son compte par lui meme
+	BANNED
+    }
+    public enum NotificationType{
+	MESSAGE,
+	LIKE,
+	REACTION,
+	SIGNAL,
+	FEEDBACK
+    }
     
+    public enum PostType{
+        ANSWER,
+        PICTURE,
+        STATUS,
+        UPDATE
+    }
+    public enum Topic{
+	RELIGION,
+	RELATIONSHIP,
+	CULTURE,
+	SPORT,
+	GENERAL,
+        MANDATORY,
+    }
+    public enum PhotoType{
+        REGULAR,
+        PROFILE,
+        COVER
+    }
+    public enum LastLogin{
+        ONE_DAY,
+        WEEK,
+        MONTH,
+        YEAR
+    }
 }
