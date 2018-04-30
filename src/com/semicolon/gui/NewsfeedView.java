@@ -5,27 +5,15 @@
  */
 package com.semicolon.gui;
 
-import com.codename1.components.ImageViewer;
-import com.codename1.components.SpanLabel;
+import com.codename1.components.InfiniteProgress;
 import com.codename1.ui.Button;
-import com.codename1.ui.Component;
-import com.codename1.ui.Container;
-import com.codename1.ui.Font;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
-import com.codename1.ui.Image;
-import com.codename1.ui.Label;
 import com.codename1.ui.TextArea;
-import com.codename1.ui.TextField;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.plaf.Style;
-import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.Post;
 import static com.semicolon.mysoulmate.MyApplication.onlineId;
-import com.semicolon.service.PhotoService;
 import com.semicolon.service.PostService;
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -38,6 +26,7 @@ public class NewsfeedView {
     Button postBtn;
     
     public NewsfeedView(){
+        Dialog ip = new InfiniteProgress().showInifiniteBlocking();
         form = new Form("NewsFeed", BoxLayout.y());
         newPost = new TextArea("Share your thoughts...", 3, 5);
 	newPost.getAllStyles().setFgColor(0, true);
@@ -55,7 +44,7 @@ public class NewsfeedView {
             PostView postView = new PostView(p, form);
             form.add(postView.getPostContainer());
         }
-        form.show();
+        ip.dispose();
     }
 
     public Form getForm() {

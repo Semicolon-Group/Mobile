@@ -16,6 +16,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.pofper.maps.entity.Point;
 import com.semicolon.gui.BlockListView;
+import com.semicolon.gui.NewsfeedView;
 import com.semicolon.gui.OtherProfileView;
 import com.semicolon.gui.ProfileView;
 import com.semicolon.gui.RecommandationsListView;
@@ -49,7 +50,7 @@ public class MyApplication {
             current.show();
             return;
         }
-        firstForm = new Form("Hi World", BoxLayout.y());
+        firstForm = (new NewsfeedView()).getForm();
 
         Toolbar tb = firstForm.getToolbar();
         Image icon = theme.getImage("icon.png");

@@ -2,6 +2,7 @@ package com.semicolon.gui;
 
 import com.codename1.components.InfiniteProgress;
 import com.codename1.ext.filechooser.FileChooser;
+import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
@@ -75,11 +76,15 @@ public class PhotosListView {
             EncodedImage enc = EncodedImage.createFromImage(MyApplication.theme.getImage("loading_img.png"), false);
             URLImage urlImage = URLImage.createToStorage(enc, (new Random()).nextInt()+"", photo.getPhotoUri());
             Label imageLabel = new Label(urlImage);
-            imageLabel.addPointerPressedListener((e) -> {
+            Container imgContainer = new Container();
+            Button bImg = new Button();
+            imgContainer.setLeadComponent(bImg);
+            bImg.addActionListener((e) -> {
                 (new PhotoDetailsView(form, photo)).getForm().show();
             });
+            imgContainer.add(imageLabel);
             
-            mainContainer.add(FlowLayout.encloseIn(imageLabel));
+            mainContainer.add(FlowLayout.encloseIn(imgContainer));
         }
         mainContainer.revalidate();
     }

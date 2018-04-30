@@ -11,6 +11,7 @@ import com.codename1.io.ConnectionRequest;
 import com.codename1.io.JSONParser;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.EncodedImage;
+import com.codename1.ui.Label;
 import com.codename1.ui.URLImage;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.Photo;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 /**
  *
@@ -189,6 +191,15 @@ public class PhotoService {
 	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
 	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
         img.setImage(uRLImage);
+        return img;
+    }
+    
+    public Label EmakeImageViewerBig(String url){
+        EncodedImage encodedImage = EncodedImage.createFromImage(theme.getImage("loading_post.png"),false);
+	URLImage uRLImage;
+	uRLImage = URLImage.createToStorage(encodedImage, (new Random()).nextInt()+"", "http://localhost" + url);
+	//uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
+        Label img = new Label(uRLImage);
         return img;
     }
 }

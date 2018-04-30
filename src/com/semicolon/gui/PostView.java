@@ -56,6 +56,14 @@ public class PostView {
         /* Header */
         Container postHeader = new Container(BoxLayout.x());
         postHeader.add(PhotoService.getInstance().EmakeImageViewer(p.getUserPhoto()));
+        Button goToProfile = new Button();
+        goToProfile.addActionListener(e -> {
+            if(onlineId != p.getUserId())
+                new OtherProfileView(form, p.getUserId()).getForm().show();
+            else
+                new ProfileView(form, onlineId).getContainer().show();
+        });
+        postHeader.setLeadComponent(goToProfile);
         Container nameTime = new Container(BoxLayout.y());
         nameTime.add(new Label(p.getUserName()));
 	Label timeLabel = new Label(p.getTime());
@@ -69,8 +77,8 @@ public class PostView {
             postContainer.add(content);
         }
         else{
-            ImageViewer img = PhotoService.getInstance().EmakeImageViewer(p.getContent());
-	    img.setPreferredSize(new Dimension(250, 250));
+            Label img = PhotoService.getInstance().EmakeImageViewerBig(p.getContent());
+	    //img.setPreferredSize(new Dimension(250, 250));
             postContainer.add(img);
         }
         /* Reactions */

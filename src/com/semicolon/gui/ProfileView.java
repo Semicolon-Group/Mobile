@@ -6,6 +6,7 @@ import com.codename1.db.Cursor;
 import com.codename1.db.Database;
 import com.codename1.db.Row;
 import com.codename1.l10n.SimpleDateFormat;
+import com.codename1.ui.Button;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.EncodedImage;
@@ -143,19 +144,24 @@ public class ProfileView {
         
         //Cover Picture
         Label coverImg;
+        Container coverContainer = new Container();
+        Button bCover = new Button();
+        coverContainer.setLeadComponent(bCover);
         Photo coverPhoto = PhotoService.getInstance().getCoverPhoto(member.getId());
         if(coverPhoto != null){
             EncodedImage enc = EncodedImage.createFromImage(MyApplication.theme.getImage("loading_cover.png"), false);
             URLImage urlImage = URLImage.createToStorage(enc, (new Random()).nextInt()+"", coverPhoto.getPhotoUri());
             coverImg = new Label(urlImage);
-            //TO_DO
-            coverImg.addPointerPressedListener((e) -> (new PhotoDetailsView(form, coverPhoto)).getForm().show());
+            bCover.addActionListener((e) -> {
+                (new PhotoDetailsView(form, coverPhoto)).getForm().show();
+            });
         }else{
             Image i = MyApplication.theme.getImage("default_banner.png");
             i = i.scaledHeight(200);
             coverImg = new Label(i);
         }
         coverImg.getAllStyles().setMarginLeft(0);
+        coverContainer.add(coverImg);
         
         //About
         Container aboutContainer = new Container(BoxLayout.y());
@@ -171,7 +177,7 @@ public class ProfileView {
         aboutContainer.add(aboutLabel);
         aboutContainer.add(aboutSpan);
         
-        c.add(coverImg);
+        c.add(coverContainer);
         c.add(buildTopProfileInfo());
         c.add(buildProfileInfo());
         c.add(aboutContainer);
@@ -226,19 +232,24 @@ public class ProfileView {
     private Container buildTopProfileInfo(){
         //Profile Picture
         Label profileImg;
+        Container profileContainer = new Container();
+        Button bProfile = new Button();
+        profileContainer.setLeadComponent(bProfile);
         Photo ProfilePhoto = PhotoService.getInstance().getProfilePhoto(member.getId());
         if(ProfilePhoto != null){
             EncodedImage enc = EncodedImage.createFromImage(MyApplication.theme.getImage("loading.png"), false);
             URLImage urlImage = URLImage.createToStorage(enc, (new Random()).nextInt()+"", ProfilePhoto.getPhotoUri());
             profileImg = new Label(urlImage);
-            //TO_DO
-            profileImg.addPointerPressedListener((e) -> (new PhotoDetailsView(form, ProfilePhoto)).getForm().show());
+            bProfile.addActionListener((e) -> {
+                (new PhotoDetailsView(form, ProfilePhoto)).getForm().show();
+            });
         }else{
             Image i = MyApplication.theme.getImage("default.png");
             i = i.scaledHeight(70);
             profileImg = new Label(i);
         }
         profileImg.getAllStyles().setMarginLeft(0);
+        profileContainer.add(profileImg);
         
         Container profileSideContainer = new Container(BoxLayout.y());
         
@@ -280,7 +291,7 @@ public class ProfileView {
         profileSideContainer.add(sinceLabel);
         
         Container profileAddressContainer = new Container(BoxLayout.x());
-        profileAddressContainer.add(profileImg);
+        profileAddressContainer.add(profileContainer);
         profileAddressContainer.add(profileSideContainer);
         
         return profileAddressContainer;
