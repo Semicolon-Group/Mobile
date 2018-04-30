@@ -7,7 +7,6 @@ package com.semicolon.entity;
 
 import java.util.Date;
 
-
 /**
  *
  * @author Elyes
@@ -113,5 +112,33 @@ public class Message {
     public void setSeenDate(Date seenDate) {
 	this.seenDate = seenDate;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Message other = (Message) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+
+        return true;
+    }
+
+   
+   
 
 }
