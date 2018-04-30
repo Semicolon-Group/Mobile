@@ -188,8 +188,7 @@ public class PhotoService {
         ImageViewer img = new ImageViewer();
         EncodedImage encodedImage = EncodedImage.createFromImage(theme.getImage("round.png"),false);
 	URLImage uRLImage;
-	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
-	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
+	uRLImage = URLImage.createToStorage(encodedImage, (new Random()).nextInt()+"", "http://localhost" + url);
         img.setImage(uRLImage);
         return img;
     }
@@ -198,7 +197,6 @@ public class PhotoService {
         EncodedImage encodedImage = EncodedImage.createFromImage(theme.getImage("loading_post.png"),false);
 	URLImage uRLImage;
 	uRLImage = URLImage.createToStorage(encodedImage, (new Random()).nextInt()+"", "http://localhost" + url);
-	//uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
         Label img = new Label(uRLImage);
         return img;
     }

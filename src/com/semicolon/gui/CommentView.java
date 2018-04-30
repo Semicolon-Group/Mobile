@@ -46,7 +46,7 @@ public class CommentView {
 	    deleteBtn.addActionListener(e -> {
 		CommentService.getInstance().delete(c.getId());
 		postContainer.removeComponent(big);
-		form.repaint();
+		form.revalidate();
 	    });
 	    big.add(deleteBtn);
 	}

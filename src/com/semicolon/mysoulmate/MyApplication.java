@@ -16,6 +16,7 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.pofper.maps.entity.Point;
 import com.semicolon.gui.BlockListView;
+import com.semicolon.gui.MatchingView;
 import com.semicolon.gui.NewsfeedView;
 import com.semicolon.gui.OtherProfileView;
 import com.semicolon.gui.ProfileView;
@@ -52,26 +53,6 @@ public class MyApplication {
         }
         firstForm = (new NewsfeedView()).getForm();
 
-        Toolbar tb = firstForm.getToolbar();
-        Image icon = theme.getImage("icon.png");
-        Container topBar = BorderLayout.east(new Label(icon));
-        topBar.add(BorderLayout.SOUTH, new Label("MySoulmate", "SidemenuTagline"));
-        topBar.setUIID("SideCommand");
-        tb.addComponentToSideMenu(topBar);
-
-        tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
-            Form profileForm = (new ProfileView(firstForm, MemberId)).getContainer();
-            profileForm.show();
-        });
-        tb.addMaterialCommandToSideMenu("Suggestions", FontImage.MATERIAL_LIST, e -> {
-            Form recommandationListForm = (new RecommandationsListView(3000, 200, 200, firstForm)).getContainer();
-            recommandationListForm.show();
-        });
-        tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_BLOCK, e -> {
-            (new BlockListView(firstForm, MemberId)).getForm().show();
-        });
-        tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {});
-
         firstForm.show();
     }
 
@@ -86,4 +67,31 @@ public class MyApplication {
     public void destroy() {
     }
 
+    public static void sideBar(Form form){
+	Toolbar tb = form.getToolbar();
+        Image icon = theme.getImage("icon.png");
+        Container topBar = BorderLayout.east(new Label(icon));
+        topBar.add(BorderLayout.SOUTH, new Label("MySoulmate", "SidemenuTagline"));
+        topBar.setUIID("SideCommand");
+        tb.addComponentToSideMenu(topBar);
+
+	tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_LIST, e -> {
+            new NewsfeedView().getForm().show();
+        });
+	tb.addMaterialCommandToSideMenu("Matching", FontImage.MATERIAL_SEARCH, e -> {
+            new MatchingView().getForm().show();
+        });
+        tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
+            Form profileForm = (new ProfileView(form, MemberId)).getContainer();
+            profileForm.show();
+        });
+        tb.addMaterialCommandToSideMenu("Suggestions", FontImage.MATERIAL_LIST, e -> {
+            Form recommandationListForm = (new RecommandationsListView(3000, 200, 200, form)).getContainer();
+            recommandationListForm.show();
+        });
+        tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_BLOCK, e -> {
+            (new BlockListView(form, MemberId)).getForm().show();
+        });
+        tb.addMaterialCommandToSideMenu("Logout", FontImage.MATERIAL_EXIT_TO_APP, e -> {});
+    }
 }

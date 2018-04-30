@@ -55,6 +55,7 @@ public class PostView {
 	postContainer.getAllStyles().setBorder(Border.createUnderlineBorder(1));
         /* Header */
         Container postHeader = new Container(BoxLayout.x());
+	postHeader.getAllStyles().setMarginLeft(5);
         postHeader.add(PhotoService.getInstance().EmakeImageViewer(p.getUserPhoto()));
         Button goToProfile = new Button();
         goToProfile.addActionListener(e -> {
@@ -107,13 +108,14 @@ public class PostView {
 	    deleteBtn.addActionListener(e -> {
 		PostService.getInstance().delete(p.getId());
 		form.removeComponent(postContainer);
-		form.repaint();
+		form.revalidate();
 	    });
 	    postContainer.add(deleteBtn);
 	}
         /* Comments */
 	    /* New Comment */
-	TextField newComment = new TextField("Leave a comment...");
+	TextField newComment = new TextField();
+	newComment.setHint("Leave a comment...");
 	postContainer.add(newComment);
 	postContainer.add(makeCommentButton(p, newComment));
 	    /* Comment-List */
@@ -173,7 +175,7 @@ public class PostView {
 	    Comment c = CommentService.getInstance().create(p, comment.getText(), onlineId);
 	    comment.setText("");
 	    postContainer.add(new CommentView(c, postContainer, form).getCommentContainer());
-	    form.repaint();
+	    form.revalidate();
 	});
 	return btn;
     }

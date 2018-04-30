@@ -13,8 +13,10 @@ import com.codename1.ui.TextArea;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Post;
 import static com.semicolon.mysoulmate.MyApplication.onlineId;
+import static com.semicolon.mysoulmate.MyApplication.sideBar;
 import com.semicolon.service.PostService;
 import java.util.List;
+import javafx.event.ActionEvent;
 
 /**
  *
@@ -28,15 +30,17 @@ public class NewsfeedView {
     public NewsfeedView(){
         Dialog ip = new InfiniteProgress().showInifiniteBlocking();
         form = new Form("NewsFeed", BoxLayout.y());
-        newPost = new TextArea("Share your thoughts...", 3, 5);
+	sideBar(form);
+        newPost = new TextArea(3, 5);
 	newPost.getAllStyles().setFgColor(0, true);
+	newPost.setHint("Share your thoughts...");
         postBtn = new Button("Post");
         postBtn.addActionListener(e -> {
             if(newPost.getText().equals(""))
 		return;
 	    form.addComponent(2, new PostView(PostService.getInstance().create(newPost.getText(), onlineId), form).getPostContainer());
 	    newPost.setText("");
-	    form.repaint();
+	    form.revalidate();
         });
         form.add(newPost).add(postBtn);
         List<Post> posts = PostService.getInstance().getAll(onlineId);
@@ -70,6 +74,5 @@ public class NewsfeedView {
     public void setPostBtn(Button postBtn) {
         this.postBtn = postBtn;
     }
-    
     
 }
