@@ -46,6 +46,18 @@ public class MessageService {
         NetworkManager.getInstance().addToQueueAndWait(con);
         return list;
     }
+       public List<Message> getAllDirect(Message msg) {
+        ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/get_messages2?sender="+msg.getSenderId()+
+                "&receiver="+msg.getReceiverId();
+        con.setUrl(url);
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            list = parseThreads3(str);
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return list;
+    }
 
     private List<Message> parseThreads(String json) {
         list = new ArrayList<>();
@@ -70,7 +82,8 @@ public class MessageService {
         return list;
     }
 
-    private List<Message> parseThreads2(String json) {
+
+    private List<Message> parseThreads3(String json) {
         list = new ArrayList<>();
         try {
             JSONParser j = new JSONParser();
@@ -81,10 +94,9 @@ public class MessageService {
 
             for (Map<String, Object> obj : postList) {
                 Message c = new Message();
-                c.setId((int) Float.parseFloat(obj.get("id").toString()));
-                c.setSenderId((int) Float.parseFloat(obj.get("senderId").toString()));
-
-                c.setContent(obj.get("body").toString());
+                c.setSenderId((int) Float.parseFloat(obj.get("thread").toString()));
+                c.setReceiverId((int) Float.parseFloat(obj.get("receiver").toString()));
+                
                 list.add(c);
             }
         } catch (IOException ex) {
@@ -129,14 +141,15 @@ public class MessageService {
     }
 
     public void SendMSg(Message msg) {
-
+        
+        if (msg.getContent()=="" || msg.getContent()==null || msg.getContent()==" ")
+            return ;
         ConnectionRequest con = new ConnectionRequest();
         String Url = "http://localhost/mysoulmate/web/app_dev.php/service/send_message?sender=" + msg.getSenderId() + ""
                 + "&receiver=" + msg.getReceiverId() + "&body=" + msg.getContent();
         con.setUrl(Url);
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());
-            System.out.println(str);
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
     }
@@ -144,7 +157,6 @@ public class MessageService {
     public List<Message> getAllNEw(Message msg) {
         ConnectionRequest con = new ConnectionRequest();
         String url = "http://localhost/mysoulmate/web/app_dev.php/service/get_sff?Id=" + msg.getSenderId() + "&nbr=" + msg.getContent() + "&receiver=" + msg.getReceiverId();
-        System.out.println(url);
         con.setUrl(url);
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());
