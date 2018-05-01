@@ -80,16 +80,16 @@ public class MyApplication {
         topBar.add(BorderLayout.SOUTH, new Label("MySoulmate", "SidemenuTagline"));
         topBar.setUIID("SideCommand");
         tb.addComponentToSideMenu(topBar);
-
+        
 	tb.addMaterialCommandToSideMenu("Newsfeed", FontImage.MATERIAL_LIST, e -> {
             new NewsfeedView().getForm().show();
-        });
-	tb.addMaterialCommandToSideMenu("Matching", FontImage.MATERIAL_SEARCH, e -> {
-            new MatchingView().getForm().show();
         });
         tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
             Form profileForm = (new ProfileView(form, MemberId)).getContainer();
             profileForm.show();
+        });
+	tb.addMaterialCommandToSideMenu("Matching", FontImage.MATERIAL_SEARCH, e -> {
+            new MatchingView().getForm().show();
         });
         tb.addMaterialCommandToSideMenu("Inscription", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
             new InscriptionView().getF().show();
