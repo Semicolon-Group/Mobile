@@ -5,126 +5,103 @@
  */
 package com.semicolon.gui;
 import com.codename1.components.ImageViewer;
-import com.codename1.components.InteractionDialog;
-import com.codename1.components.ShareButton;
+import com.codename1.components.MultiButton;
 import com.codename1.components.SpanLabel;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
-import com.codename1.io.FileSystemStorage;
 import com.codename1.io.JSONParser;
-import com.codename1.io.Log;
 import com.codename1.io.NetworkEvent;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.Button;
 import com.codename1.ui.Command;
 import com.codename1.ui.Container;
 import com.codename1.ui.Dialog;
-import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
-import com.codename1.ui.Font;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Form;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
-import com.codename1.ui.Slider;
-import com.codename1.ui.Tabs;
 import com.codename1.ui.TextArea;
 import com.codename1.ui.URLImage;
+import com.codename1.ui.animations.BubbleTransition;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
-import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
-import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.plaf.Border;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.plaf.UIManager;
-import com.codename1.ui.util.ImageIO;
 import com.codename1.ui.util.Resources;
 import com.codename1.ui.util.UIBuilder;
-import com.codename1.components.MultiButton;
-import com.codename1.io.Util;
-import com.codename1.ui.BrowserComponent;
-import com.codename1.ui.animations.BubbleTransition;
 import com.semicolon.entity.Notification;
+
 import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Map;
 
 /**
  *
- * @author vaider
+ * @author Zarkouna
  */
 public class NotificationView {
-     Form f;
-     public Resources theme;
-     EncodedImage enc;
-    Image imgs;
-    ImageViewer imgv;
 
+    Form f;
+    EncodedImage enc;
+    public static int idd;
 
     public NotificationView(Resources theme, int id) {
-      String url="http://localhost/mysoulmate/web/app_dev.php/service/notification/notif/"+2;
-        System.out.println(url);
-      ConnectionRequest con =  new ConnectionRequest();
+idd=id;
         UIBuilder ui = new UIBuilder();
-        f = ui.createContainer(theme, "GUI 2").getComponentForm();
-        con.setUrl(url);
-       con.addResponseListener(new ActionListener<NetworkEvent>() {
 
-          @Override
-          public void actionPerformed(NetworkEvent evt) {
-              
-            
+        f = ui.createContainer(theme, "a").getComponentForm();
 
-              ArrayList<Notification> lv = getListnotification(new String(con.getResponseData()));
-           Container contY = new Container(BoxLayout.y());
-                    for (Notification lv1 : lv) {
-                        
-                        
-               //   Button delete = new Button("supprimer");
-                  
-                   
-                  
-                        System.out.println(lv1.getDate());
+        ConnectionRequest con = new ConnectionRequest();
+        con.setUrl("http://localhost/mysoulmate/web/app_dev.php/service/notification/notif/" +2);
+        con.addResponseListener(new ActionListener<NetworkEvent>() {
+
+            @Override
+            public void actionPerformed(NetworkEvent evt) {
+
+                // System.out.println(getListEvenement(new String(con.getResponseData())));
+                ArrayList<Notification> lv = getListnotification(new String(con.getResponseData()));
+
+                // for (int i = 0; i < lv.size(); i++) {
+                for (Notification lv1 : lv) {
+
                     Container contX = new Container(BoxLayout.x());
                     Label d = new Label();
-                    
-                    
 
+                    Container contY = new Container(BoxLayout.y());
                     Label name = new Label(lv1.getNameUser());
-                        //System.out.println(lv1.getImage());
 
                     try {
                         enc = EncodedImage.create("/load.png");
                     } catch (IOException ex) {
                     }
-ImageViewer imgv = new ImageViewer(URLImage.createToStorage(enc, "http://localhost/semicolon.png", "http://localhost/semicolon.png", URLImage.RESIZE_SCALE)
-                            .scaled(30, 30));
+
                     //  Image imgs;
                     // ImageViewer imgv;
-                   
-
-                    contY.add(name);
+                    ImageViewer imgv = new ImageViewer(URLImage.createToStorage(enc, "a", "http://localhost/semicolon.png", URLImage.RESIZE_SCALE)
+                            .scaled(320, 200));
+                    ImageViewer imgc = new ImageViewer(URLImage.createToStorage(enc, "aa", "http://localhost/semicolon.png", URLImage.RESIZE_SCALE)
+                            .scaled(30, 30));
+                    contY.setLayout(new BorderLayout());
+//                    contY.add(name);
+                
                     Container k = new Container(new BorderLayout());
-                   //k.add(BorderLayout.CENTER, imgv);
-                   contY.setLayout(BoxLayout.y());
-
-                    contY.add(BorderLayout.CENTER);
+                    //k.add(BorderLayout.CENTER, imgv);
                     
-                    MultiButton gui_LA = new MultiButton("");
-                    FontImage.setMaterialIcon(gui_LA, FontImage.MATERIAL_HOTEL);
-                    gui_LA.setIconPosition(BorderLayout.EAST);
+
+                    contY.add(BorderLayout.CENTER,k);
                     //contY.add(BorderLayout.SOUTH,new Label(lv1.getCountry()));
-                  //   Container head = new  Container();
+                    //  Container head = new  Container();
                     //  head.add(new Label("aa"));
                     //  contY.add(BorderLayout.NORTH,new Label(lv1.getName()));
 
-                   
+                    MultiButton gui_LA = new MultiButton("");
+                    //FontImage.setMaterialIcon(gui_LA, FontImage.MATERIAL_HOTEL);
+                    gui_LA.setIconPosition(BorderLayout.EAST);
                     Container foot = new Container();
                     foot.setLayout(new BorderLayout());
                     
@@ -145,9 +122,9 @@ ImageViewer imgv = new ImageViewer(URLImage.createToStorage(enc, "http://localho
                      */
                     //   gui_LA.set
                     //  gui_LA.setVisible(false);
-                    contY.add(BorderLayout.SOUTH);
+                    contY.add(BorderLayout.SOUTH, foot);
                     contX.setLayout((new BorderLayout()));
-                    Container head = new Container(BoxLayout.y());
+                    Container head = new Container();
                     head.setLayout(new BorderLayout());
                     Container headname = new Container();
                     //ahawa
@@ -155,17 +132,17 @@ ImageViewer imgv = new ImageViewer(URLImage.createToStorage(enc, "http://localho
                     // headname.add(BorderLayout.NORTH,new Label(lv1.getName()));
                     Container hotelstar = new Container(BoxLayout.x());
 
-                    Label type = new Label(lv1.getContent());
+                    Label type = new Label(lv1.getDate());
                     type.getAllStyles().setMarginBottom(1);
                     Container namehotelc = new Container();
-                    namehotelc.add(imgv);
+                    namehotelc.add(imgc);
                     Container xnames = new Container(BoxLayout.y());
 
                     xnames.add(type);
                     Label namepromo = new Label(lv1.getNameUser());
                     xnames.add(namepromo);
 
-                   namehotelc.add(xnames);
+                    namehotelc.add(xnames);
 
                     type.getAllStyles().setFgColor(0xffffff);
 
@@ -175,7 +152,7 @@ ImageViewer imgv = new ImageViewer(URLImage.createToStorage(enc, "http://localho
                     // headname.add(BorderLayout.CENTER,"stars");
                     head.add(BorderLayout.WEST, headname);
                     // head.add(BorderLayout.CENTER,headname);
-                   // head.add(BorderLayout.EAST, new Label(lv1.getPrix() + "€"));
+                    head.add(BorderLayout.EAST, new Label(lv1.getContent()));
                     //  head.setUIID("Container_uiid_name");
                     head.getStyle().setBgColor(0x329b1a);
                     //  Font fnt = Font.createTrueTypeFont("Achilles", );
@@ -188,17 +165,17 @@ ImageViewer imgv = new ImageViewer(URLImage.createToStorage(enc, "http://localho
                     Button showBubble = new Button("+");
                     showBubble.setName("BubbleButton");
                     
-                  
-String aa ="                                  ";
-String bb ="                                                      ";
-
-
-       
-     foot.add(BorderLayout.WEST,aa);
- 
- 
- 
-                    
+                    TextArea detail = new TextArea("Bathroom with shower:");
+                    detail.setEditable(false);
+   MultiButton a = new MultiButton("");
+     FontImage.setMaterialIcon(a, FontImage.MATERIAL_TV); 
+      MultiButton b = new MultiButton("");
+     FontImage.setMaterialIcon(b, FontImage.MATERIAL_LOCAL_BAR); 
+     MultiButton c = new MultiButton("");
+     FontImage.setMaterialIcon(c, FontImage.MATERIAL_ADD_SHOPPING_CART); 
+//                    foot.add(BorderLayout.WEST, a);
+//                    foot.add(BorderLayout.CENTER, b);
+//                    foot.add(BorderLayout.NORTH, c);
                     foot.add(BorderLayout.EAST, showBubble);
                     
                     Style buttonStyle = showBubble.getAllStyles();
@@ -225,12 +202,10 @@ String bb ="                                                      ";
                    // f.add(showBubble);
                    // f.setTintColor(0);
                     showBubble.addActionListener((e) -> {
-                        //Dialog dlg = new Dialog(""+lv1.getUsername().toString()+"");
-                        Dialog dlg = new Dialog("pop");
-
+                        Dialog dlg = new Dialog(""+lv1.getContent()+"");
                         dlg.setLayout(new BorderLayout());
-                        //SpanLabel sl = new SpanLabel("Commentaire:" + lv1.getCommentaire() );
-                        SpanLabel sl = new SpanLabel("Commentaire:" );
+                        SpanLabel sl = new SpanLabel("Area:");
+                        sl.getTextUnselectedStyle().setFgColor(0x66FF33);
                         dlg.add(BorderLayout.CENTER, sl);
                         dlg.setTransitionInAnimator(new BubbleTransition(500, "BubbleButton"));
                         dlg.setTransitionOutAnimator(new BubbleTransition(500, "BubbleButton"));
@@ -245,34 +220,47 @@ String bb ="                                                      ";
 
                     //    head.getStyle().setBgColor(0xFF0000);
                     //   head.getComponentForm().repaint();
-                    contY.add(BorderLayout.NORTH);
+                    contY.add(BorderLayout.NORTH, head);
                     contX.add(BorderLayout.CENTER, contY);
-                    Button btnom = new Button(lv1.getNameUser());
+                    Button btnom = new Button("  ");
                     int idd = lv1.getId();
                    
                     head.setLeadComponent(btnom);
 
                     contY.getStyle().setMarginBottom(40);
-                  
-             f.add(contX);
-                    }
-                      
-                   f.add(contY);
-                    f.show(); 
-                    f.refreshTheme();
                     
-          }
-          
-          
-      });
-       
-                    
-                NetworkManager.getInstance().addToQueue(con);
-               
-                    
+                    f.add(contX);
+
+                }
+                //   System.out.println(lv.get(i).getTitre());
+                //  nom_organizateur.setText(lv.get(i).getTitre());
+
+                // }
+                f.refreshTheme();
+
+            }
+        });
+        NetworkManager.getInstance().addToQueue(con);
+
+        setBackCommand(f, theme);
 
     }
+protected void setBackCommand(Form f, Resources theme) {
+        Command back = new Command("") {
 
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                Listquestion list = new Listquestion(theme,idd);
+                list.getF().show();
+            }
+
+        };
+        Image img = FontImage.createMaterial(FontImage.MATERIAL_ARROW_BACK, UIManager.getInstance().getComponentStyle("TitleCommand"));
+        back.setIcon(img);
+        f.getToolbar().addCommandToLeftBar(back);
+        f.getToolbar().setTitleCentered(true);
+        f.setBackCommand(back);
+    }
     public Form getF() {
         return f;
     }

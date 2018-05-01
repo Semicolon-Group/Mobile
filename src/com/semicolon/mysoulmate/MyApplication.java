@@ -42,7 +42,9 @@ public class MyApplication {
         
 //        AnswerView v = new AnswerView(theme);
 //        v.getFormAffichage().show();
-        Listquestion a = new Listquestion(theme,id);
+//        Listquestion a = new Listquestion(theme,id);
+//        a.getF().show();
+        NotificationView a = new NotificationView(theme, id);
         a.getF().show();
 //        NotificationView n=new NotificationView(theme);
 //        n.getFormAffichage().show();

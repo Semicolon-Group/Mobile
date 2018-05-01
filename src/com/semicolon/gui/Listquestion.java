@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import com.codename1.ui.Form;
 import com.semicolon.entity.Question;
+import com.semicolon.util.Statistic;
 import java.util.Arrays;
 
 /**
@@ -159,17 +160,27 @@ f.getToolbar().addCommandToRightBar("", searchIcon, (e) -> {
                  
             }
         });
-        /*
-         f.getToolbar().addCommandToSideMenu("Mes cours", null, new ActionListener() {
+        
+         f.getToolbar().addCommandToSideMenu("Quizz", null, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                CoursList a = new CoursList(theme, id);
+                Listquestion a = new Listquestion(theme, id);
                  a.getF().show();
                  
             }
         });
-*/
+         
+         f.getToolbar().addCommandToSideMenu("Statistic", null, new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                Statistic S = new Statistic();
+                 S.createPieChartForm().show();
+                 
+            }
+        });
+
     }
 
     public Form getF() {
