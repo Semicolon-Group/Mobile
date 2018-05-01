@@ -17,6 +17,12 @@ import com.codename1.ui.layouts.BorderLayout;
 import com.semicolon.gui.BlockListView;
 import com.semicolon.gui.MatchingView;
 import com.semicolon.gui.NewsfeedView;
+import com.semicolon.gui.FeedbackView;
+import com.semicolon.gui.InscriptionView;
+import com.semicolon.gui.Listquestion;
+import com.semicolon.gui.NewsfeedView;
+import com.semicolon.gui.NotificationView;
+import com.semicolon.gui.OtherProfileView;
 import com.semicolon.gui.ProfileView;
 import com.semicolon.gui.RecommandationsListView;
 import com.semicolon.service.FaceDetection;
@@ -85,9 +91,21 @@ public class MyApplication {
             Form profileForm = (new ProfileView(form, MemberId)).getContainer();
             profileForm.show();
         });
+        tb.addMaterialCommandToSideMenu("Inscription", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
+            new InscriptionView().getF().show();
+        });
+        tb.addMaterialCommandToSideMenu("Notifications", FontImage.MATERIAL_NOTIFICATIONS, e -> {
+            new NotificationView(theme, MemberId).getF().show();
+        });
+        tb.addMaterialCommandToSideMenu("Quiz", FontImage.MATERIAL_HELP, e -> {
+            new Listquestion(theme, MemberId).getF().show();
+        });
         tb.addMaterialCommandToSideMenu("Suggestions", FontImage.MATERIAL_LIST, e -> {
             Form recommandationListForm = (new RecommandationsListView(3000, 200, 200, form)).getContainer();
             recommandationListForm.show();
+        });
+        tb.addMaterialCommandToSideMenu("Add Feedback", FontImage.MATERIAL_FEEDBACK, e -> {
+            new FeedbackView(firstForm).getF().show();
         });
         tb.addMaterialCommandToSideMenu("Blocks", FontImage.MATERIAL_BLOCK, e -> {
             (new BlockListView(form, MemberId)).getForm().show();

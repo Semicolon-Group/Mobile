@@ -73,8 +73,10 @@
     <image name="Dialog.borderTopR_1.png" type="multi"  />
     <image name="dislike.png"  />
     <image name="edit_black.png"  />
+    <image name="feedback.png"  />
     <image name="Laugh.png"  />
     <image name="like.png"  />
+    <image name="load.png"  />
     <image name="loading.png"  />
     <image name="loading_cover.png"  />
     <image name="loading_img.png"  />
@@ -103,6 +105,7 @@
     <image name="profile_photo.png"  />
     <image name="rating-star.png"  />
     <image name="remove.png"  />
+    <image name="report.png"  />
     <image name="round.png" type="multi"  />
     <image name="Scowl.png"  />
     <image name="sliderBlueCenter.png" type="multi"  />
