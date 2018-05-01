@@ -45,8 +45,8 @@ public class OtherProfileView {
                 Dialog i = new InfiniteProgress().showInifiniteBlocking();
                 LikeService.getInstance().doLike(MyApplication.MemberId, memberId);
                 LikesListView.update();
-                (new OtherProfileView(parentForm, memberId)).getForm().show();
                 i.dispose();
+                (new OtherProfileView(parentForm, memberId)).getForm().show();
             });
         }else{
             form.getToolbar().addCommandToOverflowMenu("Chat", MyApplication.theme.getImage("chat.png"), (e) -> {
@@ -56,8 +56,8 @@ public class OtherProfileView {
                 Dialog i = new InfiniteProgress().showInifiniteBlocking();
                 LikeService.getInstance().disLike(MyApplication.MemberId, memberId);
                 LikesListView.update();
-                (new OtherProfileView(parentForm, memberId)).getForm().show();
                 i.dispose();
+                (new OtherProfileView(parentForm, memberId)).getForm().show();
             });
         }
         form.getToolbar().addCommandToOverflowMenu("Block", MyApplication.theme.getImage("block.png"), (e) -> {
