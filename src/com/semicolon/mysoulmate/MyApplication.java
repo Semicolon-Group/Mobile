@@ -11,6 +11,7 @@ import com.codename1.io.Log;
 import com.codename1.ui.Toolbar;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.gui.AnswerView;
+import com.semicolon.gui.Listquestion;
 import com.semicolon.gui.NotificationView;
 
 /**
@@ -19,6 +20,7 @@ import com.semicolon.gui.NotificationView;
  */
 public class MyApplication {
 
+   public static  int id=2;
     private Form current;
     private Resources theme;
 
@@ -37,10 +39,13 @@ public class MyApplication {
             current.show();
             return;
         }
+        
 //        AnswerView v = new AnswerView(theme);
 //        v.getFormAffichage().show();
-        NotificationView n=new NotificationView(theme);
-        n.getFormAffichage().show();
+        Listquestion a = new Listquestion(theme,id);
+        a.getF().show();
+//        NotificationView n=new NotificationView(theme);
+//        n.getFormAffichage().show();
     }
 
     public void stop() {
