@@ -64,8 +64,8 @@ public class OtherProfileView {
             Dialog i = new InfiniteProgress().showInifiniteBlocking();
             BlockService.getInstance().blockUser(6, 12);
             LikesListView.update();
-            parentForm.showBack();
             i.dispose();
+            parentForm.showBack();
         });
         form.getToolbar().addCommandToOverflowMenu("Report", MyApplication.theme.getImage("report.png"), (e) -> {
             new SignalView(form, memberId).getF().show();

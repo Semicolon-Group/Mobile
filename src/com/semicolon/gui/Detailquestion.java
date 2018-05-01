@@ -50,6 +50,7 @@ import com.codename1.ui.CheckBox;
 import com.codename1.ui.animations.BubbleTransition;
 import com.semicolon.entity.Choice;
 import com.semicolon.entity.Question;
+import com.semicolon.mysoulmate.MyApplication;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -65,10 +66,16 @@ public class Detailquestion {
     Form f ;
     public static int id;
     public static int choix;
+    private Form parentForm;
 
-    public Detailquestion(Resources theme,int id,String nom,int idu) {
+    public Detailquestion(Form parentForm,int id,String nom,int idu) {
+        this.parentForm = parentForm;
         UIBuilder ui = new UIBuilder();
-        f = ui.createContainer(theme, "listquestion").getComponentForm();
+        Resources themeH = UIManager.initFirstTheme("/theme_h");
+        f = ui.createContainer(themeH, "listquestion").getComponentForm();
+        f.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ev) -> {
+            parentForm.showBack();
+        });
          ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/mysoulmate/web/app_dev.php/service/answer/quest?id=" + id);
         con.addResponseListener(new ActionListener<NetworkEvent>() {
@@ -111,7 +118,7 @@ public class Detailquestion {
                     +"&id_question="+id
                     +"&id_user="+idu;
             System.out.println(url);
-            Listquestion aa = new Listquestion(theme,idu);
+            Listquestion aa = new Listquestion(f,idu);
             aa.getF().show();
             f.refreshTheme();
                 ConnectionRequest con2 = new ConnectionRequest(url);
@@ -139,7 +146,7 @@ public class Detailquestion {
       
         });
     f.refreshTheme();
-                setBackCommand(f, theme);
+                setBackCommand(f, themeH);
             }
         });
             NetworkManager.getInstance().addToQueue(con);
@@ -155,7 +162,7 @@ protected void setBackCommand(Form f, Resources theme) {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                Listquestion list = new Listquestion(theme,id);
+                Listquestion list = new Listquestion(parentForm,id);
                 list.getF().show();
             }
 
