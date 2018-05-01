@@ -39,6 +39,7 @@ import java.util.List;
 import java.util.Map;
 import com.codename1.ui.Form;
 import com.semicolon.entity.Question;
+import com.semicolon.mysoulmate.MyApplication;
 import java.util.Arrays;
 
 /**
@@ -48,13 +49,19 @@ import java.util.Arrays;
 public class Listquestion {
     Form f;
     public static int idd;
-    public Listquestion(Resources theme,int id)
+    
+    private Form parentForm;
+    
+    public Listquestion(Form parentForm,int id)
     {
         
-       
+       this.parentForm = parentForm;
     UIBuilder ui = new UIBuilder();
-        f = ui.createContainer(theme, "listquestion").getComponentForm();
-
+    Resources themeH = UIManager.initFirstTheme("/theme_h");
+        f = ui.createContainer(themeH, "listquestion").getComponentForm();
+        f.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ev) -> {
+            parentForm.showBack();
+        });
         ConnectionRequest con = new ConnectionRequest();
         con.setUrl("http://localhost/mysoulmate/web/app_dev.php/service/answer/question");
      
@@ -131,7 +138,7 @@ f.getToolbar().addCommandToRightBar("", searchIcon, (e) -> {
                          
                               //  Dialog.show("Authentification", lv1.getNom(), "Ok", null);
                               Detailquestion crois;
-                              crois = new Detailquestion(theme,lv1.getId(),lv1.getQuestion(),id);
+                              crois = new Detailquestion(f,lv1.getId(),lv1.getQuestion(),id);
                               crois.getF().show();
                              
                       
@@ -150,15 +157,15 @@ f.getToolbar().addCommandToRightBar("", searchIcon, (e) -> {
         NetworkManager.getInstance().addToQueue(con);
 
         
-        f.getToolbar().addCommandToSideMenu("Notification", null, new ActionListener() {
+        /*f.getToolbar().addCommandToSideMenu("Notification", null, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-               NotificationView a = new NotificationView(theme,id);
+               NotificationView a = new NotificationView(f,id);
                  a.getF().show();
                  
             }
-        });
+        });*/
         /*
          f.getToolbar().addCommandToSideMenu("Mes cours", null, new ActionListener() {
 

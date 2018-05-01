@@ -95,10 +95,10 @@ public class MyApplication {
             new InscriptionView().getF().show();
         });
         tb.addMaterialCommandToSideMenu("Notifications", FontImage.MATERIAL_NOTIFICATIONS, e -> {
-            new NotificationView(theme, MemberId).getF().show();
+            new NotificationView(firstForm, MemberId).getF().show();
         });
         tb.addMaterialCommandToSideMenu("Quiz", FontImage.MATERIAL_HELP, e -> {
-            new Listquestion(theme, MemberId).getF().show();
+            new Listquestion(firstForm, MemberId).getF().show();
         });
         tb.addMaterialCommandToSideMenu("Suggestions", FontImage.MATERIAL_LIST, e -> {
             Form recommandationListForm = (new RecommandationsListView(3000, 200, 200, form)).getContainer();
