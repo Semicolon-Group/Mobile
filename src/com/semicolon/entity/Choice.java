@@ -1,14 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.semicolon.entity;
 
-/**
- *
- * @author vaider
- */
 public class Choice {
     private int id;
     private int questionId;
@@ -50,7 +41,37 @@ public class Choice {
     public void setChoice(String choice) {
         this.choice = choice;
     }
-    
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Choice other = (Choice) obj;
+        if (this.id != other.id) {
+            return false;
+        }
+        if (this.questionId != other.questionId) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Choice{" + "id=" + id + ", questionId=" + questionId + ", choice=" + choice + '}';
+    }
     
 }
