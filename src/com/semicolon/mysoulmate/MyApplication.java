@@ -18,6 +18,7 @@ import com.pofper.maps.entity.Point;
 import com.semicolon.gui.BlockListView;
 import com.semicolon.gui.FeedbackView;
 import com.semicolon.gui.InscriptionView;
+import com.semicolon.gui.Login1;
 import com.semicolon.gui.NewsfeedView;
 import com.semicolon.gui.OtherProfileView;
 import com.semicolon.gui.ProfileView;
@@ -33,9 +34,9 @@ public class MyApplication {
 
     private Form current;
     public static Resources theme;
-    public static int onlineId = 6;
+    public static int onlineId = 3;
     public static Form firstForm;
-    public static int MemberId = 6;
+    public static int MemberId = 2;
 
     public void init(Object context) {
         theme = UIManager.initFirstTheme("/theme");
@@ -65,6 +66,11 @@ public class MyApplication {
             Form profileForm = (new ProfileView(firstForm, MemberId)).getContainer();
             profileForm.show();
         });
+        tb.addMaterialCommandToSideMenu("Profile", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
+            Form sss= (new Login1().getContainer());
+            sss.show();
+        });
+        
         tb.addMaterialCommandToSideMenu("Inscription", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
             new InscriptionView().getF().show();
         });

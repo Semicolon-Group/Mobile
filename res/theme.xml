@@ -102,7 +102,9 @@
     <image name="OKGR.borderTopR_1.png" type="multi"  />
     <image name="photos.png"  />
     <image name="profile_photo.png"  />
+    <image name="r.png"  />
     <image name="rating-star.png"  />
+    <image name="rb.png"  />
     <image name="remove.png"  />
     <image name="report.png"  />
     <image name="round.png" type="multi"  />

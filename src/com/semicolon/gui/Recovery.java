@@ -28,16 +28,26 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.codename1.io.JSONParser;
 import com.codename1.ui.Command;
+import com.codename1.ui.EncodedImage;
+import com.codename1.ui.FontImage;
+import com.codename1.ui.Image;
 import com.codename1.ui.Toolbar;
+import com.codename1.ui.URLImage;
 import com.codename1.ui.layouts.BorderLayout;
+import com.codename1.ui.plaf.Style;
+import com.codename1.ui.plaf.UIManager;
+import com.codename1.ui.util.Resources;
 import com.codename1.ui.util.SwipeBackSupport;
 import java.util.Map;
 import com.semicolon.entity.Message;
 import com.semicolon.service.MessageService;
 import java.util.Timer;
 import com.codename1.ui.util.UITimer;
+import com.semicolon.entity.Photo;
 import com.semicolon.mysoulmate.MyApplication;
+import com.semicolon.service.PhotoService;
 import static java.lang.Thread.sleep;
+import java.util.HashMap;
 
 /**
  *
@@ -49,7 +59,7 @@ public class Recovery {
     public static int thrd = 1;
     public static int receiver;
     static Form mySoulMate;
-    public static int MEMBER_ID ;
+    public static int MEMBER_ID;
     Container conty;
     Container contx;
     Container cntt;
@@ -62,16 +72,18 @@ public class Recovery {
     Button ok;
     public static List<Message> old;
     public static List<Message> nnn;
+    private Image roundedMeImage;
+    private Resources theme;
+    static List<Message> Mawjoud;
 
     public void setReceiverId(int id, int thrd) {
-        this.receiver = 3;
+        this.receiver = id;
         this.thrd = thrd;
-        this.MEMBER_ID = 2 ;
+        this.MEMBER_ID = MyApplication.onlineId;
         Go();
-
-        initiatefield(thrd, id, MEMBER_ID);
+        initiatefield(thrd, receiver, MEMBER_ID);
         MyThread2 thr = new MyThread2();
-        refresherTimer.timer(3000, true, thr);
+        refresherTimer.timer(10000, true, thr);
 
     }
 
@@ -94,6 +106,46 @@ public class Recovery {
         chatArea.animateLayoutAndWait(300);
         chatArea.scrollComponentToVisible(t);
         return t;
+    }
+
+    private Component respond(Container chatArea, String text, Image roundedHimOrHerImage) {
+        Component answer = respondNoLayout(chatArea, text, roundedHimOrHerImage);
+        answer.setX(chatArea.getWidth());
+        answer.setWidth(chatArea.getWidth());
+        answer.setHeight(40);
+        chatArea.animateLayoutAndWait(300);
+        chatArea.scrollComponentToVisible(answer);
+        return answer;
+    }
+
+    private Component respondYsar(Container chatArea, String text, Image roundedHimOrHerImage) {
+        Component answer = respondNoLayoutYsar(chatArea, text, roundedHimOrHerImage);
+        answer.setX(chatArea.getWidth());
+        answer.setWidth(chatArea.getWidth());
+        answer.setHeight(40);
+        chatArea.animateLayoutAndWait(300);
+        chatArea.scrollComponentToVisible(answer);
+        return answer;
+    }
+
+    private Component respondNoLayout(Container chatArea, String text, Image roundedHimOrHerImage) {
+        SpanLabel answer = new SpanLabel(text);
+        answer.setIcon(roundedHimOrHerImage);
+        answer.setIconPosition(BorderLayout.EAST);
+        answer.setTextUIID("BubbleThem");
+        answer.setTextBlockAlign(Component.RIGHT);
+        chatArea.addComponent(answer);
+        return answer;
+    }
+
+    private Component respondNoLayoutYsar(Container chatArea, String text, Image roundedHimOrHerImage) {
+        SpanLabel answer = new SpanLabel(text);
+        answer.setIcon(roundedHimOrHerImage);
+        answer.setIconPosition(BorderLayout.WEST);
+        answer.setTextUIID("BubbleThem");
+        answer.setTextBlockAlign(Component.LEFT);
+        chatArea.addComponent(answer);
+        return answer;
     }
 
     private Component sayYsar(Container chatArea, String text) {
@@ -123,9 +175,35 @@ public class Recovery {
     }
 
     public Recovery() {
+      
     }
 
+    private Image mask;
+    private EncodedImage roundPlaceholder;
+    private static EncodedImage userPlaceholder;
+    Photo ProfilePhoto;
+    Photo ProfilePhotoR;
+    static Image roundedHimOrHerImageHIM;
+    static Image roundedHimOrHerImageME;
+    static EncodedImage roundPlaceholder2;
+
     public void Go() {
+        Mawjoud = new ArrayList<>();
+
+        theme = UIManager.initFirstTheme("/theme");
+        ProfilePhoto = PhotoService.getInstance().getProfilePhoto(MEMBER_ID);
+        ProfilePhotoR = PhotoService.getInstance().getProfilePhoto(receiver);
+
+        Style iconFontStyle = UIManager.getInstance().getComponentStyle("LargeIconFont");
+        FontImage fnt = FontImage.create(" \ue80f ", iconFontStyle);
+        userPlaceholder = fnt.toEncodedImage();
+        mask = theme.getImage("r.png");
+        roundPlaceholder = EncodedImage.createFromImage(userPlaceholder.scaled(mask.getWidth(), mask.getHeight()).applyMask(mask.createMask()), false);
+        roundPlaceholder2 = EncodedImage.createFromImage(userPlaceholder.scaled(mask.getWidth(), mask.getHeight()).applyMask(mask.createMask()), false);
+
+        roundedHimOrHerImageME = getRoundedFriendImage("pllfsqdqsdqsd3332", ProfilePhoto.getPhotoUri());
+        roundedHimOrHerImageHIM = getRoundedFriendImage("89qddsfsdsddfs562", ProfilePhotoR.getPhotoUri());
+
         chatForm = new Form();
         chatForm.setLayout(new BorderLayout());
         Toolbar tb = new Toolbar();
@@ -138,18 +216,28 @@ public class Recovery {
         chatForm.addComponent(BorderLayout.CENTER, chatArea);
 
         chatForm.addComponent(BorderLayout.SOUTH, write);
-
+        chatArea.addPullToRefresh(new Runnable() {
+            @Override
+            public void run() {
+                 initiatefield(thrd, receiver, MEMBER_ID);
+        MyThread2 thr = new MyThread2();
+        refresherTimer.timer(10000, true, thr);
+            }
+        });
         write.addActionListener((e) -> {
-            if (write.getText() == "") {
+            if (write.getText() == "" || write.getText() == null) {
                 return;
             } else {
+
                 String text = write.getText();
-                final Component t = say(chatArea, text);
+                final Component t = respond(chatArea, text, roundedHimOrHerImageME);
 
                 Message msg = new Message();
+
                 msg.setContent(write.getText());
                 msg.setSenderId(MEMBER_ID);
                 msg.setReceiverId(receiver);
+                Mawjoud.add(msg);
                 write.setText("");
                 MessageService.getInstance().SendMSg(msg);
 
@@ -162,12 +250,30 @@ public class Recovery {
     public void show() {
 
     }
+    private final HashMap<String, EncodedImage> roundedImagesOfFriends = new HashMap<>();
+
+    private EncodedImage getRoundedFriendImage(String uid, String imageUrl) {
+        EncodedImage roundedHimOrHerImage = roundedImagesOfFriends.get(uid);
+        if (roundedHimOrHerImage == null) {
+            roundedHimOrHerImage = URLImage.createToStorage(roundPlaceholder, "rounded" + uid, imageUrl, URLImage.createMaskAdapter(mask));
+            roundedImagesOfFriends.put(uid, roundedHimOrHerImage);
+        }
+        return roundedHimOrHerImage;
+    }
+
+    private EncodedImage getRoundedFriendImage2(String uid, String imageUrl) {
+        EncodedImage roundedHimOrHerImage = roundedImagesOfFriends.get(uid);
+        if (roundedHimOrHerImage == null) {
+            roundedHimOrHerImage = URLImage.createToStorage(roundPlaceholder2, "rounded" + uid, imageUrl, URLImage.createMaskAdapter(mask));
+            roundedImagesOfFriends.put(uid, roundedHimOrHerImage);
+        }
+        return roundedHimOrHerImage;
+    }
 
     public void initiatefield(int thrd, int senderId, int receiverId) {
 
         Message msg = new Message();
         msg.setId(thrd);
-        System.out.println(thrd);
         List<Message> msgs = MessageService.getInstance().getAll(msg);
         setOld(msgs);
 
@@ -176,19 +282,19 @@ public class Recovery {
 
             SpanLabel t = new SpanLabel(text);
             if (c.getSenderId() == MEMBER_ID) {
-                t.setTextBlockAlign(Component.RIGHT);
-                chatArea.addComponent(t);
-                t.setY(chatArea.getHeight());
-                t.setWidth(chatArea.getWidth());
-                t.setHeight(40);
-                chatForm.scrollComponentToVisible(t);
+                Component answer = respondNoLayout(chatArea, text, roundedHimOrHerImageME);
+                answer.setX(chatArea.getWidth());
+                answer.setWidth(chatArea.getWidth());
+                answer.setHeight(40);
+
+                chatArea.scrollComponentToVisible(answer);
             } else {
-                t.setTextBlockAlign(Component.LEFT);
-                chatArea.addComponent(t);
-                t.setY(chatArea.getHeight());
-                t.setWidth(chatArea.getWidth());
-                t.setHeight(40);
-                chatForm.scrollComponentToVisible(t);
+                Component answer = respondNoLayoutYsar(chatArea, text, roundedHimOrHerImageHIM);
+                answer.setX(chatArea.getWidth());
+                answer.setWidth(chatArea.getWidth());
+                answer.setHeight(40);
+
+                chatArea.scrollComponentToVisible(answer);
             }
             chatForm.scrollComponentToVisible(t);
 
@@ -198,33 +304,25 @@ public class Recovery {
 
     public void Update(List<Message> msges, int thrd, int senderId, int receiverId) {
 
-        System.out.println("=======================================================================");
-
         for (Message c : msges) {
             String text = c.getContent();
-            System.out.println(text);
 
             SpanLabel t = new SpanLabel(text);
-            if (c.getSenderId() == MEMBER_ID) {
+            if (c.getSenderId() == MEMBER_ID || Mawjoud.equals(msges)) {
                 return;
             } else {
-                t.setTextBlockAlign(Component.LEFT);
-                chatArea.addComponent(t);
-                t.setY(chatArea.getHeight());
-                t.setWidth(chatArea.getWidth());
-                t.setHeight(40);
+                final Component tx = respondYsar(chatArea, text, roundedHimOrHerImageHIM);
 
             }
 
             chatForm.scrollComponentToVisible(t);
-            MyThread2 thr = new MyThread2();
-            refresherTimer.timer(3000, true, thr);
+           
 
         }
         chatForm.scrollComponentToVisible(chatArea);
 
         try {
-            sleep(1000);
+            sleep(500);
         } catch (InterruptedException ex) {
         }
 
@@ -234,7 +332,6 @@ public class Recovery {
 
         Message msg = new Message();
         msg.setId(thrd);
-        System.out.println(thrd);
         List<Message> msgs = MessageService.getInstance().getAll(msg);
         return msgs;
     }
@@ -255,16 +352,13 @@ public class Recovery {
 
             Recovery rc = new Recovery();
             MyThread2 thr = new MyThread2();
-            System.out.println("jdid size" + rc.nnn.size());
-            System.out.println("9dim size" + rc.old.size());
+
             if (rc.nnn.size() > rc.old.size()) {
-                
 
                 rc.nnn.removeAll(rc.old);
-                
+
                 rc.Update(rc.nnn, rc.thrd, rc.MEMBER_ID, rc.receiver);
                 rc.old = rc.refresh(rc.thrd);
-                
 
             } else {
 

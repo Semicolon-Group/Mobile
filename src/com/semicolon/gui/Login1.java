@@ -197,6 +197,9 @@ public class Login1 {
 
     }
 
+      public Form getContainer(){
+        return mySoulMate;
+    }
     public void show() {
         mySoulMate.show();
     }
