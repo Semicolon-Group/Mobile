@@ -6,20 +6,26 @@
 package com.semicolon.gui;
 
 import com.codename1.components.ImageViewer;
+import com.codename1.components.InfiniteProgress;
+import com.codename1.components.InteractionDialog;
 import com.codename1.components.SpanLabel;
+import com.codename1.io.Storage;
 import com.codename1.ui.Button;
 import com.codename1.ui.Component;
 import com.codename1.ui.Container;
+import com.codename1.ui.Dialog;
 import com.codename1.ui.Font;
 import static com.codename1.ui.Font.FACE_SYSTEM;
 import static com.codename1.ui.Font.SIZE_MEDIUM;
 import static com.codename1.ui.Font.SIZE_SMALL;
 import static com.codename1.ui.Font.STYLE_PLAIN;
+import static com.codename1.ui.Font.STYLE_BOLD;
 import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.Image;
 import com.codename1.ui.TextField;
 import com.codename1.ui.geom.Dimension;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.plaf.Border;
 import com.semicolon.entity.Comment;
@@ -29,6 +35,7 @@ import com.semicolon.entity.Enumerations.ReactionType;
 import com.semicolon.entity.Post;
 import static com.semicolon.mysoulmate.MyApplication.onlineId;
 import com.semicolon.service.CommentService;
+import com.semicolon.service.FacebookShare;
 import com.semicolon.service.PhotoService;
 import com.semicolon.service.PostService;
 import com.semicolon.service.ReactionService;
@@ -102,15 +109,64 @@ public class PostView {
 	    }
 	    postContainer.add(postReactions).add(reactionBox);
 	}
-	/* Delete Button */
+	/* Delete & Share Buttons*/
 	if(p.getUserId() == onlineId && p.getType() == PostType.STATUS.ordinal()){
-	    Button deleteBtn = new Button("Delete Post");
+	    Container shareDelete = new Container(BoxLayout.x());
+	    /* Delete */
+	    Button deleteBtn = new Button();
 	    deleteBtn.addActionListener(e -> {
 		PostService.getInstance().delete(p.getId());
 		form.removeComponent(postContainer);
 		form.revalidate();
 	    });
-	    postContainer.add(deleteBtn);
+	    Label deleteLabel = new Label("Delete post");
+	    deleteLabel.getAllStyles().setFont(Font.createSystemFont(FACE_SYSTEM, STYLE_BOLD, SIZE_SMALL));
+	    deleteLabel.getAllStyles().setUnderline(true);
+	    deleteLabel.getAllStyles().setFgColor(0xFF0000);
+	    Container deleteContainer = new Container(BoxLayout.x());
+	    deleteContainer.add(deleteLabel);
+	    deleteContainer.setLeadComponent(deleteBtn);
+	    shareDelete.add(deleteContainer);
+	    /* Share */
+	    Button shareBtn = new Button();
+	    shareBtn.addActionListener(e -> {
+		FacebookShare fb = new FacebookShare((String) Storage.getInstance().readObject("token"));
+		Dialog ip = new InfiniteProgress().showInifiniteBlocking();
+		try {
+		    if(fb == null)
+			throw new IOException();
+		    fb.share(p.getContent());
+		    ip.dispose();
+		    InteractionDialog dlg = new InteractionDialog("Notification");
+		    dlg.setLayout(new BorderLayout());
+		    dlg.add(BorderLayout.CENTER, new SpanLabel("Post shared successfully!"));
+		    Button close = new Button("OK");
+		    close.addActionListener((ee) -> dlg.dispose());
+		    dlg.addComponent(BorderLayout.SOUTH, close);
+		    Dimension pre = dlg.getContentPane().getPreferredSize();
+		    dlg.show(50, 100, 30, 30);
+		} catch (IOException ex) {
+		    ip.dispose();
+		    InteractionDialog dlg = new InteractionDialog("Notification");
+		    dlg.setLayout(new BorderLayout());
+		    dlg.add(BorderLayout.CENTER, new SpanLabel("Sharing failed.\nNo internet or you haven't logged in with facebook yet."));
+		    Button close = new Button("OK");
+		    close.addActionListener((ee) -> dlg.dispose());
+		    dlg.addComponent(BorderLayout.SOUTH, close);
+		    Dimension pre = dlg.getContentPane().getPreferredSize();
+		    dlg.show(50, 100, 30, 30);
+		}
+	    });
+	    Label shareLabel = new Label("Share post");
+	    shareLabel.getAllStyles().setFont(Font.createSystemFont(FACE_SYSTEM, STYLE_BOLD, SIZE_SMALL));
+	    shareLabel.getAllStyles().setUnderline(true);
+	    shareLabel.getAllStyles().setFgColor(0x00FF00);
+	    Container shareContainer = new Container(BoxLayout.x());
+	    shareContainer.add(shareLabel);
+	    shareContainer.setLeadComponent(shareBtn);
+	    shareDelete.add(shareContainer);
+	    
+	    postContainer.add(shareDelete);
 	}
         /* Comments */
 	    /* New Comment */
