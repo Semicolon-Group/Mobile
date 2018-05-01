@@ -45,9 +45,10 @@ public class MyApplication {
 
     private Form current;
     public static Resources theme;
-    public static int onlineId = 2;
+    public static int onlineId = 6;
     public static Form firstForm;
-    public static int MemberId = 2;
+    public static int MemberId = 6;
+    private static MyApplication instance;
 
     public void init(Object context) {
         theme = UIManager.initFirstTheme("/theme");
@@ -65,11 +66,12 @@ public class MyApplication {
             return;
         }
 	
-        firstForm = (new NewsfeedView()).getForm();
+        firstForm = new Login1().getContainer();
 	
-	Storage.getInstance().writeObject("token", "EAACEdEose0cBADsAitVywYvixt7n6ESNTzmQHbWdG096cg9wvO0xlj3rZBHXWaQeyE5uqPzO9RgClmSt5w5ABKs6wUZA0UqZCsXULi6cZA73r23jtqxuylePWTpHpRQcAFOItRWNJ2QTX3JMxVTHsYw57B1lYs7VVkZCuY4kxT0ETkjwLMn0iln9M6Ipq8kIZD");
+	//Storage.getInstance().writeObject("token", "EAACEdEose0cBADsAitVywYvixt7n6ESNTzmQHbWdG096cg9wvO0xlj3rZBHXWaQeyE5uqPzO9RgClmSt5w5ABKs6wUZA0UqZCsXULi6cZA73r23jtqxuylePWTpHpRQcAFOItRWNJ2QTX3JMxVTHsYw57B1lYs7VVkZCuY4kxT0ETkjwLMn0iln9M6Ipq8kIZD");
 
         firstForm.show();
+        instance = this;
     }
 
     public void stop() {
@@ -107,9 +109,6 @@ public class MyApplication {
 	tb.addMaterialCommandToSideMenu("Matching", FontImage.MATERIAL_SEARCH, e -> {
             new MatchingView().getForm().show();
         });
-        tb.addMaterialCommandToSideMenu("Inscription", FontImage.MATERIAL_ACCOUNT_CIRCLE, e -> {
-            new InscriptionView().getF().show();
-        });
         tb.addMaterialCommandToSideMenu("Notifications", FontImage.MATERIAL_NOTIFICATIONS, e -> {
             new NotificationView(firstForm, MemberId).getF().show();
         });
@@ -132,21 +131,8 @@ public class MyApplication {
             m.setLastLogin(new Date());
 
             MemberId = 0;
-            stop();
+            instance.stop();
 
         });
-
-        firstForm.show();
-    }
-
-    public void stop() {
-        current = getCurrentForm();
-        if (current instanceof Dialog) {
-            ((Dialog) current).dispose();
-            current = getCurrentForm();
-        }
-    }
-
-    public void destroy() {
     }
 }

@@ -27,6 +27,7 @@ import com.pofper.maps.api.GooglePlacesApi;
 import com.pofper.maps.entity.Address;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.UserR;
+import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.InscriptionService;
 import java.util.ArrayList;
 import java.util.List;
@@ -73,10 +74,15 @@ public class InscriptionView {
     private com.semicolon.entity.Address selectedAddress;
     private TextField aboutField;
     private boolean selected;
+    private Form parentForm;
 
 //    Picker body;
-    public InscriptionView() {
+    public InscriptionView(Form parentForm) {
+        this.parentForm = parentForm;
         f = new Form("Inscription", BoxLayout.y());
+        f.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ev) -> {
+            parentForm.showBack();
+        });
         tfirstname = new TextField();
         tfirstname.setHint("Firstname");
         Label labelname = new Label();
@@ -557,8 +563,11 @@ public class InscriptionView {
 
             InscriptionService ins = new InscriptionService();
             UserR utilis = new UserR(tpseudo.getText(), tfirstname.getText(), tlastname.getText(), email.getText(), password.getText(), tabout.getText(), Integer.parseInt(tphone.getText()), maleRadio.isSelected(), smokerRadio.isSelected(), DrinkerRadio.isSelected(), date, u1.getBodyType(), Integer.parseInt(tchildrennbr.getText()), Integer.parseInt(tminage.getText()), Integer.parseInt(tmaxage.getText()), u1.getReligion(), u1.getReligionImportance(), u1.getMaritalStatus(), Float.parseFloat(Height.getText()));
-            
+            utilis.setAddress(selectedAddress);
             ins.Inscription(utilis);
+            Login1 log = new Login1();
+            log.getContainer().showBack();
+            log.Log(tfirstname.getText(), tlastname.getText());
 //            Mail sm = new Mail(u1.getEmail(), " Confirmation d'inscription ", " Bonjour " + u1.getFirstname() + "Felicitations! Vous etes maintenant inscrit à MySoulMate");
 //                            try {
 //               

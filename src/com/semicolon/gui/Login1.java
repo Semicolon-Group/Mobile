@@ -98,7 +98,7 @@ public class Login1 {
     int mem;
     Member user;
     Member member;
-    Database database ;
+    Database database;
 
     /**
      *
@@ -106,7 +106,7 @@ public class Login1 {
      */
     private void populateBd() {
         try {
-             database = Database.openOrCreate("mysoulmate");
+            database = Database.openOrCreate("mysoulmate");
             database.execute("create table if not exists user (login text, password text);");
             String deleteQuery = "delete from user";
             database.execute(deleteQuery);
@@ -119,21 +119,20 @@ public class Login1 {
 
     private void getMemberFromLocal() {
         try {
-             database = Database.openOrCreate("mysoulmate");
+            database = Database.openOrCreate("mysoulmate");
             Cursor c = database.executeQuery("select * from user");
-           while( c.next())
-           {
-            Row r = c.getRow();
-            loginField.setText(r.getString(0));
-            mdpField.setText(r.getString(1));
-           }
+            while (c.next()) {
+                Row r = c.getRow();
+                loginField.setText(r.getString(0));
+                mdpField.setText(r.getString(1));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public Login1() {
-        
+
         Random r = new Random();
         r.setSeed(12151532);
         String token = (r.toString()).substring(17);
@@ -176,13 +175,13 @@ public class Login1 {
             });
             tokenconfirm.addActionListener(rrr -> {
 
-                System.out.println("Old password :"+user.getPassword());
+                System.out.println("Old password :" + user.getPassword());
                 if (tokentext.getText() == token && newpw.getText() != "") {
                     user.setPassword(newpw.getText());
                     MemberService.getInstance().editMemeber(user);
                 }
                 Member l = MemberService.getInstance().getMember(mem);
-                System.out.println("New password :" +l.getPassword());
+                System.out.println("New password :" + l.getPassword());
 
             });
 
@@ -199,54 +198,12 @@ public class Login1 {
         });
 
         confirmerBtn.addActionListener(e -> {
-            connectionRequest = new ConnectionRequest();
-            connectionRequest.setPost(false);
-            connectionRequest.setUrl(url + loginField.getText() + "-" + mdpField.getText());
-            connectionRequest.addResponseListener(a -> {
-
-                try {
-                    String resultat = new String(connectionRequest.getResponseData());
-
-                    JSONArray jsonarray = new JSONArray(resultat);
-                    for (int i = 0; i < jsonarray.length(); i++) {
-                        JSONObject jsonobject = jsonarray.getJSONObject(i);
-                        String name = jsonobject.getString("firstname");
-                        String url = jsonobject.getString("lastname");
-                        final int id = jsonobject.getInt("id");
-                        MEMBER_ID = id;
-                    }
-                    if (MEMBER_ID != 0) {
-                        populateBd();
-
-                        MyApplication.MemberId = MEMBER_ID;
-                        Member m = MemberService.getInstance().getMember(MEMBER_ID);
-                        m.setConnected(true);
-                        m.setLastLogin(new Date());
-
-                        MemberService.getInstance().editMemeber(m);
-                        MyApplication mm = new MyApplication();
-                        mm.start();
-                        MyApplication.MemberId = MEMBER_ID;
-
-                    } else {
-                        Dialog.show("Wrong credentials", "Error", "OK", "Cancel");
-
-                    }
-
-                } catch (JSONException ex) {
-
-                }
-
-            });
-            NetworkManager.getInstance().addToQueueAndWait(connectionRequest);
+            LoginAction();
         });
         fbButton.addActionListener(e -> {
             FBLogin6 fb = new FBLogin6();
             fb.start();
 
-        });
-        registerBtn.addActionListener(register -> {
-            new InscriptionView().getF().show();
         });
 
         loginContainer = new Container(BoxLayout.y());
@@ -257,10 +214,63 @@ public class Login1 {
         loginContainer.add(fbButton);
 
         loginContainer.add(recoverButton);
-getMemberFromLocal();
+        getMemberFromLocal();
         mySoulMate = new Form("MySoulMate");
+
+        registerBtn.addActionListener(register -> {
+            new InscriptionView(mySoulMate).getF().show();
+        });
         mySoulMate.add(loginContainer);
 
+    }
+
+    private void LoginAction() {
+        connectionRequest = new ConnectionRequest();
+        connectionRequest.setPost(false);
+        connectionRequest.setUrl(url + loginField.getText() + "-" + mdpField.getText());
+        connectionRequest.addResponseListener(a -> {
+
+            try {
+                String resultat = new String(connectionRequest.getResponseData());
+
+                JSONArray jsonarray = new JSONArray(resultat);
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    String name = jsonobject.getString("firstname");
+                    String url = jsonobject.getString("lastname");
+                    final int id = jsonobject.getInt("id");
+                    MEMBER_ID = id;
+                }
+                if (MEMBER_ID != 0) {
+                    populateBd();
+
+                    MyApplication.MemberId = MEMBER_ID;
+                    MyApplication.onlineId = MEMBER_ID;
+                    Member m = MemberService.getInstance().getMember(MEMBER_ID);
+                    m.setConnected(true);
+                    m.setLastLogin(new Date());
+
+                    MemberService.getInstance().editMemeber(m);
+                    new NewsfeedView().getForm().show();
+                    MyApplication.MemberId = MEMBER_ID;
+
+                } else {
+                    Dialog.show("Wrong credentials", "Error", "OK", "Cancel");
+
+                }
+
+            } catch (JSONException ex) {
+
+            }
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(connectionRequest);
+    }
+
+    public void Log(String username, String password) {
+        loginField.setText(username);
+        mdpField.setText(password);
+        LoginAction();
     }
 
     public Form getContainer() {

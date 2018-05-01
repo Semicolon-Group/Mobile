@@ -77,7 +77,7 @@ public class OtherProfileView {
         }
         form.getToolbar().addCommandToOverflowMenu("Block", MyApplication.theme.getImage("block.png"), (e) -> {
             Dialog i = new InfiniteProgress().showInifiniteBlocking();
-            BlockService.getInstance().blockUser(6, 12);
+            BlockService.getInstance().blockUser(MyApplication.MemberId, memberId);
             LikesListView.update();
             i.dispose();
             parentForm.showBack();

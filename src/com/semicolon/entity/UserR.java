@@ -39,6 +39,15 @@ public class UserR {
     private List<RelationType> preferedRelations;
     private List<MaritalStatus> preferedStatuses;
     private float height;
+    private Address address;
+    
+    public void setAddress(Address address){
+        this.address = address;
+    }
+    
+    public Address getAddress(){
+        return this.address;
+    }
 
 
     public UserR() {
