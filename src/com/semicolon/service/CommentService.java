@@ -24,6 +24,7 @@ public class CommentService {
     private List<Comment> list;
     private static CommentService instance;
     private Comment singleComment;
+    private static boolean verif = true;
     
     public static CommentService getInstance(){
         if (instance == null)
@@ -42,6 +43,9 @@ public class CommentService {
             String str = new String(con.getResponseData());
             list = parseComments(str);
         });
+	con.addExceptionListener(e -> {
+	    list = new ArrayList();
+	});
         NetworkManager.getInstance().addToQueueAndWait(con);
         return list;
     }
@@ -77,6 +81,9 @@ public class CommentService {
             String str = new String(con.getResponseData());
             singleComment = parseSingleComment(str);
         });
+	con.addExceptionListener(e -> {
+	    singleComment = null;
+	});
         NetworkManager.getInstance().addToQueueAndWait(con);
 	return singleComment;
     }
@@ -104,10 +111,15 @@ public class CommentService {
         return list.get(0);
     }
 
-    public void delete(int id) {
+    public boolean delete(int id) {
+	verif = true;
 	ConnectionRequest con = new ConnectionRequest();
         String url = "http://localhost/mysoulmate/web/app_dev.php/service/delete_comment?id=" + id;
         con.setUrl(url);
+	con.addExceptionListener(e -> {
+	    verif = false;
+	});
         NetworkManager.getInstance().addToQueueAndWait(con);
+	return verif;
     }
 }

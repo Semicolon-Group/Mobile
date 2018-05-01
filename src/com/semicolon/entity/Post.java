@@ -25,6 +25,7 @@ public class Post {
     private int currReaction;
     private List<Reaction> reactions;
     private List<Comment> comments;
+    private boolean offLine = false;
     
     public Post(){
         reactions = new ArrayList();
@@ -125,6 +126,14 @@ public class Post {
 
     public void setUserPhoto(String userPhoto) {
         this.userPhoto = userPhoto;
+    }
+
+    public boolean isOffLine() {
+	return offLine;
+    }
+
+    public void setOffLine(boolean offLine) {
+	this.offLine = offLine;
     }
     
 

@@ -63,7 +63,8 @@ public class PostView {
         /* Header */
         Container postHeader = new Container(BoxLayout.x());
 	postHeader.getAllStyles().setMarginLeft(5);
-        postHeader.add(PhotoService.getInstance().EmakeImageViewer(p.getUserPhoto()));
+	if(!p.isOffLine())
+	    postHeader.add(PhotoService.getInstance().EmakeImageViewer(p.getUserPhoto()));
         Button goToProfile = new Button();
         goToProfile.addActionListener(e -> {
             if(onlineId != p.getUserId())
@@ -86,7 +87,6 @@ public class PostView {
         }
         else{
             Label img = PhotoService.getInstance().EmakeImageViewerBig(p.getContent());
-	    //img.setPreferredSize(new Dimension(250, 250));
             postContainer.add(img);
         }
         /* Reactions */
@@ -115,9 +115,22 @@ public class PostView {
 	    /* Delete */
 	    Button deleteBtn = new Button();
 	    deleteBtn.addActionListener(e -> {
-		PostService.getInstance().delete(p.getId());
-		form.removeComponent(postContainer);
-		form.revalidate();
+		Dialog ip = new InfiniteProgress().showInifiniteBlocking();
+		if(PostService.getInstance().delete(p.getId())){
+		    form.removeComponent(postContainer);
+		    ip.dispose();
+		    form.revalidate();
+		}else{
+		    ip.dispose();
+		    InteractionDialog dlg = new InteractionDialog("Notification");
+		    dlg.setLayout(new BorderLayout());
+		    dlg.add(BorderLayout.CENTER, new SpanLabel("Error. No internet."));
+		    Button close = new Button("OK");
+		    close.addActionListener((ee) -> dlg.dispose());
+		    dlg.addComponent(BorderLayout.SOUTH, close);
+		    Dimension pre = dlg.getContentPane().getPreferredSize();
+		    dlg.show(50, 100, 30, 30);
+		}
 	    });
 	    Label deleteLabel = new Label("Delete post");
 	    deleteLabel.getAllStyles().setFont(Font.createSystemFont(FACE_SYSTEM, STYLE_BOLD, SIZE_SMALL));
@@ -199,15 +212,28 @@ public class PostView {
 	    btn.getAllStyles().setBorder(Border.createEmpty());
 	}
 	btn.addActionListener(e -> {
-	    ReactionService.getInstance().react(p, type);
-	    for(int i=0; i < 4; i++){
-		btn.getParent().getComponentAt(i).getAllStyles().setBorder(Border.createEmpty());
+	    Dialog ip = new InfiniteProgress().showInifiniteBlocking();
+	    if(ReactionService.getInstance().react(p, type)){
+		for(int i=0; i < 4; i++){
+		    btn.getParent().getComponentAt(i).getAllStyles().setBorder(Border.createEmpty());
+		}
+		if(type.ordinal() != p.getCurrReaction()){
+		    btn.getAllStyles().setBorder(Border.createBevelRaised());
+		    p.setCurrReaction(type.ordinal());
+		}
+		ip.dispose();
+		form.repaint();
+	    }else{
+		ip.dispose();
+		InteractionDialog dlg = new InteractionDialog("Notification");
+		dlg.setLayout(new BorderLayout());
+		dlg.add(BorderLayout.CENTER, new SpanLabel("Error. No Internet."));
+		Button close = new Button("OK");
+		close.addActionListener((ee) -> dlg.dispose());
+		dlg.addComponent(BorderLayout.SOUTH, close);
+		Dimension pre = dlg.getContentPane().getPreferredSize();
+		dlg.show(50, 100, 30, 30);
 	    }
-	    if(type.ordinal() != p.getCurrReaction()){
-		btn.getAllStyles().setBorder(Border.createBevelRaised());
-		p.setCurrReaction(type.ordinal());
-	    }
-	    form.repaint();
 	});
 	return btn;
     }
@@ -228,10 +254,24 @@ public class PostView {
 	btn.addActionListener(e -> {
 	    if(comment.getText().equals(""))
 		return;
+	    Dialog ip = new InfiniteProgress().showInifiniteBlocking();
 	    Comment c = CommentService.getInstance().create(p, comment.getText(), onlineId);
-	    comment.setText("");
-	    postContainer.add(new CommentView(c, postContainer, form).getCommentContainer());
-	    form.revalidate();
+	    if(c != null){
+		comment.setText("");
+		postContainer.add(new CommentView(c, postContainer, form).getCommentContainer());
+		ip.dispose();
+		form.revalidate();
+	    }else{
+		ip.dispose();
+		InteractionDialog dlg = new InteractionDialog("Notification");
+		dlg.setLayout(new BorderLayout());
+		dlg.add(BorderLayout.CENTER, new SpanLabel("Error. No Internet."));
+		Button close = new Button("OK");
+		close.addActionListener((ee) -> dlg.dispose());
+		dlg.addComponent(BorderLayout.SOUTH, close);
+		Dimension pre = dlg.getContentPane().getPreferredSize();
+		dlg.show(50, 100, 30, 30);
+	    }
 	});
 	return btn;
     }

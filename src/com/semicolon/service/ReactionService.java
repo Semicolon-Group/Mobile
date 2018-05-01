@@ -17,6 +17,7 @@ import static com.semicolon.mysoulmate.MyApplication.onlineId;
  */
 public class ReactionService {
     private static ReactionService instance;
+    private static boolean verif = true;
     
     public static ReactionService getInstance(){
         if (instance == null)
@@ -27,10 +28,14 @@ public class ReactionService {
         
     }
     
-    public void react(Post p, ReactionType type){
+    public boolean react(Post p, ReactionType type){
 	ConnectionRequest con = new ConnectionRequest();
         String url = "http://localhost/mysoulmate/web/app_dev.php/service/react?id=" + p.getId() + "&reaction=" + type.ordinal() + "&userId=" + onlineId + "&type=" + p.getType();
         con.setUrl(url);
+	con.addExceptionListener(e -> {
+	    verif = false;
+	});
         NetworkManager.getInstance().addToQueueAndWait(con);
+	return verif;
     }
 }
