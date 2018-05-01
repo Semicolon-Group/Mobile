@@ -18,7 +18,7 @@ public class InscriptionService {
         ConnectionRequest con = new ConnectionRequest();
        
         
-        String Url = "http://localhost/mysoulmate/web/app_dev.php/service/inscription/new?birth=" + u.getBirthDate().substring(0, 10) + "&firstname=" +u.getFirstname() +"&lastname=" +u.getLastname()+"&email="+u.getEmail()+"&password="+u.getPassword()+"&username="+u.getPseudo()+"&about="+ u.getAbout()+"&phone=" +u.getPhone()+"&gender="+u.isGender() +"&smoker="+u.isSmoker() + "&drinker="+u.isDrinker() +"&bodytype="+ u.getBodyType().ordinal() +"&childrennbr="+u.getChildrenNumber()+"&minage="+u.getMinAge()+"&maxage="+u.getMaxAge()+"&relegion="+ u.getReligion().ordinal()+"&relegionImportance="+ u.getReligionImportance().ordinal()+"&civilStatus="+ u.getMaritalStatus().ordinal() +"&height="+u.getHeight();
+        String Url = "http://localhost/mysoulmate/web/app_dev.php/service/inscription/new?city="+u.getAddress().getCity()+"&country="+u.getAddress().getCountry()+"&lat="+u.getAddress().getLatitude()+"&lng="+u.getAddress().getLongitude()+"&birth=" + u.getBirthDate().substring(0, 10) + "&firstname=" +u.getFirstname() +"&lastname=" +u.getLastname()+"&email="+u.getEmail()+"&password="+u.getPassword()+"&username="+u.getPseudo()+"&about="+ u.getAbout()+"&phone=" +u.getPhone()+"&gender="+u.isGender() +"&smoker="+u.isSmoker() + "&drinker="+u.isDrinker() +"&bodytype="+ u.getBodyType().ordinal() +"&childrennbr="+u.getChildrenNumber()+"&minage="+u.getMinAge()+"&maxage="+u.getMaxAge()+"&relegion="+ u.getReligion().ordinal()+"&relegionImportance="+ u.getReligionImportance().ordinal()+"&civilStatus="+ u.getMaritalStatus().ordinal() +"&height="+u.getHeight();
         con.setUrl(Url);
             
 //        System.out.println("tt");

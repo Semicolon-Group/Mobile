@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.codename1.messaging.Message;
 import com.codename1.ui.Display;
+import com.semicolon.mysoulmate.MyApplication;
 
 
 /**
@@ -117,7 +118,6 @@ public class UserForm extends com.codename1.ui.Form {
 
     private void showIfLoggedIn(UserForm form) {
         String token = (String) Storage.getInstance().readObject("token");
-        System.out.println("ACEEESSSS TOKEN "+ token);
         FaceBookAccess.setToken(token);
             final User me = new User();
             //import slfj-1.7.25 w restfb w taw yekhdem jawou behy 
@@ -125,8 +125,7 @@ public class UserForm extends com.codename1.ui.Form {
             
                     FacebookClient facebookClient = new DefaultFacebookClient(token, "490b349f7387626f63ea4b4e2b3d2c2f", Version.LATEST);
             com.restfb.types.User user = facebookClient.fetchObject("me", com.restfb.types.User.class, Parameter.with("fields", "id,about,email,address,birthday,name,picture{url},first_name,last_name"));
-            System.out.println(user.getEmail()+" , "+user.getFirstName()+" , "+user.getLastName()+" ,"+user.getName()
-            +" , "+user.getAgeRange());
+            
             try {
 
                 FaceBookAccess.getInstance().getUser("me",me,  new ActionListener() {
@@ -160,13 +159,10 @@ public class UserForm extends com.codename1.ui.Form {
                         System.out.println(name + "  , " + url + " ; id : " + id);
                     }
                     if (MEMBER_ID != 0) {
-                        Form page2 = new Form("Welcome");
-                        Button back = new Button("Back");
-                        back.addActionListener(b -> {
-                            show();
-                        });
-                        page2.add(back);
-                        page2.show();
+                        
+                        MyApplication mc = new MyApplication();
+                                MyApplication.onlineId=MEMBER_ID;
+                                mc.start();
 
                     } else {
                         Dialog.show("Wrong credentials", "Error", "OK", "Cancel");
@@ -191,8 +187,8 @@ public class UserForm extends com.codename1.ui.Form {
                         background.fetch();
                         ScaleImageLabel myPic = new ScaleImageLabel();
                         myPic.setIcon(background);
-                        form.add(confirmerBtn);
                         form.add(myPic);
+                        form.add(confirmerBtn);
                         form.add(buttonLogout);
                         
                         form.revalidate();
@@ -232,26 +228,7 @@ public class UserForm extends com.codename1.ui.Form {
         fb.setClientId(clientId);
         fb.setRedirectURI(redirectURI);
         fb.setClientSecret(clientSecret);
-        System.out.println("herehhehehehehhe");
-        //Sets a LoginCallback listener
-//        
-//        fb.setCallback(new LoginCallback() {
-//            @Override
-//            public void loginFailed(String errorMessage) {
-//                System.out.println("NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
-//                Storage.getInstance().writeObject("token", "");
-//                showIfNotLoggedIn(form);
-//            }
-//
-//            @Override
-//            public void loginSuccessful() {
-//                System.out.println("YYYYYYYEEEEEEEEEESSSSSSSSS");
-//                String token = fb.getAccessToken().getToken();
-//                Storage.getInstance().writeObject("token", token);
-//                showIfLoggedIn(form);
-//            }
-//            
-//        });
+        
         //trigger the login if not already logged in
         fb.setCallback(null);
         if(!fb.isUserLoggedIn()){

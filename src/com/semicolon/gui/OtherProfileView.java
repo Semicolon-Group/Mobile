@@ -18,13 +18,16 @@ import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Block;
 import com.semicolon.entity.Like;
 import com.semicolon.entity.Member;
+import com.semicolon.entity.Message;
 import com.semicolon.entity.Photo;
 import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.BlockService;
 import com.semicolon.service.LikeService;
 import com.semicolon.service.MemberService;
+import com.semicolon.service.MessageService;
 import com.semicolon.service.PhotoService;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class OtherProfileView {
@@ -50,7 +53,19 @@ public class OtherProfileView {
             });
         }else{
             form.getToolbar().addCommandToOverflowMenu("Chat", MyApplication.theme.getImage("chat.png"), (e) -> {
-                System.out.println("Chat");
+                
+                Dialog i = new InfiniteProgress().showInifiniteBlocking();
+                Message msg=  new Message();
+                msg.setSenderId(MyApplication.onlineId);
+                msg.setReceiverId(memberId);
+               List<Message> cs =  MessageService.getInstance().getAllDirect(msg);
+                           for (Message c  : cs) {
+
+                InstantMessaging rc = new InstantMessaging();
+                rc.setReceiverId(c.getReceiverId(),c.getSenderId());
+                           }
+                ;
+           
             });
             form.getToolbar().addCommandToOverflowMenu("Dislike", MyApplication.theme.getImage("dislike.png"), (e) -> {
                 Dialog i = new InfiniteProgress().showInifiniteBlocking();
@@ -62,7 +77,7 @@ public class OtherProfileView {
         }
         form.getToolbar().addCommandToOverflowMenu("Block", MyApplication.theme.getImage("block.png"), (e) -> {
             Dialog i = new InfiniteProgress().showInifiniteBlocking();
-            BlockService.getInstance().blockUser(6, 12);
+            BlockService.getInstance().blockUser(MyApplication.MemberId, memberId);
             LikesListView.update();
             i.dispose();
             parentForm.showBack();

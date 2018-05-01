@@ -47,7 +47,7 @@ public class Conversationsgui {
             Button va = new Button("va");
             System.out.println(c.getPerson1Id() + " , " + c.getPerson2Id());
             va.addActionListener(e -> {
-                Recovery rc = new Recovery();
+                InstantMessaging rc = new InstantMessaging();
                 rc.setReceiverId(c.getPerson1Id(), c.getPerson2Id());
 
             });
