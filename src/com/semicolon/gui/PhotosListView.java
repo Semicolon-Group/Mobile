@@ -1,6 +1,8 @@
 package com.semicolon.gui;
 
 import com.codename1.components.InfiniteProgress;
+import com.codename1.components.InteractionDialog;
+import com.codename1.components.SpanLabel;
 import com.codename1.ext.filechooser.FileChooser;
 import com.codename1.ui.Button;
 import com.codename1.ui.Container;
@@ -11,10 +13,15 @@ import com.codename1.ui.Form;
 import com.codename1.ui.Label;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionListener;
+import com.codename1.ui.geom.Dimension;
 import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.FlowLayout;
+import com.semicolon.entity.Member;
 import com.semicolon.entity.Photo;
 import com.semicolon.mysoulmate.MyApplication;
+import static com.semicolon.mysoulmate.MyApplication.onlineId;
+import com.semicolon.service.FaceDetection;
+import com.semicolon.service.MemberService;
 import com.semicolon.service.PhotoService;
 import java.util.List;
 import java.util.Random;
@@ -51,9 +58,28 @@ public class PhotosListView {
                 if (e != null && e.getSource() != null) {
                     Dialog ip = new InfiniteProgress().showInifiniteBlocking();
                     String filePath = ((String)e.getSource()).substring(7);
-                    PhotoService.getInstance().addPhoto(filePath);
-                    updateView();
-                    ip.dispose();
+		    double confidence = FaceDetection.getMaleConfidence("file://" + filePath);
+		    Member member = MemberService.getInstance().getMember(onlineId);
+		    if(confidence == -1){
+			PhotoService.getInstance().addPhoto(filePath);
+			updateView();
+			ip.dispose();
+		    }
+		    else if((confidence >= 0.8 && !member.isGender()) || (confidence <= 0.2 && member.isGender())){
+			ip.dispose();
+			InteractionDialog dlg = new InteractionDialog("Notification");
+			dlg.setLayout(new BorderLayout());
+			dlg.add(BorderLayout.CENTER, new SpanLabel("Please insert a true photo of yourself."));
+			Button close = new Button("Close");
+			close.addActionListener((ee) -> dlg.dispose());
+			dlg.addComponent(BorderLayout.SOUTH, close);
+			Dimension pre = dlg.getContentPane().getPreferredSize();
+			dlg.show(50, 100, 30, 30);
+		    }else{
+			PhotoService.getInstance().addPhoto(filePath);
+			updateView();
+			ip.dispose();
+		    }
                 }
              };
              if (FileChooser.isAvailable()) {
