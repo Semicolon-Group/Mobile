@@ -12,6 +12,7 @@ import com.codename1.ui.Container;
 import com.codename1.ui.Font;
 import static com.codename1.ui.Font.FACE_SYSTEM;
 import static com.codename1.ui.Font.SIZE_MEDIUM;
+import static com.codename1.ui.Font.SIZE_SMALL;
 import static com.codename1.ui.Font.STYLE_BOLD;
 import static com.codename1.ui.Font.STYLE_PLAIN;
 import com.codename1.ui.Form;
@@ -42,13 +43,21 @@ public class CommentView {
         commentContainer.add(content);
 	big.add(commentContainer);
 	if(c.getSenderId() == onlineId){
-	    Button deleteBtn = new Button("Delete");
+	    Button deleteBtn = new Button();
 	    deleteBtn.addActionListener(e -> {
 		CommentService.getInstance().delete(c.getId());
 		postContainer.removeComponent(big);
-		form.repaint();
+		form.revalidate();
 	    });
-	    big.add(deleteBtn);
+	    Label deleteLabel = new Label("Delete");
+	    deleteLabel.getAllStyles().setFont(Font.createSystemFont(FACE_SYSTEM, STYLE_BOLD, SIZE_SMALL));
+	    deleteLabel.getAllStyles().setUnderline(true);
+	    deleteLabel.getAllStyles().setFgColor(0xFF0000);
+	    Container deleteContainer = new Container(BoxLayout.x());
+	    deleteContainer.add(new Label("   "));
+	    deleteContainer.add(deleteLabel);
+	    deleteContainer.setLeadComponent(deleteBtn);
+	    big.add(deleteContainer);
 	}
     }
 

@@ -6,16 +6,15 @@
 package com.semicolon.entity;
 
 import java.util.HashSet;
-import com.semicolon.entity.Enumerations.Topic;
 
 /**
  *
- * @author Elyes
+ * @author vaider
  */
 public class Question {
     private int id;
     private String question;
-    private Topic topic;
+    private String topic;
     private HashSet<Choice> choices;
 
     public Question() {
@@ -27,14 +26,14 @@ public class Question {
         choices = new HashSet<>();
     }
 
-    public Question(int id, String question, Topic topic) {
+    public Question(int id, String question, String topic) {
 	this.id = id;
 	this.question = question;
 	this.topic = topic;
 	choices = new HashSet<>();
     }
 
-    public Question(String question, Topic topic) {
+    public Question(String question, String topic) {
 	this.question = question;
 	this.topic = topic;
 	choices = new HashSet<>();
@@ -66,19 +65,23 @@ public class Question {
 	this.choices = choices;
     }
 
-    public Topic getTopic() {
-	return topic;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setTopic(Topic topic) {
-	this.topic = topic;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
-    
 
     @Override
     public String toString() {
-//	return "Question{" + "id=" + id + ", question=" + question + ", choices=" + choices + '}';
-        return this.question;
+        return "Question{" + "id=" + id + ", question=" + question + ", topic=" + topic + ", choices=" + choices + '}';
     }
+
+    
+    
+
+    
     
 }
+

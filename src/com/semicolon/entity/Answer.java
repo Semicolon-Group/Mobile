@@ -5,22 +5,43 @@
  */
 package com.semicolon.entity;
 
+import com.semicolon.entity.Enumerations.Importance;
 import java.util.Date;
 import java.util.HashSet;
-import com.semicolon.entity.Enumerations.Importance;
 
 /**
  *
- * @author Elyes
+ * @author vaider
  */
 public class Answer {
-    private int id;
+     private int id;
     private int questionId;
     private Date date;
     private Importance importance;
     private int memberId;
     private HashSet<Choice> selectedChoices;
     private HashSet<Choice> acceptedChoices;
+    private String objet;
+
+    public Answer(int id, int questionId, Date date, Importance importance, int memberId, HashSet<Choice> selectedChoices, HashSet<Choice> acceptedChoices, String objet) {
+        this.id = id;
+        this.questionId = questionId;
+        this.date = date;
+        this.importance = importance;
+        this.memberId = memberId;
+        this.selectedChoices = selectedChoices;
+        this.acceptedChoices = acceptedChoices;
+        this.objet = objet;
+    }
+
+    public String getObjet() {
+        return objet;
+    }
+
+    public void setObjet(String objet) {
+        this.objet = objet;
+    }
+
     
     public Answer() {
         selectedChoices = new HashSet<>();
@@ -129,5 +150,6 @@ public class Answer {
     public String toString() {
         return "Answer{" + "id=" + id + ", questionId=" + questionId + ", date=" + date + ", importance=" + importance + ", memberId=" + memberId + ", selectedChoices=" + selectedChoices + ", acceptedChoices=" + acceptedChoices + "}\n";
     }
+    
     
 }
