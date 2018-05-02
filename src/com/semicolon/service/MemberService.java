@@ -12,9 +12,12 @@ import com.codename1.l10n.SimpleDateFormat;
 import com.semicolon.entity.Address;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.Member;
+import static com.semicolon.gui.Login1.MEMBER_ID;
 import java.io.IOException;
 import java.util.Date;
 import java.util.Map;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class MemberService {
     private Member member;
@@ -42,6 +45,38 @@ public class MemberService {
         });
         NetworkManager.getInstance().addToQueueAndWait(con);
         return member;
+    }
+    int idd  ;
+        public int getMemberByEmail(String mail){
+            
+        ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/badis/getUser2?email="+mail;
+            System.out.println(url);
+        con.setUrl(url);
+        con.addResponseListener((e) -> {
+             
+            String str = new String(con.getResponseData());
+               try {
+                   
+
+                    JSONArray jsonarray = new JSONArray(str);
+                    for (int i = 0; i < jsonarray.length(); i++) {
+                        JSONObject jsonobject = jsonarray.getJSONObject(i);
+                        final int id = jsonobject.getInt("id");
+                        idd = id ;
+                        
+                    }
+               }catch(Exception ex ){}
+            
+            
+            
+            
+        });
+        con.addExceptionListener((ev) -> {
+             
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return idd ;
     }
     
     public Member editMemeber(Member m){
@@ -107,6 +142,7 @@ public class MemberService {
                 m.setAbout((String)memberMap.get("about"));
                 m.setMaritalStatus(Enumerations.MaritalStatus.values()[((Double)memberMap.get("civilStatus")).intValue()]);
                 m.setEmail((String)memberMap.get("email"));
+                m.setPassword((String)memberMap.get("password"));
                 
                 Address address = new Address();
                 Map<String, Object> addressMap = (Map<String, Object>)memberMap.get("address");

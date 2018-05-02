@@ -44,8 +44,8 @@ public class PlaceDetailsView {
                 "Back", 
                 MyApplication.theme.getImage("back-command.png"), 
                 (ev) -> parentForm.showBack());
-        buildForm();
         i.dispose();
+        buildForm();
     }
     
     public void buildForm(){

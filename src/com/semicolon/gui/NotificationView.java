@@ -47,6 +47,7 @@ import com.codename1.io.Util;
 import com.codename1.ui.BrowserComponent;
 import com.codename1.ui.animations.BubbleTransition;
 import com.semicolon.entity.Notification;
+import com.semicolon.mysoulmate.MyApplication;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.ArrayList;
@@ -65,15 +66,21 @@ public class NotificationView {
      EncodedImage enc;
     Image imgs;
     ImageViewer imgv;
+    private Form parentForm;
 
 
-    public NotificationView(Resources theme, int id) {
+    public NotificationView(Form parentForm, int id) {
       String url="http://localhost/mysoulmate/web/app_dev.php/service/notification/notif/"+2;
         System.out.println(url);
+        this.parentForm = parentForm;
       ConnectionRequest con =  new ConnectionRequest();
         UIBuilder ui = new UIBuilder();
-        f = ui.createContainer(theme, "GUI 2").getComponentForm();
+        Resources themeH = UIManager.initFirstTheme("/theme_h");
+        f = ui.createContainer(themeH, "GUI 2").getComponentForm();
         con.setUrl(url);
+        f.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
+            parentForm.showBack();
+        });
        con.addResponseListener(new ActionListener<NetworkEvent>() {
 
           @Override

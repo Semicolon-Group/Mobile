@@ -112,6 +112,7 @@ public class PhotosListView {
             
             mainContainer.add(FlowLayout.encloseIn(imgContainer));
         }
+        mainContainer.getAllStyles().setMarginBottom(30);
         mainContainer.revalidate();
     }
     
