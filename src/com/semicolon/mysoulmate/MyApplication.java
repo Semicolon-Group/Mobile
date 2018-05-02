@@ -67,8 +67,6 @@ public class MyApplication {
         }
 	
         firstForm = new Login1().getContainer();
-	
-	//Storage.getInstance().writeObject("token", "EAACEdEose0cBADsAitVywYvixt7n6ESNTzmQHbWdG096cg9wvO0xlj3rZBHXWaQeyE5uqPzO9RgClmSt5w5ABKs6wUZA0UqZCsXULi6cZA73r23jtqxuylePWTpHpRQcAFOItRWNJ2QTX3JMxVTHsYw57B1lYs7VVkZCuY4kxT0ETkjwLMn0iln9M6Ipq8kIZD");
 
         firstForm.show();
         instance = this;

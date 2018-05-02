@@ -42,6 +42,9 @@ public class MatchingService {
             String str = new String(con.getResponseData());
             list = parseMatchCards(str);
         });
+	con.addExceptionListener(e -> {
+	    list = new ArrayList();
+	});
         NetworkManager.getInstance().addToQueueAndWait(con);
         return list;
     }
