@@ -9,6 +9,7 @@ package com.semicolon.gui;
  *
  * @author badis
  */
+import com.codename1.charts.views.DialChart;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
 import com.codename1.ui.Button;
@@ -55,6 +56,7 @@ import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Image;
 import com.codename1.ui.Label;
+import com.codename1.ui.Toolbar;
 import com.codename1.ui.URLImage;
 import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
@@ -65,6 +67,7 @@ import com.mycompany.myapp.UserForm;
 import com.semicolon.entity.Address;
 import com.semicolon.entity.Enumerations;
 import com.semicolon.entity.Member;
+import static com.semicolon.gui.InstantMessaging.chatForm;
 import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.MemberService;
 import java.util.Random;
@@ -98,7 +101,7 @@ public class Login1 {
     int mem;
     Member user;
     Member member;
-    Database database ;
+    Database database;
 
     /**
      *
@@ -106,7 +109,7 @@ public class Login1 {
      */
     private void populateBd() {
         try {
-             database = Database.openOrCreate("mysoulmate");
+            database = Database.openOrCreate("mysoulmate");
             database.execute("create table if not exists user (login text, password text);");
             String deleteQuery = "delete from user";
             database.execute(deleteQuery);
@@ -119,21 +122,20 @@ public class Login1 {
 
     private void getMemberFromLocal() {
         try {
-             database = Database.openOrCreate("mysoulmate");
+            database = Database.openOrCreate("mysoulmate");
             Cursor c = database.executeQuery("select * from user");
-           while( c.next())
-           {
-            Row r = c.getRow();
-            loginField.setText(r.getString(0));
-            mdpField.setText(r.getString(1));
-           }
+            while (c.next()) {
+                Row r = c.getRow();
+                loginField.setText(r.getString(0));
+                mdpField.setText(r.getString(1));
+            }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
     public Login1() {
-        
+
         Random r = new Random();
         r.setSeed(12151532);
         String token = (r.toString()).substring(17);
@@ -150,6 +152,12 @@ public class Login1 {
         recoverButton.addActionListener(e -> {
 
             Form recovery = new Form("Recover your password");
+            
+              recovery.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ee) -> {
+            Conversationsgui cs = new Conversationsgui();
+            cs.show();
+
+        });
             Container cont = new Container(BoxLayout.y());
             Label lb = new Label("Please insert your Email");
             TextField email = new TextField();
@@ -157,6 +165,7 @@ public class Login1 {
             Button confirm = new Button("Recover my password");
             TextField tokentext = new TextField();
             TextField newpw = new TextField();
+            newpw.setConstraint(TextField.PASSWORD);
             newpw.setHint("Put your new Password here : ");
             tokentext.setHint("Put token here :");
             Button tokenconfirm = new Button("Change Password");
@@ -176,13 +185,20 @@ public class Login1 {
             });
             tokenconfirm.addActionListener(rrr -> {
 
-                System.out.println("Old password :"+user.getPassword());
+                
                 if (tokentext.getText() == token && newpw.getText() != "") {
                     user.setPassword(newpw.getText());
-                    MemberService.getInstance().editMemeber(user);
+                    MemberService.getInstance().editMemeberBadis(user);
+                     Member l = MemberService.getInstance().getMember(mem);
+                System.out.println("New password :" + l.getPassword());
+                MyApplication.MemberId = l.getId();
+                MyApplication mc = new MyApplication();
+                mc.start();
+                } else if (tokentext.getText() == token || newpw.getText() != ""){
+                    Dialog.show("Check your infos ", "check your token or new password", "OK", null);
                 }
-                Member l = MemberService.getInstance().getMember(mem);
-                System.out.println("New password :" +l.getPassword());
+
+               
 
             });
 
@@ -257,7 +273,7 @@ public class Login1 {
         loginContainer.add(fbButton);
 
         loginContainer.add(recoverButton);
-getMemberFromLocal();
+        getMemberFromLocal();
         mySoulMate = new Form("MySoulMate");
         mySoulMate.add(loginContainer);
 

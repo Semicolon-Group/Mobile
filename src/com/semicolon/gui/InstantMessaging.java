@@ -7,6 +7,7 @@ package com.semicolon.gui;
 
 import com.codename1.components.ImageViewer;
 import com.codename1.components.SpanLabel;
+import com.codename1.components.ToastBar;
 import com.codename1.io.CharArrayReader;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
@@ -27,7 +28,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.codename1.io.JSONParser;
+import com.codename1.notifications.LocalNotification;
+import com.codename1.notifications.LocalNotificationCallback;
+
 import com.codename1.ui.Command;
+import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
 import com.codename1.ui.FontImage;
 import com.codename1.ui.Image;
@@ -240,7 +245,7 @@ public class InstantMessaging {
         Member m = MemberService.getInstance().getMember(receiver);
         String online = m.isConnected() ? " (Online)" : " (Offline)";
 
-        chatForm = new Form("" + m.getFirstname()+" " + online , new BorderLayout());
+        chatForm = new Form("" + m.getFirstname() + " " + online, new BorderLayout());
 
         chatForm.setLayout(new BorderLayout());
         Toolbar tb = new Toolbar();
@@ -254,7 +259,7 @@ public class InstantMessaging {
         chatForm.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
             Conversationsgui cs = new Conversationsgui();
             cs.show();
-            
+
         });
 
         chatForm.addComponent(BorderLayout.SOUTH, write);
@@ -363,6 +368,20 @@ public class InstantMessaging {
                     new OtherProfileView(form, receiver).getForm().show();
 
                 });
+                if (Display.getInstance().getCurrent() != null) {
+
+                    LocalNotification n = new LocalNotification();
+                    n.setId("1");
+                    n.setAlertBody(text);
+                    n.setAlertTitle("New message");
+                    Display.getInstance().scheduleLocalNotification(
+                            n,
+                            System.currentTimeMillis() + 500, // fire date/time
+                            LocalNotification.REPEAT_NONE// Whether to repeat and what frequency
+                    );
+                    localNotificationReceived("1");
+
+                }
                 final Component tx = respondYsar(chatArea, text, roundedHimOrHerImageHIM);
 
             }
@@ -376,6 +395,17 @@ public class InstantMessaging {
             sleep(500);
         } catch (InterruptedException ex) {
         }
+
+    }
+
+    public void localNotificationReceived(String notificationId) {
+        System.out.println("Received local notification " + notificationId);
+        
+        
+        ToastBar ts = ToastBar.getInstance() ;
+        ts.setPosition(Component.TOP);
+        ts.showMessage("New message", FontImage.MATERIAL_MESSAGE, (int) System.currentTimeMillis() + 800, e->{ts.setVisible(false);});
+        
 
     }
 

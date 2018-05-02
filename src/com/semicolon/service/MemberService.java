@@ -159,4 +159,41 @@ public class MemberService {
         }
         return m;
     }
+     public Member editMemeberBadis(Member m){
+        ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/badis/editUser/"+member.getId();
+        con.setUrl(url);
+        con.setPost(true);
+        
+        con.addArgument("firstname", m.getFirstname());
+        con.addArgument("lastname", m.getLastname());
+        con.addArgument("username", m.getPseudo());
+        con.addArgument("gender", String.valueOf(m.isGender()?1:0));
+        con.addArgument("birthday", m.getBirthDate().toString());
+        con.addArgument("min_age", String.valueOf(m.getMinAge()));
+        con.addArgument("max_age", String.valueOf(m.getMaxAge()));
+        con.addArgument("height", String.valueOf(m.getHeight()));
+        con.addArgument("body_type", String.valueOf(m.getBodyType().ordinal()));
+        con.addArgument("religion", String.valueOf(m.getReligion().ordinal()));
+        con.addArgument("religion_importance", String.valueOf(m.getReligionImportance().ordinal()));
+        con.addArgument("chilren_number", String.valueOf(m.getChildrenNumber()));
+        con.addArgument("smoker", String.valueOf(m.isSmoker()?1:0));
+        con.addArgument("drinker", String.valueOf(m.isDrinker()?1:0));
+        con.addArgument("phone", String.valueOf(m.getPhone()));
+        con.addArgument("email", m.getEmail());
+        con.addArgument("civil_status", String.valueOf(m.getMaritalStatus().ordinal()));
+        con.addArgument("city", m.getAddress().getCity());
+        con.addArgument("country", m.getAddress().getCountry());
+        con.addArgument("lng", String.valueOf(m.getAddress().getLongitude()));
+        con.addArgument("lat", String.valueOf(m.getAddress().getLatitude()));
+        con.addArgument("password", m.getPassword());
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            member = getMember(m.getId());
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return member;
+    }
+    
+   
 }

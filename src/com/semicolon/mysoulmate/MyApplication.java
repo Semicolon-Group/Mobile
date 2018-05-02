@@ -36,7 +36,7 @@ public class MyApplication {
 
     private Form current;
     public static Resources theme;
-    public static int onlineId = 2;
+    public static int onlineId = 2 ;
     public static Form firstForm;
     public static int MemberId = 2;
 
@@ -71,6 +71,8 @@ public class MyApplication {
         tb.addMaterialCommandToSideMenu("Conversations", FontImage.MATERIAL_MESSAGE, e -> {
            Conversationsgui cs = new Conversationsgui();
            cs.show();
+//                Login1 login = new Login1();
+//                login.show();
 
 
         });
