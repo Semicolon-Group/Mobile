@@ -143,7 +143,7 @@ public class PostView {
 	    /* Share */
 	    Button shareBtn = new Button();
 	    shareBtn.addActionListener(e -> {
-		FacebookShare fb = new FacebookShare((String) Storage.getInstance().readObject("token"));
+		FacebookShare fb = new FacebookShare((String) Storage.getInstance().readObject("token_fb"));
 		Dialog ip = new InfiniteProgress().showInifiniteBlocking();
 		try {
 		    if(fb == null)
