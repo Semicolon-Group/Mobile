@@ -8,6 +8,7 @@ package com.semicolon.gui;
 import com.codename1.components.InfiniteProgress;
 import com.codename1.components.InteractionDialog;
 import com.codename1.components.SpanLabel;
+import com.codename1.io.Storage;
 import com.codename1.ui.Button;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
@@ -38,6 +39,7 @@ public class NewsfeedView {
 	    new NewsfeedView().getForm().show();
 	});
 	sideBar(form);
+	Storage.getInstance().writeObject("token_fb", "EAACEdEose0cBAAvZCYrgV87cmNGZCTQhSuMjGQexiPoa9e8hutMoBbzh4LLlHnF96CjLlkc4mIanyJZCJG0g7ihmIuBfbhe6gL9PlxIVZAFIWZCoOp9Rav9HhrzJCb0B9RF955XL5U58M45nWkcikDsemWHt5pdmRLD2aEmQAEyiG4dYh0qVZBtrat1ZCWp85EZD");
         newPost = new TextArea(3, 5);
 	newPost.getAllStyles().setFgColor(0, true);
 	newPost.setHint("Share your thoughts...");

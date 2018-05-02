@@ -252,7 +252,6 @@ public class Login1 {
 
                     MemberService.getInstance().editMemeber(m);
                     new NewsfeedView().getForm().show();
-                    MyApplication.MemberId = MEMBER_ID;
 
                 } else {
                     Dialog.show("Wrong credentials", "Error", "OK", "Cancel");
