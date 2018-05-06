@@ -47,6 +47,7 @@ public class MessageService {
         return list;
     }
        public List<Message> getAllDirect(Message msg) {
+           //retourne l'id du thread 
         ConnectionRequest con = new ConnectionRequest();
         String url = "http://localhost/mysoulmate/web/app_dev.php/service/get_messages2?sender="+msg.getSenderId()+
                 "&receiver="+msg.getReceiverId();
@@ -106,17 +107,7 @@ public class MessageService {
     }
 
     ///
-    public List<Conversation> getAllThreads(Message msg) {
-        ConnectionRequest con = new ConnectionRequest();
-        String url = "http://localhost/mysoulmate/web/app_dev.php/service/get_threads?id=" + msg.getId();
-        con.setUrl(url);
-        con.addResponseListener((e) -> {
-            String str = new String(con.getResponseData());
-            list2 = parseComments(str);
-        });
-        NetworkManager.getInstance().addToQueueAndWait(con);
-        return list2;
-    }
+
 
     private List<Conversation> parseComments(String json) {
         list2 = new ArrayList<>();
@@ -139,7 +130,17 @@ public class MessageService {
         }
         return list2;
     }
-
+    public List<Conversation> getAllThreads(Message msg) {
+        ConnectionRequest con = new ConnectionRequest();
+        String url = "http://localhost/mysoulmate/web/app_dev.php/service/get_threads?id=" + msg.getId();
+        con.setUrl(url);
+        con.addResponseListener((e) -> {
+            String str = new String(con.getResponseData());
+            list2 = parseComments(str);
+        });
+        NetworkManager.getInstance().addToQueueAndWait(con);
+        return list2;
+    }
     public void SendMSg(Message msg) {
         
         if (msg.getContent()=="" || msg.getContent()==null || msg.getContent()==" ")

@@ -370,8 +370,11 @@ public class InstantMessaging {
             String text = c.getContent();
 
             SpanLabel t = new SpanLabel(text);
-            if (c.getSenderId() == MEMBER_ID || Mawjoud.equals(msges)) {
-                return;
+              if (c.getSenderId() == MEMBER_ID && Mawjoud.equals(msges)) {
+                  return ;
+              }
+              else  if (c.getSenderId() == MEMBER_ID && !Mawjoud.equals(msges)) {
+               final Component tx = respond(chatArea, text, roundedHimOrHerImageME);
             } else {
 
                 Button gotoprofile = new Button();
