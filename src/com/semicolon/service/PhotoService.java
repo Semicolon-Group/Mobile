@@ -14,9 +14,11 @@ import com.codename1.ui.EncodedImage;
 import com.codename1.ui.Label;
 import com.codename1.ui.URLImage;
 import com.semicolon.entity.Enumerations;
+import com.semicolon.entity.Member;
 import com.semicolon.entity.Photo;
 import com.semicolon.javavichuploaderapi.Uploader;
 import com.semicolon.mysoulmate.MyApplication;
+import static com.semicolon.mysoulmate.MyApplication.onlineId;
 import static com.semicolon.mysoulmate.MyApplication.theme;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -144,9 +146,9 @@ public class PhotoService {
     public Photo addPhoto(String filePath){
         try {
             Photo p = new Photo("BaseBundle", "imageFile", "http://localhost/mysoulmate/web/app_dev.php/service/seif/uploadPhoto", filePath, MyApplication.MemberId);
-            Uploader.upload(p);
-            p.setType(Enumerations.PhotoType.REGULAR);
-            return p;
+	    Uploader.upload(p);
+	    p.setType(Enumerations.PhotoType.REGULAR);
+	    return p;
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -188,8 +190,7 @@ public class PhotoService {
         ImageViewer img = new ImageViewer();
         EncodedImage encodedImage = EncodedImage.createFromImage(theme.getImage("round.png"),false);
 	URLImage uRLImage;
-	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
-	uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
+	uRLImage = URLImage.createToStorage(encodedImage, (new Random()).nextInt()+"", "http://localhost" + url);
         img.setImage(uRLImage);
         return img;
     }
@@ -198,7 +199,6 @@ public class PhotoService {
         EncodedImage encodedImage = EncodedImage.createFromImage(theme.getImage("loading_post.png"),false);
 	URLImage uRLImage;
 	uRLImage = URLImage.createToStorage(encodedImage, (new Random()).nextInt()+"", "http://localhost" + url);
-	//uRLImage = URLImage.createToStorage(encodedImage, url.substring(20), "http://localhost" + url);
         Label img = new Label(uRLImage);
         return img;
     }

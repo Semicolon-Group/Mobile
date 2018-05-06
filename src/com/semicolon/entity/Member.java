@@ -118,9 +118,9 @@ public class Member extends User {
     public Member(int id, Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion,
             Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge,
             int phone, Date lastLogin, short locked, Address address, String pseudo,
-            String firstname, String lastname, String email, String password, String ip, int port, String about,
+            String firstname, String lastname, String email, String password, String ip, int port, String salt ,  String about,
             MaritalStatus maritalStatus, boolean connected, Date createdAt) {
-        super(id, pseudo, firstname, lastname, email, password, ip, port);
+        super(id, pseudo, firstname, lastname, email, password, ip, port, salt);
         this.birthDate = birthDate;
         this.gender = gender;
         this.height = height;
@@ -147,9 +147,9 @@ public class Member extends User {
     public Member(Date birthDate, boolean gender, float height, BodyType bodyType, int childrenNumber, Enumerations.Religion religion,
             Importance religionImportance, boolean smoker, boolean drinker, int minAge, int maxAge, int phone,
             Date lastLogin, short locked, Address address, String pseudo, String firstname, String lastname, String email,
-            String password, String ip, int port, String about, MaritalStatus maritalStatus, boolean connected,
+            String password, String ip, int port,String salt, String about, MaritalStatus maritalStatus, boolean connected,
             Date createdAt) {
-        super(pseudo, firstname, lastname, email, password, ip, port);
+        super(pseudo, firstname, lastname, email, password, ip, port ,salt);
         this.birthDate = birthDate;
         this.gender = gender;
         this.height = height;

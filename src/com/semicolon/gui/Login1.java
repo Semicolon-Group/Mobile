@@ -9,72 +9,40 @@ package com.semicolon.gui;
  *
  * @author badis
  */
-import com.codename1.charts.views.DialChart;
 import com.codename1.io.ConnectionRequest;
 import com.codename1.io.NetworkManager;
-import com.codename1.ui.Button;
+
 import com.codename1.ui.Container;
 import com.codename1.ui.Form;
-import com.codename1.ui.Label;
+
 import com.codename1.ui.TextField;
 import org.json.*;
 
-import java.io.IOException;
-
-import com.codename1.components.ScaleImageLabel;
-import com.codename1.facebook.FaceBookAccess;
-import com.codename1.facebook.User;
-import com.codename1.io.Storage;
-import com.codename1.social.FacebookConnect;
-import com.codename1.social.LoginCallback;
-import com.codename1.ui.Button;
-import com.codename1.ui.EncodedImage;
-import com.codename1.ui.Image;
-import com.codename1.ui.Label;
-import com.codename1.ui.URLImage;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
-import com.codename1.ui.geom.Dimension;
-import com.codename1.ui.layouts.BoxLayout;
-import java.io.IOException;
-import com.codename1.components.ScaleImageLabel;
 import com.codename1.db.Cursor;
 import com.codename1.db.Database;
 import com.codename1.db.Row;
-import com.codename1.facebook.FaceBookAccess;
-import com.codename1.facebook.User;
-import com.codename1.io.JSONParser;
-import com.codename1.io.Storage;
-import com.codename1.l10n.SimpleDateFormat;
+
 import com.codename1.messaging.Message;
-import com.codename1.social.FacebookConnect;
-import com.codename1.social.Login;
-import com.codename1.social.LoginCallback;
+
 import com.codename1.ui.Button;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Display;
-import com.codename1.ui.EncodedImage;
-import com.codename1.ui.Image;
+
 import com.codename1.ui.Label;
-import com.codename1.ui.Toolbar;
-import com.codename1.ui.URLImage;
-import com.codename1.ui.events.ActionEvent;
-import com.codename1.ui.events.ActionListener;
-import com.codename1.ui.geom.Dimension;
+
 import com.codename1.ui.layouts.BoxLayout;
 import com.mycompany.myapp.FBLogin6;
-import com.mycompany.myapp.UserForm;
-import com.semicolon.entity.Address;
-import com.semicolon.entity.Enumerations;
+
 import com.semicolon.entity.Member;
-import static com.semicolon.gui.InstantMessaging.chatForm;
+
 import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.MemberService;
+import com.semicolon.util.FOSJCrypt;
 import java.util.Random;
 
 import java.io.IOException;
+
 import java.util.Date;
-import jdk.nashorn.internal.objects.NativeString;
 
 public class Login1 {
 
@@ -88,6 +56,7 @@ public class Login1 {
     Button fbButton;
     Form mySoulMate;
     private String url = "http://localhost/mysoulmate/web/app_dev.php/service/Login/";
+    private String url2 = "http://localhost/mysoulmate/web/app_dev.php/service/Newpass/";
     private ConnectionRequest connectionRequest;
     String login = "";
     String pw = "";
@@ -134,6 +103,7 @@ public class Login1 {
         }
     }
 
+    TextField newpw ;
     public Login1() {
 
         Random r = new Random();
@@ -152,24 +122,23 @@ public class Login1 {
         recoverButton.addActionListener(e -> {
 
             Form recovery = new Form("Recover your password");
-            
-              recovery.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ee) -> {
-            Conversationsgui cs = new Conversationsgui();
-            cs.show();
 
-        });
+            recovery.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ee) -> {
+                Conversationsgui cs = new Conversationsgui();
+                cs.show();
+
+            });
             Container cont = new Container(BoxLayout.y());
             Label lb = new Label("Please insert your Email");
             TextField email = new TextField();
             email.setHint("Write your email here : ");
             Button confirm = new Button("Recover my password");
             TextField tokentext = new TextField();
-            TextField newpw = new TextField();
+            newpw = new TextField();
             newpw.setConstraint(TextField.PASSWORD);
             newpw.setHint("Put your new Password here : ");
             tokentext.setHint("Put token here :");
             Button tokenconfirm = new Button("Change Password");
-
             confirm.addActionListener(ee -> {
                 mem = MemberService.getInstance().getMemberByEmail(email.getText());
                 user = MemberService.getInstance().getMember(mem);
@@ -183,22 +152,22 @@ public class Login1 {
                 }
 
             });
+            System.out.println(token);
             tokenconfirm.addActionListener(rrr -> {
 
-                
-                if (tokentext.getText() == token && newpw.getText() != "") {
-                    user.setPassword(newpw.getText());
-                    MemberService.getInstance().editMemeberBadis(user);
-                     Member l = MemberService.getInstance().getMember(mem);
-                System.out.println("New password :" + l.getPassword());
-                MyApplication.MemberId = l.getId();
-                MyApplication mc = new MyApplication();
-                mc.start();
-                } else if (tokentext.getText() == token || newpw.getText() != ""){
+                if (tokentext.getText() == "" || newpw.getText() == "") {
+                    
+                    
+                    System.out.println(token);
                     Dialog.show("Check your infos ", "check your token or new password", "OK", null);
+                } else {
+                    
+                    Member l = MemberService.getInstance().getMember(mem);
+                    ChangePassword(user.getPseudo());
+                    MyApplication.MemberId = l.getId();
+                    MyApplication mc = new MyApplication();
+                    mc.start();
                 }
-
-               
 
             });
 
@@ -215,54 +184,12 @@ public class Login1 {
         });
 
         confirmerBtn.addActionListener(e -> {
-            connectionRequest = new ConnectionRequest();
-            connectionRequest.setPost(false);
-            connectionRequest.setUrl(url + loginField.getText() + "-" + mdpField.getText());
-            connectionRequest.addResponseListener(a -> {
-
-                try {
-                    String resultat = new String(connectionRequest.getResponseData());
-
-                    JSONArray jsonarray = new JSONArray(resultat);
-                    for (int i = 0; i < jsonarray.length(); i++) {
-                        JSONObject jsonobject = jsonarray.getJSONObject(i);
-                        String name = jsonobject.getString("firstname");
-                        String url = jsonobject.getString("lastname");
-                        final int id = jsonobject.getInt("id");
-                        MEMBER_ID = id;
-                    }
-                    if (MEMBER_ID != 0) {
-                        populateBd();
-
-                        MyApplication.MemberId = MEMBER_ID;
-                        Member m = MemberService.getInstance().getMember(MEMBER_ID);
-                        m.setConnected(true);
-                        m.setLastLogin(new Date());
-
-                        MemberService.getInstance().editMemeber(m);
-                        MyApplication mm = new MyApplication();
-                        mm.start();
-                        MyApplication.MemberId = MEMBER_ID;
-
-                    } else {
-                        Dialog.show("Wrong credentials", "Error", "OK", "Cancel");
-
-                    }
-
-                } catch (JSONException ex) {
-
-                }
-
-            });
-            NetworkManager.getInstance().addToQueueAndWait(connectionRequest);
+            LoginAction();
         });
         fbButton.addActionListener(e -> {
             FBLogin6 fb = new FBLogin6();
             fb.start();
 
-        });
-        registerBtn.addActionListener(register -> {
-            new InscriptionView().getF().show();
         });
 
         loginContainer = new Container(BoxLayout.y());
@@ -275,8 +202,72 @@ public class Login1 {
         loginContainer.add(recoverButton);
         getMemberFromLocal();
         mySoulMate = new Form("MySoulMate");
+
+        registerBtn.addActionListener(register -> {
+            new InscriptionView(mySoulMate).getF().show();
+        });
         mySoulMate.add(loginContainer);
 
+    }
+    public String password;
+    
+    private void ChangePassword(String name)
+    {
+        connectionRequest = new ConnectionRequest();
+        connectionRequest.setPost(false);
+        connectionRequest.setUrl(url2 + name +"-"+newpw.getText());
+        System.out.println(url2 + name +"-"+newpw.getText());
+        NetworkManager.getInstance().addToQueueAndWait(connectionRequest);
+        
+    }
+
+    private void LoginAction() {
+        connectionRequest = new ConnectionRequest();
+        connectionRequest.setPost(false);
+        connectionRequest.setUrl(url + loginField.getText()+"-"+mdpField.getText());
+        connectionRequest.addResponseListener(a -> {
+            System.out.println(url + loginField.getText()+"-"+mdpField.getText());
+
+            try {
+                String resultat = new String(connectionRequest.getResponseData());
+                JSONArray jsonarray = new JSONArray(resultat);
+                
+                for (int i = 0; i < jsonarray.length(); i++) {
+                    JSONObject jsonobject = jsonarray.getJSONObject(i);
+                    String name = jsonobject.getString("firstname");
+                    String url = jsonobject.getString("lastname");
+                    final int id = jsonobject.getInt("id");
+                    MEMBER_ID = id;
+                    System.out.println(MEMBER_ID);
+                     
+                }
+            } catch (JSONException ex) {
+
+            }
+            if (MEMBER_ID != 0) {
+                
+                    populateBd();
+                    MyApplication.MemberId = MEMBER_ID;
+                    MyApplication.onlineId = MEMBER_ID;
+                    Member m = MemberService.getInstance().getMember(MyApplication.onlineId);
+                    m.setConnected(true);
+                    m.setLastLogin(new Date());
+                    MemberService.getInstance().editMemeber(m);
+                    new NewsfeedView().getForm().show();
+                    MyApplication.MemberId = m.getId();
+                } else {
+                    Dialog.show("Wrong credentials", "Error", "OK", "Cancel");
+
+                }
+
+        });
+        NetworkManager.getInstance().addToQueueAndWait(connectionRequest);
+    }
+
+    public void Log(String username, String password) {
+        loginField.setText(username);
+        mdpField.setText(password);
+        LoginAction();
     }
 
     public Form getContainer() {

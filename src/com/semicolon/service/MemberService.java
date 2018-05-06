@@ -106,7 +106,6 @@ public class MemberService {
         con.addArgument("country", m.getAddress().getCountry());
         con.addArgument("lng", String.valueOf(m.getAddress().getLongitude()));
         con.addArgument("lat", String.valueOf(m.getAddress().getLatitude()));
-        con.addArgument("password", m.getPassword());
         con.addResponseListener((e) -> {
             String str = new String(con.getResponseData());
             member = getMember(m.getId());
@@ -144,6 +143,8 @@ public class MemberService {
                 m.setMaritalStatus(Enumerations.MaritalStatus.values()[((Double)memberMap.get("civilStatus")).intValue()]);
                 m.setEmail((String)memberMap.get("email"));
                 m.setPassword((String)memberMap.get("password"));
+                
+                
                 
                 Address address = new Address();
                 Map<String, Object> addressMap = (Map<String, Object>)memberMap.get("address");

@@ -28,6 +28,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import com.codename1.io.JSONParser;
+import com.codename1.media.Media;
+import com.codename1.media.MediaManager;
 import com.codename1.notifications.LocalNotification;
 import com.codename1.notifications.LocalNotificationCallback;
 
@@ -54,6 +56,7 @@ import com.semicolon.entity.Photo;
 import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.MemberService;
 import com.semicolon.service.PhotoService;
+import java.io.IOException;
 import static java.lang.Thread.sleep;
 import java.util.HashMap;
 import java.util.Random;
@@ -94,6 +97,7 @@ public class InstantMessaging {
     static Image roundedHimOrHerImageHIM;
     static Image roundedHimOrHerImageME;
     EncodedImage roundPlaceholder2;
+    Media media;
 
     private final HashMap<String, EncodedImage> roundedImagesOfFriends = new HashMap<>();
 
@@ -239,13 +243,13 @@ public class InstantMessaging {
     public InstantMessaging() {
 
     }
+    Command cmd;
 
     public void Go() {
         Mawjoud = new ArrayList<>();
         Member m = MemberService.getInstance().getMember(receiver);
-        String online = m.isConnected() ? " (Online)" : " (Offline)";
 
-        chatForm = new Form("" + m.getFirstname() + " " + online, new BorderLayout());
+        chatForm = new Form("" + m.getFirstname(), new BorderLayout());
 
         chatForm.setLayout(new BorderLayout());
         Toolbar tb = new Toolbar();
@@ -261,13 +265,23 @@ public class InstantMessaging {
             cs.show();
 
         });
+        try {
+            Image img = Image.createImage("/home.png");
+            chatForm.getToolbar().addCommandToRightBar("", img, (e) -> {
+                new NewsfeedView().getForm().show();
+
+            });
+
+        } catch (IOException ex) {
+        }
 
         chatForm.addComponent(BorderLayout.SOUTH, write);
         write.addActionListener((e) -> {
-            if (write.getText() == "" || write.getText() == null) {
+
+            String text = write.getText();
+            if (text.length() < 1) {
                 return;
             } else {
-                String text = write.getText();
                 final Component t = respond(chatArea, text, roundedHimOrHerImageME);
 
                 Message msg = new Message();
@@ -278,8 +292,8 @@ public class InstantMessaging {
                 Mawjoud.add(msg);
                 write.setText("");
                 MessageService.getInstance().SendMSg(msg);
-
             }
+
         });
         chatForm.show();
 
@@ -376,11 +390,11 @@ public class InstantMessaging {
                     n.setAlertTitle("New message");
                     Display.getInstance().scheduleLocalNotification(
                             n,
-                            System.currentTimeMillis() + 500, // fire date/time
+                            System.currentTimeMillis() + 800, // fire date/time
                             LocalNotification.REPEAT_NONE// Whether to repeat and what frequency
                     );
-                    localNotificationReceived("1");
 
+                    localNotificationReceived("1");
                 }
                 final Component tx = respondYsar(chatArea, text, roundedHimOrHerImageHIM);
 
@@ -400,12 +414,19 @@ public class InstantMessaging {
 
     public void localNotificationReceived(String notificationId) {
         System.out.println("Received local notification " + notificationId);
-        
-        
-        ToastBar ts = ToastBar.getInstance() ;
+
+        ToastBar ts = ToastBar.getInstance();
         ts.setPosition(Component.TOP);
-        ts.showMessage("New message", FontImage.MATERIAL_MESSAGE, (int) System.currentTimeMillis() + 800, e->{ts.setVisible(false);});
-        
+        ts.showMessage("New message", FontImage.MATERIAL_MESSAGE, (int) System.currentTimeMillis() + 800, e -> {
+            ts.setVisible(false);
+        });
+
+        try {
+            media = MediaManager.createMedia((Display.getInstance().getResourceAsStream(getClass(), "/m.mp3")), "audio/mpeg");
+            media.play();
+        } catch (IOException ex) {
+
+        }
 
     }
 

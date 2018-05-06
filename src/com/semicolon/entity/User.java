@@ -19,9 +19,19 @@ public abstract class User {
     private String password;
     private String ip;
     private int port;
+    private String salt; 
 
     public User() {
     }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+    
 
     public User(String pseudo, String firstname, String lastname, String email, String password) {
         this.pseudo = pseudo;
@@ -36,7 +46,7 @@ public abstract class User {
         this.id = id;
     }
 
-    public User(int id, String pseudo, String firstname, String lastname, String email, String password, String ip, int port) {
+    public User(int id, String pseudo, String firstname, String lastname, String email, String password, String ip, int port , String salt) {
         this.id = id;
         this.pseudo = pseudo;
         this.firstname = firstname;
@@ -45,9 +55,10 @@ public abstract class User {
         this.password = password;
         this.ip = ip;
         this.port = port;
+        this.salt = salt ;
     }
 
-    public User(String pseudo, String firstname, String lastname, String email, String password, String ip, int port) {
+    public User(String pseudo, String firstname, String lastname, String email, String password, String ip, int port, String salt) {
         this.pseudo = pseudo;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -55,6 +66,7 @@ public abstract class User {
         this.password = password;
         this.ip = ip;
         this.port = port;
+        this.salt = salt ;
     }
 
     public User(String pseudo, String password) {

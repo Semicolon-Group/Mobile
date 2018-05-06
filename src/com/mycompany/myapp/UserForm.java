@@ -36,6 +36,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import com.codename1.messaging.Message;
 import com.codename1.ui.Display;
+import com.semicolon.gui.NewsfeedView;
 import com.semicolon.mysoulmate.MyApplication;
 
 
@@ -160,9 +161,9 @@ public class UserForm extends com.codename1.ui.Form {
                     }
                     if (MEMBER_ID != 0) {
                         
-                        MyApplication mc = new MyApplication();
+                       
                                 MyApplication.onlineId=MEMBER_ID;
-                                mc.start();
+             new NewsfeedView().getForm().show();
 
                     } else {
                         Dialog.show("Wrong credentials", "Error", "OK", "Cancel");

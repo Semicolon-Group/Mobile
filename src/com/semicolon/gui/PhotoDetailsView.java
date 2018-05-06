@@ -39,14 +39,14 @@ public class PhotoDetailsView {
             form.getToolbar().addCommandToOverflowMenu("Set as profile", MyApplication.theme.getImage("profile_photo.png"), (e) -> {
                 Dialog i = new InfiniteProgress().showInifiniteBlocking();
                 PhotoService.getInstance().setAsProfilePhoto(photo.getId());
-                (new ProfileView(MyApplication.firstForm, MyApplication.MemberId)).getContainer().show();
                 i.dispose();
+                (new ProfileView(MyApplication.firstForm, MyApplication.MemberId)).getContainer().showBack();
             });
             form.getToolbar().addCommandToOverflowMenu("Set as cover", MyApplication.theme.getImage("cover_photo.png"), (e) -> {
                 Dialog i = new InfiniteProgress().showInifiniteBlocking();
                 PhotoService.getInstance().setAsCoverPhoto(photo.getId());
-                (new ProfileView(MyApplication.firstForm, MyApplication.MemberId)).getContainer().show();
                 i.dispose();
+                (new ProfileView(MyApplication.firstForm, MyApplication.MemberId)).getContainer().showBack();
             });
             form.getToolbar().addCommandToOverflowMenu("Delete", MyApplication.theme.getImage("delete_photo.png"), (e) -> {
                 Dialog i = new InfiniteProgress().showInifiniteBlocking();

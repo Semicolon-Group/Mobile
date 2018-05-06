@@ -6,15 +6,21 @@
 package com.semicolon.gui;
 
 import com.codename1.components.InfiniteProgress;
+import com.codename1.components.InteractionDialog;
+import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.Dialog;
 import com.codename1.ui.Form;
 import com.codename1.ui.TextArea;
+import com.codename1.ui.geom.Dimension;
+import com.codename1.ui.layouts.BorderLayout;
 import com.codename1.ui.layouts.BoxLayout;
 import com.semicolon.entity.Post;
 import static com.semicolon.mysoulmate.MyApplication.onlineId;
+import static com.semicolon.mysoulmate.MyApplication.sideBar;
 import com.semicolon.service.PostService;
 import java.util.List;
+import javafx.event.ActionEvent;
 
 /**
  *
@@ -28,15 +34,35 @@ public class NewsfeedView {
     public NewsfeedView(){
         Dialog ip = new InfiniteProgress().showInifiniteBlocking();
         form = new Form("NewsFeed", BoxLayout.y());
-        newPost = new TextArea("Share your thoughts...", 3, 5);
+	form.getContentPane().addPullToRefresh(() -> {
+	    new NewsfeedView().getForm().show();
+	});
+	sideBar(form);
+        newPost = new TextArea(3, 5);
 	newPost.getAllStyles().setFgColor(0, true);
+	newPost.setHint("Share your thoughts...");
         postBtn = new Button("Post");
         postBtn.addActionListener(e -> {
             if(newPost.getText().equals(""))
 		return;
-	    form.addComponent(2, new PostView(PostService.getInstance().create(newPost.getText(), onlineId), form).getPostContainer());
-	    newPost.setText("");
-	    form.repaint();
+	    Dialog ip2 = new InfiniteProgress().showInifiniteBlocking();
+	    Post newP = PostService.getInstance().create(newPost.getText(), onlineId);
+	    if(newP == null){
+		ip2.dispose();
+		InteractionDialog dlg = new InteractionDialog("Notification");
+		dlg.setLayout(new BorderLayout());
+		dlg.add(BorderLayout.CENTER, new SpanLabel("Error. No Internet."));
+		Button close = new Button("OK");
+		close.addActionListener((ee) -> dlg.dispose());
+		dlg.addComponent(BorderLayout.SOUTH, close);
+		Dimension pre = dlg.getContentPane().getPreferredSize();
+		dlg.show(50, 100, 30, 30);
+	    }else{
+		form.addComponent(2, new PostView(newP, form).getPostContainer());
+		newPost.setText("");
+		ip2.dispose();
+		form.revalidate();
+	    }
         });
         form.add(newPost).add(postBtn);
         List<Post> posts = PostService.getInstance().getAll(onlineId);
@@ -70,6 +96,5 @@ public class NewsfeedView {
     public void setPostBtn(Button postBtn) {
         this.postBtn = postBtn;
     }
-    
     
 }
