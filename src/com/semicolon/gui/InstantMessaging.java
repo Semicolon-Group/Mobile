@@ -105,6 +105,8 @@ public class InstantMessaging {
         this.receiver = id;
         this.thrd = thrd;
         this.MEMBER_ID = MyApplication.onlineId;
+        Mawjoud = new ArrayList<>();
+
         Go();
         theme = UIManager.initFirstTheme("/theme");
         ProfilePhoto = PhotoService.getInstance().getProfilePhoto(MEMBER_ID);
@@ -159,7 +161,7 @@ public class InstantMessaging {
     }
 
     public List<Message> getOld() {
-        System.out.println("getter" + old);
+     
         return old;
 
     }
@@ -246,7 +248,6 @@ public class InstantMessaging {
     Command cmd;
 
     public void Go() {
-        Mawjoud = new ArrayList<>();
         Member m = MemberService.getInstance().getMember(receiver);
 
         chatForm = new Form("" + m.getFirstname(), new BorderLayout());
@@ -290,8 +291,10 @@ public class InstantMessaging {
                 msg.setSenderId(MEMBER_ID);
                 msg.setReceiverId(receiver);
                 Mawjoud.add(msg);
+
                 write.setText("");
                 MessageService.getInstance().SendMSg(msg);
+
             }
 
         });
@@ -368,13 +371,16 @@ public class InstantMessaging {
 
         for (Message c : msges) {
             String text = c.getContent();
-
+            c.setId(0);
+            c.setReceiverId(0);
             SpanLabel t = new SpanLabel(text);
-              if (c.getSenderId() == MEMBER_ID && Mawjoud.equals(msges)) {
-                  return ;
-              }
-              else  if (c.getSenderId() == MEMBER_ID && !Mawjoud.equals(msges)) {
-               final Component tx = respond(chatArea, text, roundedHimOrHerImageME);
+            if (c.getSenderId() == MEMBER_ID && Mawjoud.contains(c)) {
+
+                return;
+            } else if (c.getSenderId() == MEMBER_ID && !Mawjoud.contains(c)) {
+
+              
+                final Component tx = respond(chatArea, text, roundedHimOrHerImageME);
             } else {
 
                 Button gotoprofile = new Button();
@@ -416,7 +422,7 @@ public class InstantMessaging {
     }
 
     public void localNotificationReceived(String notificationId) {
-        System.out.println("Received local notification " + notificationId);
+      
 
         ToastBar ts = ToastBar.getInstance();
         ts.setPosition(Component.TOP);

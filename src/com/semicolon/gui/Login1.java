@@ -215,7 +215,7 @@ public class Login1 {
         connectionRequest = new ConnectionRequest();
         connectionRequest.setPost(false);
         connectionRequest.setUrl(url2 + name +"-"+newpw.getText());
-        System.out.println(url2 + name +"-"+newpw.getText());
+       
         NetworkManager.getInstance().addToQueueAndWait(connectionRequest);
         
     }
@@ -225,7 +225,7 @@ public class Login1 {
         connectionRequest.setPost(false);
         connectionRequest.setUrl(url + loginField.getText()+"-"+mdpField.getText());
         connectionRequest.addResponseListener(a -> {
-            System.out.println(url + loginField.getText()+"-"+mdpField.getText());
+        
 
             try {
                 String resultat = new String(connectionRequest.getResponseData());
