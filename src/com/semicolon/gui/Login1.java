@@ -37,7 +37,6 @@ import com.semicolon.entity.Member;
 
 import com.semicolon.mysoulmate.MyApplication;
 import com.semicolon.service.MemberService;
-import com.semicolon.util.FOSJCrypt;
 import java.util.Random;
 
 import java.io.IOException;
