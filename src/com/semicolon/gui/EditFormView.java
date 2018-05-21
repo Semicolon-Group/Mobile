@@ -195,6 +195,7 @@ public class EditFormView {
                 member.setMaritalStatus(maritalField.getSelectedItem());
                 member.setEmail(emailField.getText());
                 member.setAddress(selectedAddress);
+                member.setAbout(aboutField.getText());
 
                 MemberService.getInstance().editMemeber(member);
                 ProfileView.update();

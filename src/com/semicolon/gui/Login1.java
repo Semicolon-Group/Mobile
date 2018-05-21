@@ -123,7 +123,7 @@ public class Login1 {
             Form recovery = new Form("Recover your password");
 
             recovery.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ee) -> {
-                Conversationsgui cs = new Conversationsgui();
+                Conversationsgui cs = new Conversationsgui(new NewsfeedView().getForm());
                 cs.show();
 
             });

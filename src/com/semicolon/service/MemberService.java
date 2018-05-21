@@ -88,6 +88,7 @@ public class MemberService {
         con.addArgument("firstname", m.getFirstname());
         con.addArgument("lastname", m.getLastname());
         con.addArgument("username", m.getPseudo());
+        con.addArgument("about", m.getAbout());
         con.addArgument("gender", String.valueOf(m.isGender()?1:0));
         con.addArgument("birthday", m.getBirthDate().toString());
         con.addArgument("min_age", String.valueOf(m.getMinAge()));

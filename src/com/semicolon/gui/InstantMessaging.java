@@ -243,7 +243,6 @@ public class InstantMessaging {
     }
 
     public InstantMessaging() {
-
     }
     Command cmd;
 
@@ -262,7 +261,7 @@ public class InstantMessaging {
         write.setHint("Write your message ");
         chatForm.addComponent(BorderLayout.CENTER, chatArea);
         chatForm.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (e) -> {
-            Conversationsgui cs = new Conversationsgui();
+            Conversationsgui cs = new Conversationsgui(new NewsfeedView().getForm());
             cs.show();
 
         });
