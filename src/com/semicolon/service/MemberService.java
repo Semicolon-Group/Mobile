@@ -51,7 +51,7 @@ public class MemberService {
             
         ConnectionRequest con = new ConnectionRequest();
         String url = "http://localhost/mysoulmate/web/app_dev.php/service/badis/getUser2?email="+mail;
-            System.out.println(url);
+           
         con.setUrl(url);
         con.addResponseListener((e) -> {
              
