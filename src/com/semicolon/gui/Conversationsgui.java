@@ -53,11 +53,13 @@ public class Conversationsgui {
     private final HashMap<String, EncodedImage> roundedImagesOfFriends = new HashMap<>();
     Image imgs;
 
-    public Conversationsgui() {
+    public Conversationsgui(Form parentForm) {
         Message msg = new Message();
         msg.setId(MyApplication.onlineId);
-        mySoulmate = new Form("mySoulmate");
-
+        mySoulmate = new Form("Conversations");
+        mySoulmate.getToolbar().addCommandToLeftBar("Back", MyApplication.theme.getImage("back-command.png"), (ev) -> {
+            parentForm.showBack();
+        });
         cnt2 = new Container(BoxLayout.y());
         List<Conversation> msgs = MessageService.getInstance().getAllThreads(msg);
         if (msgs.size() == 0) {

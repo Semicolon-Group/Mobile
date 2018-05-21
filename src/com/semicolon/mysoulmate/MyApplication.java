@@ -111,7 +111,7 @@ public class MyApplication {
             profileForm.show();
         });
         tb.addMaterialCommandToSideMenu("Conversations", FontImage.MATERIAL_MESSAGE, e -> {
-           Conversationsgui cs = new Conversationsgui();
+           Conversationsgui cs = new Conversationsgui(form);
            cs.show();
 //                Login1 login = new Login1();
 //                login.show();
